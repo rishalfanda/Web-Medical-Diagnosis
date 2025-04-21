@@ -324,59 +324,62 @@ function Result() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6">
-			{/* Notification Toast */}
-			{notification.show && (
-				<div
-					className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg flex items-center space-x-2 transition-opacity ${
-						notification.type === "success"
-							? "bg-green-100 text-green-800"
-							: "bg-red-100 text-red-800"
-					}`}
-				>
-					{notification.type === "success" ? (
-						<CheckCircle className="w-5 h-5" />
-					) : (
-						<XCircle className="w-5 h-5" />
-					)}
-					<span>{notification.message}</span>
-				</div>
-			)}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6">
+      {/* Notification Toast */}
+      {notification.show && (
+        <div
+          className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg flex items-center space-x-2 transition-opacity ${
+            notification.type === "success"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800"
+          }`}
+        >
+          {notification.type === "success" ? (
+            <CheckCircle className="w-5 h-5" />
+          ) : (
+            <XCircle className="w-5 h-5" />
+          )}
+          <span>{notification.message}</span>
+        </div>
+      )}
 
-			<div className="max-w-6xl mx-auto">
-				<div className="flex justify-between items-center mb-6">
-					<button
-						onClick={handleBack}
-						className="flex items-center text-blue-600 hover:text-blue-800 transition"
-					>
-						<ChevronLeft className="w-5 h-5 mr-1" />
-						Back to Upload
-					</button>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <button
+            onClick={handleBack}
+            className="flex items-center text-blue-600 hover:text-blue-800 transition"
+          >
+            <ChevronLeft className="w-5 h-5 mr-1" />
+            Back to Upload
+          </button>
 
-					<div className="flex space-x-3">
-						<button
-							onClick={handleSave}
-							disabled={isSaving}
-							className={`flex items-center px-4 py-2 rounded-md text-white transition ${
-								isSaving
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-blue-600 hover:bg-blue-700"
-							}`}
-						>
-							{isSaving ? (
-								<>
-									<div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-									Saving...
-								</>
-							) : (
-								<>
-									<Save className="w-4 h-4 mr-2" />
-									Save Analysis
-								</>
-							)}
-						</button>
+          <div className="flex space-x-3">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className={`flex items-center px-4 py-2 rounded-md text-white transition ${
+                isSaving
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save
+                    className="w-4 h-4 mr-2"
+                    onClick={() => navigate("/user")}
+                  />
+                  Save Analysis
+                </>
+              )}
+            </button>
 
-						<button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+            {/* <button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
 							<Printer className="w-4 h-4 mr-2" />
 							Print
 						</button>
@@ -384,69 +387,65 @@ function Result() {
 						<button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
 							<Download className="w-4 h-4 mr-2" />
 							Export
-						</button>
-					</div>
-				</div>
+						</button> */}
+          </div>
+        </div>
 
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-					{/* X-Ray Image Preview - 1/3 width */}
-					<div className="md:col-span-1">
-						<ImagePreview
-							imageUrl={analysisResult.imageUrl}
-							heatmapUrl={analysisResult.heatmapUrl}
-							modelInfo={analysisResult.modelInfo}
-							patientType={analysisResult.patientType}
-							analysisTime={analysisResult.analysisTime}
-						/>
-					</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* X-Ray Image Preview - 1/3 width */}
+          <div className="md:col-span-1">
+            <ImagePreview
+              imageUrl={analysisResult.imageUrl}
+              heatmapUrl={analysisResult.heatmapUrl}
+              modelInfo={analysisResult.modelInfo}
+              patientType={analysisResult.patientType}
+              analysisTime={analysisResult.analysisTime}
+            />
+          </div>
 
-					{/* Analysis Results - 2/3 width */}
-					<div className="md:col-span-2 space-y-6">
-						{/* Diagnosis Result */}
-						<DiagnosisProgressBar
-							diagnosis={analysisResult.diagnosis}
-							confidence={analysisResult.confidence}
-						/>
+          {/* Analysis Results - 2/3 width */}
+          <div className="md:col-span-2 space-y-6">
+            {/* Diagnosis Result */}
+            <DiagnosisProgressBar
+              diagnosis={analysisResult.diagnosis}
+              confidence={analysisResult.confidence}
+            />
 
-						{/* Visual Interpretation Cards */}
-						<div>
-							<h2 className="font-bold text-lg text-blue-800 mb-3">
-								Detailed Indicators
-							</h2>
-							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-								{analysisResult.indicators.map(
-									(indicator, index) => (
-										<VisualInterpretationCard
-											key={index}
-											title={indicator.title}
-											score={indicator.score}
-											description={indicator.description}
-										/>
-									)
-								)}
-							</div>
-						</div>
+            {/* Visual Interpretation Cards */}
+            <div>
+              <h2 className="font-bold text-lg text-blue-800 mb-3">
+                Detailed Indicators
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {analysisResult.indicators.map((indicator, index) => (
+                  <VisualInterpretationCard
+                    key={index}
+                    title={indicator.title}
+                    score={indicator.score}
+                    description={indicator.description}
+                  />
+                ))}
+              </div>
+            </div>
 
-						{/* Notes and Actions */}
-						<div className="bg-white rounded-lg shadow-md p-6">
-							<h2 className="font-bold text-lg text-blue-800 mb-3">
-								Notes
-							</h2>
-							<textarea
-								className="w-full border border-gray-300 rounded-md p-3 min-h-24 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
-								placeholder="Add clinical notes here..."
-							></textarea>
+            {/* Notes and Actions */}
+            {/*  <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="font-bold text-lg text-blue-800 mb-3">Notes</h2>
+              <textarea
+                className="w-full border border-gray-300 rounded-md p-3 min-h-24 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+                placeholder="Add clinical notes here..."
+              ></textarea>
 
-							<div className="mt-4 flex items-center text-sm text-gray-500">
-								<Clipboard className="w-4 h-4 mr-2" />
-								Notes will be saved with the analysis report
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+              <div className="mt-4 flex items-center text-sm text-gray-500">
+                <Clipboard className="w-4 h-4 mr-2" />
+                Notes will be saved with the analysis report
+              </div>
+            </div> */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Result;
