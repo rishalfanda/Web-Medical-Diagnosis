@@ -2,21 +2,26 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 import {
-	AlertCircle,
-	Brain,
-	CheckCircle,
-	ChevronDown,
-	Info,
-	Loader,
-	Upload,
-	XCircle,
+  AlertCircle,
+  Badge,
+  Brain,
+  CheckCircle,
+  ChevronDown,
+  Info,
+  Loader,
+  Upload,
+  XCircle,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 function Model() {
-	// State untuk form
-	const [patientName, setPatientName] = useState("");
+  // State untuk form
+  const [patientName, setPatientName] = useState("");
   const [modelType, setModelType] = useState("");
+  const [checkbox1, setCheckbox1] = useState("");
+  const [checkbox2, setCheckbox2] = useState("");
+  const [checkbox3, setCheckbox3] = useState("");
+  const [gejalaType, setGejalaType] = useState("");
   const [modelVersion, setModelVersion] = useState("");
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -152,13 +157,13 @@ function Model() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-blue-800 mb-6">
+        <h1 className="text-2xl font-bold text-blue-400 mb-6">
           Analisis X-Ray TBC dengan AI
         </h1>
 
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-gray-800 rounded-xl shadow-md p-6">
           {/* Notification Toast */}
           <AnimatePresence>
             {notification.show && (
@@ -168,8 +173,8 @@ function Model() {
                 exit={{ opacity: 0, y: -20 }}
                 className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg flex items-center space-x-2 ${
                   notification.type === "success"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
+                    ? "bg-green-700 text-green-100"
+                    : "bg-red-700 text-red-100"
                 }`}
               >
                 {notification.type === "success" ? (
@@ -183,26 +188,71 @@ function Model() {
           </AnimatePresence>
 
           <div className="mb-5">
-            <label className="block text-sm text-gray-600">Nama</label>
+            <label className="block text-sm text-gray-300">Nama</label>
             <input
-              className="w-auto px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-auto px-4 py-2 mt-1 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={patientName}
               onChange={(e) => setPatientName(e.target.value)}
               required
             />
+
+            <div className="mt-3">
+              <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                <Badge className="w-4 h-4 mr-1" />
+                Tipe Gejala
+                <div className="relative inline-block ml-1 group">
+                  <Info className="w-4 h-4 text-blue-400" />
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-blue-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    Pilih Gejala Awal
+                  </div>
+                </div>
+              </label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-2 mt-2">
+                <label className="flex items-center space-x-2 text-gray-200">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
+                    checked={checkbox1}
+                    onChange={(e) => setCheckbox1(e.target.checked)}
+                  />
+                  <span>Demam</span>
+                </label>
+
+                <label className="flex items-center space-x-2 text-gray-200">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
+                    checked={checkbox2}
+                    onChange={(e) => setCheckbox2(e.target.checked)}
+                  />
+                  <span>Batuk</span>
+                </label>
+
+                <label className="flex items-center space-x-2 text-gray-200">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
+                    checked={checkbox3}
+                    onChange={(e) => setCheckbox3(e.target.checked)}
+                  />
+                  <span>Keringat Malam</span>
+                </label>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Model Selection Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Bagian Kiri */}
             <div className="space-y-6">
-              {/* Model Type Dropdown */}
+              {/* Dropdown Tipe Model */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
                   <Brain className="w-4 h-4 mr-1" />
                   Tipe Model
                   <div className="relative inline-block ml-1 group">
-                    <Info className="w-4 h-4 text-blue-500" />
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-blue-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Info className="w-4 h-4 text-blue-400" />
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-blue-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                       Pilih tipe model sesuai dengan kebutuhan analisis Anda
                     </div>
                   </div>
@@ -212,7 +262,7 @@ function Model() {
                   <select
                     value={modelType}
                     onChange={(e) => setModelType(e.target.value)}
-                    className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                    className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                   >
                     <option value="">Pilih Tipe Model</option>
                     <option value="disabilitas">Disabilitas</option>
@@ -222,7 +272,7 @@ function Model() {
                 </div>
               </div>
 
-              {/* Model Version Dropdown */}
+              {/* Dropdown Versi Model */}
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{
@@ -233,12 +283,12 @@ function Model() {
               >
                 {modelType && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                    <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
                       <Brain className="w-4 h-4 mr-1" />
                       Versi Model
                       <div className="relative inline-block ml-1 group">
-                        <Info className="w-4 h-4 text-blue-500" />
-                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-blue-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Info className="w-4 h-4 text-blue-400" />
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-blue-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                           Versi terbaru memiliki akurasi lebih tinggi
                         </div>
                       </div>
@@ -248,15 +298,14 @@ function Model() {
                       <select
                         value={modelVersion}
                         onChange={(e) => setModelVersion(e.target.value)}
-                        className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md"
+                        className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                       >
                         <option value="">Pilih Versi Model</option>
-                        {modelType &&
-                          modelVersions[modelType].map((version, index) => (
-                            <option key={index} value={version}>
-                              {version}
-                            </option>
-                          ))}
+                        {modelVersions[modelType]?.map((version, index) => (
+                          <option key={index} value={version}>
+                            {version}
+                          </option>
+                        ))}
                       </select>
                       <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     </div>
@@ -264,14 +313,14 @@ function Model() {
                 )}
               </motion.div>
 
-              {/* File Upload Area */}
+              {/* File Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+                <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
                   <Upload className="w-4 h-4 mr-1" />
                   Upload X-Ray
                   <div className="relative inline-block ml-1 group">
-                    <Info className="w-4 h-4 text-blue-500" />
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-blue-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Info className="w-4 h-4 text-blue-400" />
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-2 bg-blue-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                       Format yang didukung: JPG, PNG, JPEG, DCM
                     </div>
                   </div>
@@ -280,9 +329,9 @@ function Model() {
                 <div
                   className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 ${
                     dragActive
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-300 border-dashed"
-                  } rounded-md cursor-pointer hover:bg-gray-50 transition-colors`}
+                      ? "border-blue-500 bg-blue-900"
+                      : "border-gray-600 border-dashed bg-gray-900"
+                  } rounded-md cursor-pointer hover:bg-gray-700 transition-colors`}
                   onClick={handleUploadClick}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -296,10 +345,10 @@ function Model() {
                     >
                       <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     </motion.div>
-                    <div className="flex text-sm text-gray-600">
+                    <div className="flex text-sm text-gray-300">
                       <label
                         htmlFor="file-upload"
-                        className="relative font-medium text-blue-600 hover:text-blue-500"
+                        className="relative font-medium text-blue-400 hover:text-blue-300"
                       >
                         <span>Upload file</span>
                         <input
@@ -314,7 +363,7 @@ function Model() {
                       </label>
                       <p className="pl-1">atau drag & drop</p>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-400">
                       JPG, PNG, JPEG, DCM hingga 10MB
                     </p>
                   </div>
@@ -322,18 +371,18 @@ function Model() {
               </div>
             </div>
 
-            {/* Preview and Action Section */}
+            {/* Bagian Kanan */}
             <div className="space-y-6">
-              {/* Image Preview */}
+              {/* Preview Gambar */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Preview Gambar
                 </label>
 
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: previewUrl ? 1 : 0 }}
-                  className="border rounded-md overflow-hidden flex items-center justify-center bg-gray-100 h-64"
+                  className="border border-gray-600 rounded-md overflow-hidden flex items-center justify-center bg-gray-700 h-64"
                 >
                   {previewUrl ? (
                     <img
@@ -350,14 +399,14 @@ function Model() {
                 </motion.div>
               </div>
 
-              {/* File Details (if file uploaded) */}
+              {/* Info File */}
               <AnimatePresence>
                 {file && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
-                    className="text-sm text-gray-500"
+                    className="text-sm text-gray-400"
                   >
                     <p>
                       <strong>Nama File:</strong> {file.name}
@@ -373,7 +422,7 @@ function Model() {
                 )}
               </AnimatePresence>
 
-              {/* Analyze Button */}
+              {/* Tombol Analisis */}
               <motion.button
                 type="button"
                 onClick={handleAnalyze}
@@ -381,7 +430,7 @@ function Model() {
                 className={`w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium ${
                   isFormValid && !isAnalyzing
                     ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-400 cursor-not-allowed"
+                    : "bg-gray-600 cursor-not-allowed"
                 } transition-colors`}
                 whileHover={isFormValid && !isAnalyzing ? { scale: 1.02 } : {}}
                 whileTap={isFormValid && !isAnalyzing ? { scale: 0.98 } : {}}

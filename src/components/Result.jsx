@@ -11,6 +11,36 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const ZoomableImage = ({ imageUrl }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      {/* Gambar kecil */}
+      <img
+        src={imageUrl}
+        alt="X-Ray Scan"
+        className="w-full h-full object-cover rounded-lg shadow cursor-zoom-in"
+        onClick={() => setIsOpen(true)}
+      />
+
+      {/* Popup Modal */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center"
+          onClick={() => setIsOpen(false)}
+        >
+          <img
+            src={imageUrl}
+            alt="Zoomed X-Ray"
+            className="max-w-4xl max-h-[90vh] rounded-lg shadow-lg object-contain"
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
 // Komponen untuk preview gambar X-ray dengan heatmap
 const ImagePreview = ({
   imageUrl,
@@ -19,6 +49,7 @@ const ImagePreview = ({
   modelInfo,
   patientType,
   analysisTime,
+  gejala,
 }) => {
   const [loading, setLoading] = useState(true);
 
@@ -41,11 +72,7 @@ const ImagePreview = ({
       {/* X-Ray Image */}
       <div className="bg-gray-800 rounded-xl overflow-hidden flex justify-center items-center p-2 mb-4">
         <div className="relative w-full max-w-[700px] h-[520px]">
-          <img
-            src={imageUrl}
-            alt="X-Ray Scan"
-            className="absolute inset-0 w-full h-full object-cover rounded-lg shadow"
-          />
+          <ZoomableImage imageUrl={imageUrl} />
           {heatmapUrl && (
             <img
               src={heatmapUrl}
@@ -57,24 +84,26 @@ const ImagePreview = ({
       </div>
 
       {/* Info */}
-      <div className="text-sm text-gray-300 grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div>
-          <span className="block font-medium text-gray-400">Nama:</span>
-          <span className="text-white font-semibold">Risal</span>
+      <div className="text-sm text-gray-200 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 border-t border-gray-700 pt-4 mt-4">
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Nama:</p>
+          <p className="text-white font-semibold">{name}</p>
         </div>
-        <div>
-          <span className="block font-medium text-gray-400">Model:</span>
-          <span className="text-white font-semibold">{modelInfo}</span>
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Model:</p>
+          <p className="text-white font-semibold">{modelInfo}</p>
         </div>
-        <div>
-          <span className="block font-medium text-gray-400">Patient Type:</span>
-          <span className="text-white font-semibold">{patientType}</span>
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Gejala:</p>
+          <p className="text-white font-semibold">{gejala}</p>
         </div>
-        <div>
-          <span className="block font-medium text-gray-400">
-            Analysis Time:
-          </span>
-          <span className="text-white font-semibold">{analysisTime}</span>
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Patient Type:</p>
+          <p className="text-white font-semibold">{patientType}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Analysis Time:</p>
+          <p className="text-white font-semibold">{analysisTime}</p>
         </div>
       </div>
     </div>
@@ -99,7 +128,7 @@ const VisualInterpretationCard = ({ title, score, description }) => {
       style={{ animationDelay: `${animationDelay}s` }}
     >
       <div className="flex justify-between items-center">
-        <h3 className="font-medium text-gray-800">{title}</h3>
+        <h3 className="font-medium text-white">{title}</h3>
         <div
           className={`px-3 py-1 rounded-full text-sm font-medium ${getColorClass(
             score
@@ -166,8 +195,8 @@ const DiagnosisProgressBar = ({ diagnosis, confidence }) => {
   return (
     <div className="bg-gray-800 text-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="font-bold text-lg text-blue-800">AI Diagnosis</h2>
-        <div className="text-gray-500 text-sm">Confidence Score</div>
+        <h2 className="font-bold text-lg text-blue-500">AI Diagnosis</h2>
+        <div className="text-white text-sm">Confidence Score</div>
       </div>
 
       <div className="mb-6">
@@ -200,7 +229,7 @@ const DiagnosisProgressBar = ({ diagnosis, confidence }) => {
       </div>
 
       <div className="border-t border-gray-200 pt-4">
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-white">
           <p>
             <strong>Note:</strong> This AI analysis is intended as a screening
             tool and should not replace professional medical evaluation. Please
@@ -226,6 +255,8 @@ function Result() {
 
   // Dummy data untuk simulasi hasil analisis
   const analysisResult = {
+    name: "Risal",
+    gejala: "Demam",
     imageUrl: "diagnosis.jpg", // Tambahkan gambar sample di folder public
     heatmapUrl: "/heatmap-overlay.png", // Tambahkan overlay heatmap di folder public
     modelInfo: "TBC Detection Model v2.0",
@@ -287,6 +318,9 @@ function Result() {
     } finally {
       setIsSaving(false);
     }
+    setTimeout(() => {
+      navigate("/user");
+    }, 1500);
   };
 
   // Show notification
@@ -337,7 +371,8 @@ function Result() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button
             onClick={handleBack}
@@ -347,57 +382,33 @@ function Result() {
             Back to Upload
           </button>
 
-          <div className="flex space-x-3">
-            <button
-              onClick={handleSave}
-              disabled={isSaving}
-              className={`flex items-center px-4 py-2 rounded-md text-white transition ${
-                isSaving
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              {isSaving ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save
-                    className="w-4 h-4 mr-2"
-                    onClick={() => navigate("/user")}
-                  />
-                  Save Analysis
-                </>
-              )}
-            </button>
-
-            {/* <button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
-							<Printer className="w-4 h-4 mr-2" />
-							Print
-						</button>
-
-						<button className="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
-							<Download className="w-4 h-4 mr-2" />
-							Export
-						</button> */}
-          </div>
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className={`flex items-center px-4 py-2 rounded-md text-white transition ${
+              isSaving
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {isSaving ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                Save Analysis
+              </>
+            )}
+          </button>
         </div>
 
-        <div className="space-y-6">
-          {/* X-Ray Image Preview - Full Width and Taller */}
-          <div className="relative w-auto mx-auto bg-gray-100 rounded-xl shadow-lg overflow-hidden">
-            <ImagePreview
-              imageUrl={analysisResult.imageUrl}
-              modelInfo={analysisResult.modelInfo}
-              patientType={analysisResult.patientType}
-              analysisTime={analysisResult.analysisTime}
-            />
-          </div>
-
-          {/* Analysis Results Section Below Image */}
-          <div className="space-y-6">
+        {/* Layout 2 kolom */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Kolom Kiri: Diagnosis dan Indicators */}
+          <div className="lg:col-span-1 space-y-6">
             {/* Diagnosis Result */}
             <DiagnosisProgressBar
               diagnosis={analysisResult.diagnosis}
@@ -406,10 +417,10 @@ function Result() {
 
             {/* Visual Interpretation Cards */}
             <div>
-              <h2 className="font-bold text-lg text-blue-800 mb-3">
+              <h2 className="font-bold text-lg text-blue-500 mb-3">
                 Detailed Indicators
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
                 {analysisResult.indicators.map((indicator, index) => (
                   <VisualInterpretationCard
                     key={index}
@@ -419,6 +430,20 @@ function Result() {
                   />
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Kolom Kanan: Gambar Preview lebih besar */}
+          <div className="lg:col-span-2">
+            <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden h-full">
+              <ImagePreview
+                name={analysisResult.name}
+                gejala={analysisResult.gejala}
+                imageUrl={analysisResult.imageUrl}
+                modelInfo={analysisResult.modelInfo}
+                patientType={analysisResult.patientType}
+                analysisTime={analysisResult.analysisTime}
+              />
             </div>
           </div>
         </div>
