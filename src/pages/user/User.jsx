@@ -54,7 +54,10 @@ function User() {
               placeholder="Search..."
               className="px-4 py-2 border rounded-md shadow-sm focus:outline-none"
             />
-            <button className="bg-yellow-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={() => navigate("/model")}>
+            <button
+              className="bg-yellow-500 text-white px-4 py-2 rounded-md cursor-pointer"
+              onClick={() => navigate("/model")}
+            >
               ANALYSE NEW IMAGE
             </button>
           </div>
@@ -92,13 +95,16 @@ function User() {
                   <td className="p-3 text-center">
                     <div className="flex justify-center space-x-2">
                       <button className="text-blue-500 hover:text-blue-700">
-                        <Pencil className="w-4 h-4" />
+                        <Pencil className="w-5 h-5" />
                       </button>
                       <button className="text-red-500 hover:text-red-700">
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-5 h-5" />
                       </button>
-                      <button className="text-gray-500 hover:text-gray-700" onClick={() => navigate("/result")}>
-                        <Info className="w-4 h-4" />
+                      <button
+                        className="text-gray-500 hover:text-gray-700"
+                        onClick={() => navigate("/result")}
+                      >
+                        <Info className="w-5 h-5" />
                       </button>
                     </div>
                   </td>
