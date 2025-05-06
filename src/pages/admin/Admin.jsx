@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Search, Home, Users, LogOut, Edit, Trash2, Sun } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useGetUsers } from "../../hooks/user/useGetUsers";
+import { useCreateUser } from "../../hooks/user/useCreateUser";
+import { useEditUser } from "../../hooks/user/useEditUser";
+import AddUser from "../../features/user/AddUser";
 
 function Admin() {
+  const { isPending, user } = useGetUsers();
+  const { createUser, isCreating } = useCreateUser();
+  const { editUser, isEditing } = useEditUser();
 
-  const [doctors, setDoctors] = useState(
-    Array.from({ length: 7 }).map((_, i) => ({
-      id: i + 1,
-      name: `Doctor ${i + 1}`,
-      email: `doctor${i + 1}@example.com`,
-      phone: `08123456789${i}`,
-      enrollNumber: `ENR-2023-${i + 1}`,
-      admissionDate: `08-Dec, 2021`,
-      image: `https://i.pravatar.cc/50?img=${i + 10}`,
-    }))
-  );
+  const firstUser = user?.[0]; // optional chaining agar tidak error saat loading
+  const avatarAdmin = firstUser?.avatar;
+  const nameAdmin = firstUser?.name;
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans">
@@ -23,11 +22,11 @@ function Admin() {
         <div>
           <div className="flex flex-col items-center mb-10">
             <img
-              src="https://i.pravatar.cc/80?img=3"
+              src={avatarAdmin}
               alt="Profile"
               className="rounded-full w-20 h-20"
             />
-            <h3 className="font-semibold mt-3 text-gray-800">Karthi Madesh</h3>
+            <h3 className="font-semibold mt-3 text-gray-800">{nameAdmin}</h3>
             <span className="text-yellow-500 text-sm">Admin</span>
           </div>
 
@@ -69,7 +68,7 @@ function Admin() {
             to={"/"}
             className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded transition"
           >
-            <LogOut className="mr-3 h-5 w-5"/>
+            <LogOut className="mr-3 h-5 w-5" />
             Logout
           </Link>
         </div>
@@ -95,14 +94,14 @@ function Admin() {
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium text-gray-600">Manage Doctors</h3>
+            <h3 className="text-lg font-medium text-gray-600">
+              Manage Doctors
+            </h3>
             <div className="flex space-x-2">
               <button className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
                 Add Doctor
               </button>
-              <button className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
-                Add Model
-              </button>
+              <AddUser />
               <button className="bg-yellow-100 p-2 rounded hover:bg-yellow-200 transition">
                 <Sun className="h-5 w-5 text-yellow-500" />
               </button>
@@ -116,26 +115,27 @@ function Admin() {
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
                   <th className="px-4 py-3">Phone</th>
-                  <th className="px-4 py-3">Enroll #</th>
+
                   <th className="px-4 py-3">Admission Date</th>
                   <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {doctors.map((doctor) => (
-                  <tr key={doctor.id} className="border-t hover:bg-gray-50">
+                {user?.map((users) => (
+                  <tr key={users.id} className="border-t hover:bg-gray-50">
                     <td className="px-4 py-3 flex items-center space-x-2">
                       <img
-                        src={doctor.image}
-                        alt={doctor.name}
+                        src={users.avatar}
+                        alt={users.name}
                         className="w-8 h-8 rounded-full"
                       />
-                      <span>{doctor.name}</span>
+                      <span>{users.name}</span>
                     </td>
-                    <td className="px-4 py-3">{doctor.email}</td>
-                    <td className="px-4 py-3">{doctor.phone}</td>
-                    <td className="px-4 py-3">{doctor.enrollNumber}</td>
-                    <td className="px-4 py-3">{doctor.admissionDate}</td>
+                    <td className="px-4 py-3">{users.email}</td>
+                    <td className="px-4 py-3">{users.phone}</td>
+                    <td className="px-4 py-3">
+                      {new Date(users.created_at).toLocaleString()}
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex space-x-2">
                         <button className="text-blue-500 hover:text-blue-600">

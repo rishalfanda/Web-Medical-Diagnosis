@@ -1,15 +1,16 @@
 import {
-	AlertCircle,
-	CheckCircle,
-	ChevronLeft,
-	Clipboard,
-	Download,
-	Printer,
-	Save,
-	XCircle,
+  AlertCircle,
+  CheckCircle,
+  ChevronLeft,
+  Clipboard,
+  Download,
+  LogOut,
+  Printer,
+  Save,
+  XCircle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ZoomableImage = ({ imageUrl }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -445,6 +446,13 @@ function Result() {
                 analysisTime={analysisResult.analysisTime}
               />
             </div>
+
+            <Link
+              to={"/"}
+              className="flex items-center justify-end text-sm text-gray-300 hover:text-red-500"
+            >
+              <LogOut className="w-4 h-4 mr-2" /> Exit
+            </Link>
           </div>
         </div>
       </div>

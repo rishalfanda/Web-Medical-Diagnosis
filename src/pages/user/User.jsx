@@ -2,18 +2,22 @@ import { useState } from 'react';
 import { Home, LogOut, Pencil, Trash2, Info } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 function User() {
-    const navigate = useNavigate()
+ 
+  const navigate = useNavigate();
   const [records, setRecords] = useState([
     {
-      id: '0001',
-      patientId: '00001',
-      imageFile: '0001.jpg',
-      aiDiagnosis: 'TBC (50%)',
-      date: '21-April, 2025',
-      imageUrl: 'diagnosis.jpg'
-    }
+      id: "0001",
+      patientId: "00001",
+      imageFile: "0001.jpg",
+      aiDiagnosis: "TBC (50%)",
+      date: "21-April, 2025",
+      imageUrl: "diagnosis.jpg",
+    },
   ]);
+
+  console.log(user);
 
   return (
     <div className="flex h-screen text-white bg-gray-900">
