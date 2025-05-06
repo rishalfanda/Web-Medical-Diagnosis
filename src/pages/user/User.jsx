@@ -17,7 +17,7 @@ function User() {
     },
   ]);
 
-  console.log(user);
+
 
   return (
     <div className="flex h-screen text-white bg-gray-900">
