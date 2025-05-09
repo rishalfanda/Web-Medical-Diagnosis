@@ -7,8 +7,8 @@ export function useEditUser(){
         mutationFn: ({newUserData, id}) => createEditUser(newUserData, id),
         onSuccess: ()=>{
             queryClient.invalidateQueries({
-                queryKey: ['users']
-            })
+              queryKey: ["users"],
+            });
         },
         onError: (err)=>{
             throw new Error(err.message)

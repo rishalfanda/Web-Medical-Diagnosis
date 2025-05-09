@@ -18,19 +18,21 @@ const sizes = {
     padding: 1.2rem 2.4rem;
     font-weight: 500;
   `,
+  customYellow: css`
+    padding: 0.5rem 1rem; /* py-2 px-4 */
+  `,
 };
 
 const variations = {
   yellow: css`
     background-color: #eab308; /* Tailwind's bg-yellow-500 */
     color: white;
-    padding: 0.5rem 1rem; /* py-2 px-4 */
     border-radius: 0.25rem; /* rounded */
     transition: background-color 0.2s;
 
-  &:hover {
-    background-color: #ca8a04; /* Tailwind's hover:bg-yellow-600 */
-  }
+    &:hover {
+      background-color: #ca8a04; /* Tailwind's hover:bg-yellow-600 */
+    }
   `,
   primary: css`
     color: var(--color-brand-50);

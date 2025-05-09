@@ -1,20 +1,18 @@
-import { useState } from "react";
-import { Search, Home, Users, LogOut, Edit, Trash2, Sun } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useGetUsers } from "../../hooks/user/useGetUsers";
-import { useCreateUser } from "../../hooks/user/useCreateUser";
-import { useEditUser } from "../../hooks/user/useEditUser";
+import { Edit, Home, LogOut, Search, Trash2, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 import AddUser from "../../features/user/AddUser";
+import { useGetUsers } from "../../hooks/user/useGetUsers";
+import Spinner from "../../ui/Spinner";
+import EditPengaduan from "../../features/user/EditUser";
 
 function Admin() {
-  const { isPending, user } = useGetUsers();
-  const { createUser, isCreating } = useCreateUser();
-  const { editUser, isEditing } = useEditUser();
+  const { isPending, users } = useGetUsers();
 
-  const firstUser = user?.[0]; // optional chaining agar tidak error saat loading
+  const firstUser = users?.[0]; // optional chaining agar tidak error saat loading
   const avatarAdmin = firstUser?.avatar;
   const nameAdmin = firstUser?.name;
 
+  if (isPending) return <Spinner />;
   return (
     <div className="flex h-screen bg-gray-50 font-sans">
       {/* Sidebar */}
@@ -98,12 +96,9 @@ function Admin() {
               Manage Doctors
             </h3>
             <div className="flex space-x-2">
+              <AddUser users={users} />
               <button className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
-                Add Doctor
-              </button>
-              <AddUser />
-              <button className="bg-yellow-100 p-2 rounded hover:bg-yellow-200 transition">
-                <Sun className="h-5 w-5 text-yellow-500" />
+                Add New Model
               </button>
             </div>
           </div>
@@ -121,7 +116,7 @@ function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {user?.map((users) => (
+                {users?.map((users) => (
                   <tr key={users.id} className="border-t hover:bg-gray-50">
                     <td className="px-4 py-3 flex items-center space-x-2">
                       <img
@@ -138,9 +133,8 @@ function Admin() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex space-x-2">
-                        <button className="text-blue-500 hover:text-blue-600">
-                          <Edit className="h-4 w-4" />
-                        </button>
+                        <EditPengaduan user={users} key={users.id} />
+                        <button className=""></button>
                         <button className="text-red-500 hover:text-red-600">
                           <Trash2 className="h-4 w-4" />
                         </button>

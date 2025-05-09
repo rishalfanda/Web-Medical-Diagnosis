@@ -6,6 +6,8 @@ import Admin from "./pages/admin/Admin";
 import User from "./pages/user/User";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+/* import "./index.css"; */
+import GlobalStyles from "./styles/GlobalStyles";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +22,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
+      <GlobalStyles />
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
