@@ -4,6 +4,8 @@ import AddUser from "../../features/user/AddUser";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
 import Spinner from "../../ui/Spinner";
 import EditPengaduan from "../../features/user/EditUser";
+import DeleteUser from "../../features/user/DeleteUser";
+import EditUser from "../../features/user/EditUser";
 
 function Admin() {
   const { isPending, users } = useGetUsers();
@@ -133,11 +135,8 @@ function Admin() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex space-x-2">
-                        <EditPengaduan user={users} key={users.id} />
-                        <button className=""></button>
-                        <button className="text-red-500 hover:text-red-600">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        <EditUser user={users} key={users.id} />
+                        <DeleteUser user={users} key={users.id} />
                       </div>
                     </td>
                   </tr>
