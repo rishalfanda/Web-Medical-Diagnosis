@@ -1,23 +1,46 @@
 import { useState } from 'react';
 import { Home, LogOut, Pencil, Trash2, Info } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
+import Spinner from "../../ui/Spinner";
+import { useGetUsers } from "../../hooks/user/useGetUsers";
+import { format } from "date-fns";
 
 function User() {
- 
+  const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
+  const { isPending, users } = useGetUsers();
+
+  /*  const {
+    id,
+    created_at,
+    ai_diagnosis,
+    patiens: { name },
+    gejala,
+    image,
+    ai_model,
+    model_type,
+    model_version,
+  } = diagnosis; */
+
+  const doctorUser = users?.[1];
+  const avatarUser = doctorUser?.avatar;
+  const nameDoctor = doctorUser?.name;
+
   const navigate = useNavigate();
   const [records, setRecords] = useState([
     {
-      id: "0001",
-      patientId: "00001",
-      imageFile: "0001.jpg",
+      patienName: "Fulan si anak gagah dan berani",
+      gender: "pria",
+      gejala: "Demam",
+      modelType: "Disabilitas",
+      modelVersion: "1",
       aiDiagnosis: "TBC (50%)",
       date: "21-April, 2025",
       imageUrl: "diagnosis.jpg",
     },
   ]);
 
-
+  if (isGetDiagnosis) return <Spinner />;
 
   return (
     <div className="flex h-screen text-white bg-gray-900">
@@ -26,12 +49,11 @@ function User() {
         <div>
           <div className="flex flex-col items-center mb-6">
             <img
-              src="https://cdn-icons-png.flaticon.com/512/387/387561.png"
+              src={avatarUser}
               alt="profile"
               className="w-24 h-24 rounded-full mb-2"
             />
-            <h2 className="font-semibold text-lg">dr. Fulan, Sp.P</h2>
-            <span className="text-yellow-400 text-sm">User</span>
+            <h2 className="font-semibold text-lg">{nameDoctor}</h2>
           </div>
           <nav>
             <button className="flex items-center w-full p-2 bg-yellow-500 text-black rounded-md mb-2 hover:bg-yellow-400 transition">
@@ -73,32 +95,36 @@ function User() {
             <thead className="bg-gray-700 text-gray-300">
               <tr>
                 <th className="p-3">Image</th>
-                <th className="p-3">Id</th>
-                <th className="p-3">Patient Id</th>
-                <th className="p-3">Image File</th>
+                <th className="p-3">Patient Name</th>
+                <th className="p-3">Gender</th>
+                <th className="p-3">Gejala</th>
+                <th className="p-3">Model Type</th>
                 <th className="p-3">AI Diagnosis</th>
                 <th className="p-3">Date of analysis</th>
                 <th className="p-3 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {records.map((record, index) => (
+              {diagnosis.map((record) => (
                 <tr
-                  key={index}
+                  key={record.id}
                   className="border-b border-gray-700 hover:bg-gray-700"
                 >
                   <td className="p-3">
                     <img
-                      src={record.imageUrl}
+                      src={record.image}
                       alt="X-ray"
                       className="w-10 h-10 object-cover rounded"
                     />
                   </td>
-                  <td className="p-3">{record.id}</td>
-                  <td className="p-3">{record.patientId}</td>
-                  <td className="p-3">{record.imageFile}</td>
-                  <td className="p-3">{record.aiDiagnosis}</td>
-                  <td className="p-3">{record.date}</td>
+                  <td className="p-3">{record.patients.fullName}</td>
+                  <td className="p-3">{record.patients.gender}</td>
+                  <td className="p-3">{record.gejala}</td>
+                  <td className="p-3">{record.model_type}</td>
+                  <td className="p-3">{record.ai_diagnosis}</td>
+                  <td className="p-3">
+                    {format(new Date(record.created_at), "EEE, MMM dd yyyy, p")}
+                  </td>
                   <td className="p-3 text-center">
                     <div className="flex justify-center space-x-2">
                       <button className="text-red-400 hover:text-red-600">

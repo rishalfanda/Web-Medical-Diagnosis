@@ -1,10 +1,12 @@
 import supabase from "./supabase";
 
 export async function getDiagnosis(){
-    const {data, error} = await supabase
-    .from("diagnosis")
-    .select("id, created_at ,image, ai_diagnosis, gejala, ai_model, users(name), patients(fullName)")
-    .order('created_at', { ascending: true });
+    const { data, error } = await supabase
+      .from("diagnosis")
+      .select(
+        "id, created_at ,image, ai_diagnosis, gejala, ai_model, model_type, model_version ,users(name), patients(fullName, gender)"
+      )
+      .order("created_at", { ascending: true });
 
     if (error) {
         console.error(error);
