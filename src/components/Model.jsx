@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
 function Model() {
   // State untuk form
   const [patientName, setPatientName] = useState("");
+  const [jenisKelamin, setJenisKelamin] = useState("");
   const [modelType, setModelType] = useState("");
   const [checkbox1, setCheckbox1] = useState("");
   const [checkbox2, setCheckbox2] = useState("");
@@ -157,7 +158,6 @@ function Model() {
   };
 
   return (
-
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 p-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold text-blue-400 mb-6">
@@ -188,15 +188,41 @@ function Model() {
             )}
           </AnimatePresence>
 
+          {/* Input Nama dan Jenis Kelamin */}
           <div className="mb-5">
-            <label className="block text-sm text-gray-300">Nama</label>
-            <input
-              className="w-auto px-4 py-2 mt-1 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={patientName}
-              onChange={(e) => setPatientName(e.target.value)}
-              required
-            />
+            <div className="flex gap-5">
+              {/* Nama Pasien */}
+              <div className="flex-1">
+                <label className="block text-sm text-gray-300">Nama</label>
+                <input
+                  className="w-full px-4 py-2 mt-1 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  required
+                />
+              </div>
 
+              {/* Jenis Kelamin */}
+              <div className="flex-1">
+                <label className="block text-sm text-gray-300">
+                  Jenis Kelamin
+                </label>
+                <div className="relative mt-1">
+                  <select
+                    value={jenisKelamin}
+                    onChange={(e) => setJenisKelamin(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+                  >
+                    <option value="">Pilih Jenis Kelamin</option>
+                    <option value="pria">Pria</option>
+                    <option value="wanita">Wanita</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* Checkbox Gejala */}
             <div className="mt-3">
               <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
                 <Badge className="w-4 h-4 mr-1" />
@@ -210,41 +236,35 @@ function Model() {
               </label>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-2 mt-2">
-                <label className="flex items-center space-x-2 text-gray-200">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
-                    checked={checkbox1}
-                    onChange={(e) => setCheckbox1(e.target.checked)}
-                  />
-                  <span>Demam</span>
-                </label>
-
-                <label className="flex items-center space-x-2 text-gray-200">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
-                    checked={checkbox2}
-                    onChange={(e) => setCheckbox2(e.target.checked)}
-                  />
-                  <span>Batuk</span>
-                </label>
-
-                <label className="flex items-center space-x-2 text-gray-200">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
-                    checked={checkbox3}
-                    onChange={(e) => setCheckbox3(e.target.checked)}
-                  />
-                  <span>Keringat Malam</span>
-                </label>
+                {[
+                  { label: "Demam", checked: checkbox1, setter: setCheckbox1 },
+                  { label: "Batuk", checked: checkbox2, setter: setCheckbox2 },
+                  {
+                    label: "Keringat Malam",
+                    checked: checkbox3,
+                    setter: setCheckbox3,
+                  },
+                ].map((item, i) => (
+                  <label
+                    key={i}
+                    className="flex items-center space-x-2 text-gray-200"
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
+                      checked={item.checked}
+                      onChange={(e) => item.setter(e.target.checked)}
+                    />
+                    <span>{item.label}</span>
+                  </label>
+                ))}
               </div>
             </div>
           </div>
 
+          {/* Grid Utama */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Bagian Kiri */}
+            {/* Kiri */}
             <div className="space-y-6">
               {/* Dropdown Tipe Model */}
               <div>
@@ -314,7 +334,7 @@ function Model() {
                 )}
               </motion.div>
 
-              {/* File Upload */}
+              {/* Upload File */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
                   <Upload className="w-4 h-4 mr-1" />
@@ -372,14 +392,13 @@ function Model() {
               </div>
             </div>
 
-            {/* Bagian Kanan */}
+            {/* Kanan */}
             <div className="space-y-6">
               {/* Preview Gambar */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Preview Gambar
                 </label>
-
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: previewUrl ? 1 : 0 }}
@@ -389,7 +408,7 @@ function Model() {
                     <img
                       src={previewUrl}
                       alt="X-Ray Preview"
-                      className="max-h-full max-w-full object-contain"
+                      className="h-full w-full object-contain"
                     />
                   ) : (
                     <div className="text-gray-400 text-center p-4">
