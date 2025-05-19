@@ -5,22 +5,11 @@ import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
 import Spinner from "../../ui/Spinner";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
 import { format } from "date-fns";
+import DeleteDiagnosis from "../../features/diagnosis/DeleteDiagnosis";
 
 function User() {
   const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
   const { isPending, users } = useGetUsers();
-
-  /*  const {
-    id,
-    created_at,
-    ai_diagnosis,
-    patiens: { name },
-    gejala,
-    image,
-    ai_model,
-    model_type,
-    model_version,
-  } = diagnosis; */
 
   const doctorUser = users?.[1];
   const avatarUser = doctorUser?.avatar;
@@ -127,9 +116,7 @@ function User() {
                   </td>
                   <td className="p-3 text-center">
                     <div className="flex justify-center space-x-2">
-                      <button className="text-red-400 hover:text-red-600">
-                        <Trash2 className="w-5 h-5" />
-                      </button>
+                      <DeleteDiagnosis diagnosis={record} key={record.id} />
                       <button
                         className="text-gray-300 hover:text-white"
                         onClick={() => navigate("/result")}

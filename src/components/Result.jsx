@@ -47,6 +47,7 @@ const ImagePreview = ({
   imageUrl,
   heatmapUrl,
   name,
+  jenisKelamin,
   modelInfo,
   patientType,
   analysisTime,
@@ -85,10 +86,14 @@ const ImagePreview = ({
       </div>
 
       {/* Info */}
-      <div className="text-sm text-gray-200 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 border-t border-gray-700 pt-4 mt-4">
+      <div className="text-sm text-gray-200 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 border-t border-gray-700 pt-4 mt-4">
         <div className="space-y-1">
           <p className="text-gray-400 font-medium">Nama:</p>
           <p className="text-white font-semibold">{name}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-gray-400 font-medium">Jenis Kelamin:</p>
+          <p className="text-white font-semibold">{jenisKelamin}</p>
         </div>
         <div className="space-y-1">
           <p className="text-gray-400 font-medium">Model:</p>
@@ -258,6 +263,7 @@ function Result() {
   const analysisResult = {
     name: "Risal",
     gejala: "Demam",
+    jenisKelamin: "Pria",
     imageUrl: "diagnosis.jpg", // Tambahkan gambar sample di folder public
     heatmapUrl: "/heatmap-overlay.png", // Tambahkan overlay heatmap di folder public
     modelInfo: "TBC Detection Model v2.0",
@@ -439,6 +445,7 @@ function Result() {
             <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden h-full">
               <ImagePreview
                 name={analysisResult.name}
+                jenisKelamin={analysisResult.jenisKelamin}
                 gejala={analysisResult.gejala}
                 imageUrl={analysisResult.imageUrl}
                 modelInfo={analysisResult.modelInfo}
