@@ -16,19 +16,6 @@ function User() {
   const nameDoctor = doctorUser?.name;
 
   const navigate = useNavigate();
-  const [records, setRecords] = useState([
-    {
-      patienName: "Fulan si anak gagah dan berani",
-      gender: "pria",
-      gejala: "Demam",
-      modelType: "Disabilitas",
-      modelVersion: "1",
-      aiDiagnosis: "TBC (50%)",
-      date: "21-April, 2025",
-      imageUrl: "diagnosis.jpg",
-    },
-  ]);
-
   if (isGetDiagnosis) return <Spinner />;
 
   return (

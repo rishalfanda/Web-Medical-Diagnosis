@@ -35,7 +35,7 @@ export async function getDiagnosisId(id) {
 export async function createDiagnosis(newDiagnosis) {
   const {
     ai_diagnosis,
-    id, //for user_id === 2
+    id, 
     fullName,
     gender,
     gejala,
@@ -44,16 +44,16 @@ export async function createDiagnosis(newDiagnosis) {
     model_version,
   } = newDiagnosis;
 
-  const hasImagePath = image?.startsWith?.(supabaseUrl);
 
-  const imageName = `${Math.random()}-${image?.ai_diagnosis}`.replaceAll(
+  const hasImagePath = image?.startsWith?.(supabaseUrl);
+  const imageName = `${Math.random()}-${image?.name || image?.id}`.replaceAll(
     "/",
     ""
   );
 
   const imagePath = hasImagePath
     ? image
-    : `${supabaseUrl}/storage/v1/object/public/diagnosis-image//${imageName}`;
+    : `${supabaseUrl}/storage/v1/object/public/diagnosis-image/${imageName}`;
 
   //2. Upsert ke tabel patients
   const { data: patientData, error: patientError } = await supabase
