@@ -15,7 +15,7 @@ function CreateAnalystForm({diagnosis, setNotification}) {
         fullName: diagnosis?.patients?.fullName || '',
         gender: diagnosis?.patients?.gender || '',
         id: 2,
-        ai_diagnosis: "TBC (50%)",
+        ai_diagnosis: "TBC (%)",
         gejala: diagnosis?.gejala || [],
         image: diagnosis?.image || "", // Can be a string URL or empty
         model_type: diagnosis?.model_type || "",
@@ -182,8 +182,8 @@ function CreateAnalystForm({diagnosis, setNotification}) {
                                             className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                         >
                                             <option value="">Pilih Tipe Model</option>
-                                            <option value="disabilitas">Disabilitas</option>
-                                            <option value="non-disabilitas">Non-Disabilitas</option>
+                                            <option value="Disabilitas">Disabilitas</option>
+                                            <option value="Non-Disabilitas">Non-Disabilitas</option>
                                         </select>
                                     )}
                                 />

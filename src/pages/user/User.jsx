@@ -9,6 +9,7 @@ import DeleteDiagnosis from "../../features/diagnosis/DeleteDiagnosis";
 
 function User() {
   const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
+  console.log(diagnosis)
   const { isPending, users } = useGetUsers();
 
   const doctorUser = users?.[1];
@@ -106,7 +107,7 @@ function User() {
                       <DeleteDiagnosis diagnosis={record} key={record.id} />
                       <button
                         className="text-gray-300 hover:text-white"
-                        onClick={() => navigate("/result")}
+                        onClick={() => navigate(`/result/${record.id}`)}
                       >
                         <Info className="w-5 h-5" />
                       </button>

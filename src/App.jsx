@@ -8,6 +8,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 /* import "./index.css"; */
 import GlobalStyles from "./styles/GlobalStyles";
+import ResultId from "./components/ResultId";
+import Test from "./components/Test";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,9 +29,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/model" element={<Model />} />
-          <Route path="/result" element={<Result />} />
+          <Route path="/result/:resultId" element={<Result />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/user" element={<User />} />
+          <Route path="/test" element={<Test/>}/>
         </Routes>
       </Router>
     </QueryClientProvider>

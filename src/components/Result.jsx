@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useGetDiagnosisId } from "../hooks/diagnosis/useGetDiagnosisId";
+import { format } from "date-fns";
 
 const ZoomableImage = ({ imageUrl }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -249,28 +251,56 @@ const DiagnosisProgressBar = ({ diagnosis, confidence }) => {
 
 // Komponen utama halaman hasil analisis
 function Result() {
+  const {isGetting, diagnosisId, error} = useGetDiagnosisId()
   const navigate = useNavigate();
+  if (isGetting) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Processing analysis results...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [notification, setNotification] = useState({
-    show: false,
-    type: "",
-    message: "",
-  });
+  if (error || !diagnosisId) {
+    return (
+      <div className="p-4 text-red-600">
+        Terjadi kesalahan saat memuat data diagnosis.
+      </div>
+    );
+  }
 
-  // Dummy data untuk simulasi hasil analisis
+  const {
+    id, 
+    ai_diagnosis,
+    created_at, 
+    patients, 
+    users, 
+    gejala, 
+    image, 
+    model_type, 
+    model_version
+  } = diagnosisId
+
+  const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/)
+  const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
+  const diagnosis = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
+
+  console.log(confidence)
+
   const analysisResult = {
-    name: "Risal",
-    gejala: "Demam",
-    jenisKelamin: "Pria",
-    imageUrl: "diagnosis.jpg", // Tambahkan gambar sample di folder public
-    heatmapUrl: "/heatmap-overlay.png", // Tambahkan overlay heatmap di folder public
-    modelInfo: "TBC Detection Model v2.0",
-    patientType: "Non-Disabilitas",
-    analysisTime: "13 Apr 2025, 14:32",
-    diagnosis: "TBC Abnormal",
-    confidence: 78,
+    name: patients.fullName,
+    gejala: gejala,
+    jenisKelamin: patients.gender,
+    imageUrl: image, // Tambahkan gambar sample di folder public
+    heatmapUrl: image, // Tambahkan overlay heatmap di folder public
+    modelInfo: model_version,
+    patientType: model_type,
+    analysisTime: created_at,
+    diagnosis: diagnosis,
+    confidence: confidence,
     indicators: [
       {
         title: "Infiltrate",
@@ -305,40 +335,6 @@ function Result() {
     ],
   };
 
-  // Simulasi loading data
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, []);
-
-  // Handle save analysis
-  const handleSave = async () => {
-    setIsSaving(true);
-
-    // Simulate API call to save data
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      showNotification("success", "Analysis saved successfully!");
-    } catch (error) {
-      showNotification("error", "Failed to save analysis. Please try again.");
-    } finally {
-      setIsSaving(false);
-    }
-    setTimeout(() => {
-      navigate("/user");
-    }, 1500);
-  };
-
-  // Show notification
-  const showNotification = (type, message) => {
-    setNotification({ show: true, type, message });
-
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-      setNotification({ show: false, type: "", message: "" });
-    }, 3000);
-  };
 
   // Handle back to upload
   const handleBack = () => {
@@ -347,36 +343,10 @@ function Result() {
     navigate("/model");
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Processing analysis results...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-900 p-6">
-      {/* Notification Toast */}
-      {notification.show && (
-        <div
-          className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg flex items-center space-x-2 transition-opacity ${
-            notification.type === "success"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {notification.type === "success" ? (
-            <CheckCircle className="w-5 h-5" />
-          ) : (
-            <XCircle className="w-5 h-5" />
-          )}
-          <span>{notification.message}</span>
-        </div>
-      )}
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -387,28 +357,6 @@ function Result() {
           >
             <ChevronLeft className="w-5 h-5 mr-1" />
             Back to Upload
-          </button>
-
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className={`flex items-center px-4 py-2 rounded-md text-white transition ${
-              isSaving
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {isSaving ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                Saving...
-              </>
-            ) : (
-              <>
-                <Save className="w-4 h-4 mr-2" />
-                Save Analysis
-              </>
-            )}
           </button>
         </div>
 
@@ -450,7 +398,7 @@ function Result() {
                 imageUrl={analysisResult.imageUrl}
                 modelInfo={analysisResult.modelInfo}
                 patientType={analysisResult.patientType}
-                analysisTime={analysisResult.analysisTime}
+                analysisTime={format(new Date(analysisResult.analysisTime), "EEE, MMM dd yyyy, p")}
               />
             </div>
 
