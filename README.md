@@ -13,4 +13,6 @@ If you are developing a production application, we recommend using TypeScript an
 
 # Instal + runing
 instal : npm i
+
+
 run : npm run dev
