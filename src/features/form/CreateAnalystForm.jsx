@@ -8,19 +8,21 @@ import { Controller, useForm, FormProvider } from "react-hook-form";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
 
-function CreateAnalystForm({diagnosis, setNotification}) {
+function CreateAnalystForm({ setNotification}) {
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
 
     const defaultValues = {
-        fullName: diagnosis?.patients?.fullName || '',
-        gender: diagnosis?.patients?.gender || '',
+        fullName: '',
+        gender: '',
         id: 2,
-        ai_diagnosis: "TBC (%)",
-        gejala: diagnosis?.gejala || [],
-        image: diagnosis?.image || "", // Can be a string URL or empty
-        model_type: diagnosis?.model_type || "",
-        model_version: diagnosis?.model_version || "",
+        ai_diagnosis: "TBC (50%)",
+        gejala: [],
+        image: "", // Can be a string URL or empty
+        model_type: "",
+        model_version: "",
     };
+
+    console.log(defaultValues)
     
     const gejalaOptions = ["Demam", "Batuk", "Keringat Malam"];
 

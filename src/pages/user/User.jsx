@@ -9,7 +9,6 @@ import DeleteDiagnosis from "../../features/diagnosis/DeleteDiagnosis";
 
 function User() {
   const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
-  console.log(diagnosis)
   const { isPending, users } = useGetUsers();
 
   const doctorUser = users?.[1];

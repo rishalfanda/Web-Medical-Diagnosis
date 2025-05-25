@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route , Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Model from "./components/Model";
 import Result from "./components/Result";
@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 /* import "./index.css"; */
 import GlobalStyles from "./styles/GlobalStyles";
-import ResultId from "./components/ResultId";
 import Test from "./components/Test";
 
 const queryClient = new QueryClient({
@@ -25,7 +24,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyles />
-      <Router>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/model" element={<Model />} />
@@ -34,7 +33,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/test" element={<Test/>}/>
         </Routes>
-      </Router>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
