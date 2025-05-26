@@ -9,6 +9,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 /* import "./index.css"; */
 import GlobalStyles from "./styles/GlobalStyles";
 import Test from "./components/Test";
+import Guest from "./pages/guest/Guest";
+import GuestResult from "./pages/result/GuestResult";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,8 +29,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          {/* route ke form dengan akses login */}
           <Route path="/model" element={<Model />} />
+          {/* route ke form untuk guest */}
+          <Route path="/guest" element={<Guest/>}/>
+          {/* route ke result dengan akses login */}
           <Route path="/result/:resultId" element={<Result />} />
+          {/* route ke result buat guest */}
+          <Route path="/guest-result/:resultId" element={<GuestResult/>}/>
           <Route path="/admin" element={<Admin />} />
           <Route path="/user" element={<User />} />
           <Route path="/test" element={<Test/>}/>

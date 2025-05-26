@@ -44,7 +44,7 @@ function Login() {
       setIsLoading(false);
       console.log("Accessing as demo user");
       // Here you would redirect to the demo version with limited access
-      navigate("/model");
+      navigate("/guest");
     }, 1000);
   };
 
