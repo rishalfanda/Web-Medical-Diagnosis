@@ -32,29 +32,21 @@ const ZoomableImage = ({ imageUrl }) => {
       <img
         src={imageUrl}
         alt="X-Ray Scan"
-        className="max-w-full max-h-[400px] object-contain transition-transform duration-300 ease-in-out cursor-zoom-in hover:scale-105"
+        className="max-w-full max-h-[400px] object-contain rounded border border-gray-700 transition-transform duration-300 ease-in-out cursor-grab"
         onClick={() => setIsOpen(true)}
       />
 
       {/* Popup Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center"
           onClick={() => setIsOpen(false)}
         >
-          <div className="relative max-w-6xl max-h-[95vh] bg-gray-800 rounded-2xl p-4">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 text-white hover:text-gray-300 text-2xl z-10"
-            >
-              ×
-            </button>
-            <img
-              src={imageUrl}
-              alt="Zoomed X-Ray"
-              className="max-w-full max-h-full rounded-lg object-contain"
-            />
-          </div>
+          <img
+            src={imageUrl}
+            alt="Zoomed X-Ray"
+            className="max-w-4xl max-h-[90vh] rounded-lg shadow-lg object-contain"
+          />
         </div>
       )}
     </>
@@ -168,10 +160,7 @@ const XRayImageSection = ({
               <p className="text-center text-gray-400 mt-2 text-sm">Loading image...</p>
             </div>
           )}
-          <div 
-            className="inline-block border border-gray-700 rounded-lg overflow-hidden"
-            style={{ display: imageLoading ? 'none' : 'inline-block' }}
-          >
+          <div style={{ display: imageLoading ? 'none' : 'block' }}>
             <ZoomableImage imageUrl={imageUrl} />
           </div>
         </div>
@@ -305,7 +294,8 @@ function Result() {
   ];
 
   const handleSaveChanges = () => {
-    navigate('/user');
+    alert("Results are already saved (simulation).");
+    navigate('/dashboard');
   };
 
   const handlePrint = () => {
