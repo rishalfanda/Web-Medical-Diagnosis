@@ -5,7 +5,7 @@ import {
     ChevronDown
 } from "lucide-react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
 
@@ -79,8 +79,8 @@ function CreateAnalystForm({ setNotification}) {
                 }
             }
         });
+        console.log(data)
     }
-    console.log("form is render")
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>

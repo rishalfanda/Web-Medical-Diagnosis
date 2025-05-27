@@ -39,7 +39,7 @@ const ZoomableImage = ({ imageUrl }) => {
       {/* Popup Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
+          className="overflow-auto fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
           onClick={() => setIsOpen(false)}
         >
           <div className="relative max-w-6xl max-h-[95vh] bg-gray-800 rounded-2xl p-4">
@@ -316,8 +316,8 @@ function Result() {
     <div className="bg-gray-900 text-gray-200 min-h-screen p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
         <div className="mb-4">
-          <Link to="/model" className="text-brand-blue hover:text-blue-400 text-sm">
-            <i className="fas fa-arrow-left mr-2"></i>Back to Upload
+          <Link to="/model" className="text-blue-500 hover:text-blue-400 text-sm">
+            <i className="fas fa-arrow-left mr-2"></i>&larr; Back to Upload
           </Link>
         </div>
 
@@ -355,7 +355,7 @@ function Result() {
         <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
           <button 
             onClick={handleSaveChanges}
-            className="bg-brand-blue hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
+            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
           >
             <i className="fas fa-check mr-2"></i>Confirm & Exit to Dashboard
           </button>
@@ -365,12 +365,6 @@ function Result() {
           >
             <i className="fas fa-print mr-2"></i>Print Results
           </button>
-          <Link 
-            to="/model"
-            className="bg-brand-green hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 text-center flex items-center justify-center text-sm"
-          >
-            <i className="fas fa-redo mr-2"></i>New Analysis
-          </Link>
         </div>
       </div>
     </div>
