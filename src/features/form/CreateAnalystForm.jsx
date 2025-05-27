@@ -80,7 +80,7 @@ function CreateAnalystForm({ setNotification}) {
             }
         });
     }
-    
+    console.log("form is render")
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>

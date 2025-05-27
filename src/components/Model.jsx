@@ -10,6 +10,8 @@ function Model() {
     message: "",
   });
 
+  console.log("model page is render")
+
   return (
     <DiagnosisRow>
       <div className="bg-gray-800 rounded-xl shadow-md p-6">

@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import {
-    Badge,
     Brain,
     ChevronDown
 } from "lucide-react";
-import { Controller, useForm, FormProvider } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
-import { useNavigate } from "react-router-dom";
 
 function GuestForm({ setNotification}) {
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
@@ -29,7 +28,7 @@ function GuestForm({ setNotification}) {
         defaultValues,
     });
 
-    const { register, handleSubmit, control, reset, watch, setValue } = methods;
+    const { handleSubmit, control, reset, watch, setValue } = methods;
     const selectedModelType = watch("model_type");      
 
     async function onSubmit(data) {
@@ -90,7 +89,7 @@ function GuestForm({ setNotification}) {
                     <div className="space-y-6">
                         {/* Dropdown Tipe Model */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                            <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                 <Brain className="w-4 h-4 mr-1" />
                                 Tipe Model
                             </label>
@@ -129,7 +128,7 @@ function GuestForm({ setNotification}) {
                         >
                             {selectedModelType && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                                    <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                         <Brain className="w-4 h-4 mr-1" />
                                         Versi Model
                                     </label>

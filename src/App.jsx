@@ -11,6 +11,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import Test from "./components/Test";
 import Guest from "./pages/guest/Guest";
 import GuestResult from "./pages/result/GuestResult";
+import PageNotFound from "./pages/PageNotFound";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/user" element={<User />} />
           <Route path="/test" element={<Test/>}/>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

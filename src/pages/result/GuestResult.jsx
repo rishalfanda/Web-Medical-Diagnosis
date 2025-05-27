@@ -1,17 +1,11 @@
+import { format } from "date-fns";
 import {
-  AlertCircle,
-  CheckCircle,
-  ChevronLeft,
-  Clipboard,
-  Download,
-  LogOut,
-  Printer,
-  Save,
-  XCircle,
+    AlertCircle,
+    ChevronLeft,
+    LogOut
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
 import { useGetDiagnosisId } from "../../hooks/diagnosis/useGetDiagnosisId";
 
 const ZoomableImage = ({ imageUrl }) => {
@@ -48,12 +42,9 @@ const ZoomableImage = ({ imageUrl }) => {
 const ImagePreview = ({
   imageUrl,
   heatmapUrl,
-  name,
-  jenisKelamin,
   modelInfo,
   patientType,
   analysisTime,
-  gejala,
 }) => {
   const [loading, setLoading] = useState(true);
 
@@ -261,11 +252,9 @@ function GuestResult() {
   }
 
   const {
-    id, 
     ai_diagnosis,
     created_at, 
     patients, 
-    users, 
     gejala, 
     image, 
     model_type, 
