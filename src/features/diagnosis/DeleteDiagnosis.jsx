@@ -8,7 +8,7 @@ function DeleteDiagnosis({diagnosis}) {
     return (
         <Modal>
             <Modal.Open opens="deleteDiagnosis">
-                <button className="text-red-500 hover:text-red-600">
+                <button className="text-red-500 hover:text-red-600 cursor-pointer">
                     <Trash2 className="h-4 w-4" />
                 </button>
             </Modal.Open>

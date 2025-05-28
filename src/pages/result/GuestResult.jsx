@@ -1,12 +1,23 @@
 import { format } from "date-fns";
-import {
-    AlertCircle,
-    ChevronLeft,
-    LogOut
-} from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGetDiagnosisId } from "../../hooks/diagnosis/useGetDiagnosisId";
+
+
+// Helper functions from first component
+const getScoreColor = (score) => {
+  if (score > 70) return 'bg-red-500';
+  if (score > 40) return 'bg-orange-500';
+  if (score > 20) return 'bg-yellow-500';
+  return 'bg-green-500';
+};
+
+const getScoreTextColor = (score) => {
+  if (score > 70) return 'text-red-400';
+  if (score > 40) return 'text-orange-400';
+  if (score > 20) return 'text-yellow-400';
+  return 'text-green-400';
+};
 
 const ZoomableImage = ({ imageUrl }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,236 +28,206 @@ const ZoomableImage = ({ imageUrl }) => {
       <img
         src={imageUrl}
         alt="X-Ray Scan"
-        className="w-full h-full object-cover rounded-lg shadow cursor-zoom-in"
+        className="max-w-full max-h-[400px] object-contain transition-transform duration-300 ease-in-out cursor-zoom-in hover:scale-105"
         onClick={() => setIsOpen(true)}
       />
 
       {/* Popup Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center"
+          className="overflow-auto fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
           onClick={() => setIsOpen(false)}
         >
-          <img
-            src={imageUrl}
-            alt="Zoomed X-Ray"
-            className="max-w-4xl max-h-[90vh] rounded-lg shadow-lg object-contain"
-          />
+          <div className="relative max-w-6xl max-h-[95vh] bg-gray-800 rounded-2xl p-4">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-2 right-2 text-white hover:text-gray-300 text-2xl z-10"
+            >
+              ×
+            </button>
+            <img
+              src={imageUrl}
+              alt="Zoomed X-Ray"
+              className="max-w-full max-h-full rounded-lg object-contain"
+            />
+          </div>
         </div>
       )}
     </>
   );
 };
 
-// Komponen untuk preview gambar X-ray dengan heatmap
-const ImagePreview = ({
-  imageUrl,
-  heatmapUrl,
-  modelInfo,
-  patientType,
-  analysisTime,
-}) => {
-  const [loading, setLoading] = useState(true);
+// AI Diagnosis Section - styled like first component
+const AIDiagnosisSection = ({ diagnosis, confidence }) => {
+  const confidenceScore = confidence ?? 0;
+  const predictionStatusText = confidenceScore >= 50 
+    ? "Significant TBC abnormalities detected." 
+    : "No significant TBC abnormalities detected. Routine follow-up recommended.";
 
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => setLoading(false);
-    img.src = imageUrl;
-  }, [imageUrl]);
+  const getConfidenceColor = (score) => {
+    if (score >= 70) return 'bg-red-500';
+    if (score >= 50) return 'bg-orange-500';
+    if (score >= 30) return 'bg-yellow-500';
+    return 'bg-green-500';
+  };
+  
+  const getConfidenceIcon = (score) => {
+    if (score >= 70) return 'fas fa-exclamation-triangle text-red-400';
+    if (score >= 50) return 'fas fa-exclamation-circle text-orange-400';
+    if (score >= 30) return 'fas fa-info-circle text-yellow-400';
+    return 'fas fa-check-circle text-green-400';
+  };
 
   return (
-    <div className="bg-gray-800 text-white rounded-2xl shadow-xl p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-blue-500">X-Ray Image</h2>
-        <span className="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-sm font-semibold">
-          {patientType}
-        </span>
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-xl font-semibold text-white">AI Diagnosis</h2>
+        <span className="text-sm text-gray-400">Confidence Score</span>
       </div>
-
-      {/* X-Ray Image */}
-      <div className="bg-gray-800 rounded-xl overflow-hidden flex justify-center items-center p-2 mb-4">
-        <div className="relative w-full max-w-[700px] h-[520px]">
-          <ZoomableImage imageUrl={imageUrl} />
-          {heatmapUrl && (
-            <img
-              src={heatmapUrl}
-              alt="AI Heatmap"
-              className="absolute inset-0 w-full h-full object-contain opacity-50 pointer-events-none"
-            />
-          )}
+      <div className="flex justify-between items-center mb-3">
+        <div className="flex items-center">
+          <i className={`${getConfidenceIcon(confidenceScore)} fa-2x mr-3`}></i>
+          <span className={`text-3xl font-bold ${getScoreTextColor(confidenceScore)}`}>{diagnosis}</span>
         </div>
+        <span className={`text-3xl font-bold ${getScoreTextColor(confidenceScore)}`}>{confidenceScore}%</span>
       </div>
+      <div className="w-full bg-gray-700 rounded-full h-2.5 mb-3">
+        <div 
+          className={`${getConfidenceColor(confidenceScore)} h-2.5 rounded-full`} 
+          style={{ width: `${confidenceScore}%` }}
+        ></div>
+      </div>
+      <p className="text-sm text-gray-300 mb-3">{predictionStatusText}</p>
+      <p className="text-xs text-gray-500 italic">
+        Note: This AI analysis is intended as a screening tool and should not replace professional medical evaluation. Please consult a healthcare provider for definitive diagnosis.
+      </p>
+    </div>
+  );
+};
 
-      {/* Info */}
-      <div className="text-sm text-gray-200 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 border-t border-gray-700 pt-4 mt-4">
-        <div className="space-y-1">
-          <p className="text-gray-400 font-medium">Model:</p>
-          <p className="text-white font-semibold">{modelInfo}</p>
-        </div>
-        <div className="space-y-1">
-          <p className="text-gray-400 font-medium">Patient Type:</p>
-          <p className="text-white font-semibold">{patientType}</p>
-        </div>
-        <div className="space-y-1">
-          <p className="text-gray-400 font-medium">Analysis Time:</p>
-          <p className="text-white font-semibold">{analysisTime}</p>
-        </div>
+// Indicator Card Component - styled like first component
+const IndicatorCard = ({ indicator }) => {
+  const score = Math.round(indicator.score * 100); // Convert decimal to percentage
+  
+  return (
+    <div className="bg-gray-800 p-4 rounded-lg shadow-md">
+      <div className="flex justify-between items-center mb-1">
+        <h4 className="text-md font-semibold text-gray-200">{indicator.title}</h4>
+        <span className={`text-sm font-bold ${getScoreTextColor(score)}`}>{score}%</span>
+      </div>
+      <div className="w-full bg-gray-700 rounded-full h-1.5 mb-2">
+        <div 
+          className={`${getScoreColor(score)} h-1.5 rounded-full`} 
+          style={{ width: `${score}%` }}
+        ></div>
+      </div>
+      <p className="text-xs text-gray-400">{indicator.description}</p>
+    </div>
+  );
+};
+
+// Detailed Indicators Section - styled like first component
+const DetailedIndicatorsSection = ({ indicators }) => {
+  return (
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 className="text-xl font-semibold text-white mb-4">Detailed Indicators</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {indicators.map((indicator, index) => (
+          <IndicatorCard key={index} indicator={indicator} />
+        ))}
       </div>
     </div>
   );
 };
 
-// Komponen untuk menampilkan skor indikasi medis
-const VisualInterpretationCard = ({ title, score, description }) => {
-  // Warna berdasarkan nilai skor
-  const getColorClass = (score) => {
-    if (score >= 0.75) return "bg-red-100 text-red-800";
-    if (score >= 0.5) return "bg-orange-100 text-orange-800";
-    if (score >= 0.25) return "bg-yellow-100 text-yellow-800";
-    return "bg-green-100 text-green-800";
-  };
-
-  const animationDelay = Math.random() * 0.5;
-
+// X-Ray Image Section - styled like first component
+const XRayImageSection = ({ 
+  imageUrl, 
+  patientType,
+  imageLoading, 
+}) => {
   return (
-    <div
-      className="bg-gray-800 text-white rounded-lg shadow-sm p-4 border border-gray-100 transition-all hover:shadow-md"
-      style={{ animationDelay: `${animationDelay}s` }}
-    >
-      <div className="flex justify-between items-center">
-        <h3 className="font-medium text-white">{title}</h3>
-        <div
-          className={`px-3 py-1 rounded-full text-sm font-medium ${getColorClass(
-            score
-          )}`}
-        >
-          {(score * 100).toFixed(1)}%
+    <div className="bg-gray-800 p-4 pt-6 rounded-lg shadow-lg relative">
+      <h2 className="text-2xl font-semibold mb-4 text-center text-white">X-Ray Image</h2>
+      {patientType && (
+         <span className="absolute top-3 right-3 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">
+            {patientType}
+        </span>
+      )}
+      {imageUrl ? (
+        <div className="overflow-hidden flex flex-col items-center">
+          {imageLoading && (
+            <div className="my-10">
+              <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-center text-gray-400 mt-2 text-sm">Loading image...</p>
+            </div>
+          )}
+          <div 
+            className="inline-block border border-gray-700 rounded-lg overflow-hidden"
+            style={{ display: imageLoading ? 'none' : 'inline-block' }}
+          >
+            <ZoomableImage imageUrl={imageUrl} />
+          </div>
         </div>
-      </div>
-
-      <div className="mt-2 relative pt-1">
-        <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-          <div
-            style={{ width: `${score * 100}%` }}
-            className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${
-              score >= 0.75
-                ? "bg-red-500"
-                : score >= 0.5
-                ? "bg-orange-500"
-                : score >= 0.25
-                ? "bg-yellow-500"
-                : "bg-green-500"
-            } transition-all duration-1000 ease-out`}
-          ></div>
-        </div>
-      </div>
-
-      {description && (
-        <p className="mt-2 text-xs text-gray-500">{description}</p>
+      ) : (
+        <p className="text-center text-gray-500 py-10">X-ray image not available.</p>
       )}
     </div>
   );
 };
 
-// Komponen untuk hasil diagnosis dalam bar
-const DiagnosisProgressBar = ({ diagnosis, confidence }) => {
-  const [animateBar, setAnimateBar] = useState(false);
-
-  useEffect(() => {
-    // Trigger animation after component mounts
-    const timer = setTimeout(() => setAnimateBar(true), 300);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Generate diagnosis description based on confidence
-  const getDiagnosisDescription = (diagnosis, confidence) => {
-    if (diagnosis === "TBC Abnormal") {
-      if (confidence > 80)
-        return "High probability of TBC. Immediate clinical correlation advised.";
-      if (confidence > 60)
-        return "Moderate indication of TBC abnormalities. Further evaluation recommended.";
-      return "Low evidence of TBC abnormalities. Consider additional tests.";
-    }
-    return "No significant TBC abnormalities detected. Routine follow-up recommended.";
-  };
-
-  // Get color based on diagnosis and confidence
-  const getConfidenceColor = (diagnosis, confidence) => {
-    if (diagnosis === "TBC Abnormal") {
-      return confidence > 70 ? "bg-red-600" : "bg-orange-500";
-    }
-    return "bg-green-500";
-  };
-
+// Patient Info Section - styled like first component
+const PatientInfoBelowXRay = ({ 
+  modelInfo, 
+  patientType, 
+  analysisTime 
+}) => {
   return (
-    <div className="bg-gray-800 text-white rounded-lg shadow-md p-6">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="font-bold text-lg text-blue-500">AI Diagnosis</h2>
-        <div className="text-white text-sm">Confidence Score</div>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center">
-            <AlertCircle
-              className={`mr-2 ${
-                diagnosis === "TBC Abnormal" ? "text-red-500" : "text-green-500"
-              }`}
-              size={20}
-            />
-            <h3 className="font-bold text-xl">{diagnosis}</h3>
-          </div>
-          <div className="text-2xl font-bold">{confidence}%</div>
+    <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-x-4 gap-y-2 text-sm">
+        <div>
+          <span className="font-semibold text-gray-400 block">Model:</span>
+          <span className="text-gray-200">{modelInfo}</span>
         </div>
-
-        <div className="relative h-5 w-full bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className={`h-full ${getConfidenceColor(
-              diagnosis,
-              confidence
-            )} transition-all duration-1000 ease-out`}
-            style={{ width: animateBar ? `${confidence}%` : "0%" }}
-          ></div>
+        <div>
+          <span className="font-semibold text-gray-400 block">Patient Type:</span>
+          <span className="text-gray-200">{patientType}</span>
         </div>
-
-        <p className="mt-3 text-gray-600">
-          {getDiagnosisDescription(diagnosis, confidence)}
-        </p>
-      </div>
-
-      <div className="border-t border-gray-200 pt-4">
-        <div className="text-sm text-white">
-          <p>
-            <strong>Note:</strong> This AI analysis is intended as a screening
-            tool and should not replace professional medical evaluation. Please
-            consult a healthcare provider for definitive diagnosis.
-          </p>
+        <div>
+          <span className="font-semibold text-gray-400 block">Analysis Time:</span>
+          <span className="text-gray-200">{analysisTime}</span>
         </div>
       </div>
     </div>
   );
 };
 
-// Komponen utama halaman hasil analisis
+// Main Result Component
 function GuestResult() {
-  const {isGetting, diagnosisId, error} = useGetDiagnosisId()
-  const navigate = useNavigate();
+  const {isGetting, diagnosisId, error} = useGetDiagnosisId();
+  const [imageLoading, setImageLoading] = useState(true);
+
+  useEffect(() => {
+    if (diagnosisId?.image) {
+      const img = new Image();
+      img.onload = () => setImageLoading(false);
+      img.src = diagnosisId.image;
+    }
+  }, [diagnosisId?.image]);
+
   if (isGetting) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-6 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Processing analysis results...</p>
-        </div>
+      <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="mt-4 text-xl">Loading prediction results...</p>
       </div>
     );
   }
 
   if (error || !diagnosisId) {
     return (
-      <div className="p-4 text-red-600">
-        Terjadi kesalahan saat memuat data diagnosis.
+      <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <p className="text-red-400">Terjadi kesalahan saat memuat data diagnosis.</p>
       </div>
     );
   }
@@ -254,138 +235,102 @@ function GuestResult() {
   const {
     ai_diagnosis,
     created_at, 
-    patients, 
+    patients,  
     gejala, 
     image, 
     model_type, 
     model_version
-  } = diagnosisId
+  } = diagnosisId;
 
-  const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/)
+  const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
   const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
-  const diagnosis = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
+  const diagnosis = ai_diagnosis.replace(/\s*\(\d+%\)/, "").trim();
 
-  console.log(confidence)
+  // Mock detailed indicators based on overall confidence
+  const mockDetailedIndicators = [
+    {
+      title: "Infiltrate",
+      score: 0.82,
+      description: "Diffuse infiltrates present in upper lobe",
+    },
+    {
+      title: "Consolidation",
+      score: 0.65,
+      description: "Moderate consolidation in right upper zone",
+    },
+    {
+      title: "Cavity",
+      score: 0.37,
+      description: "Small cavitation suspected",
+    },
+    {
+      title: "Effusion",
+      score: 0.12,
+      description: "No significant pleural effusion",
+    },
+    {
+      title: "Fibrotic",
+      score: 0.58,
+      description: "Moderate fibrotic changes observed",
+    },
+    {
+      title: "Calcification",
+      score: 0.21,
+      description: "Minimal calcification noted",
+    },
+  ];
 
-  const analysisResult = {
-    name: patients.fullName,
-    gejala: gejala,
-    jenisKelamin: patients.gender,
-    imageUrl: image, // Tambahkan gambar sample di folder public
-    heatmapUrl: image, // Tambahkan overlay heatmap di folder public
-    modelInfo: model_version,
-    patientType: model_type,
-    analysisTime: created_at,
-    diagnosis: diagnosis,
-    confidence: confidence,
-    indicators: [
-      {
-        title: "Infiltrate",
-        score: 0.82,
-        description: "Diffuse infiltrates present in upper lobe",
-      },
-      {
-        title: "Consolidation",
-        score: 0.65,
-        description: "Moderate consolidation in right upper zone",
-      },
-      {
-        title: "Cavity",
-        score: 0.37,
-        description: "Small cavitation suspected",
-      },
-      {
-        title: "Effusion",
-        score: 0.12,
-        description: "No significant pleural effusion",
-      },
-      {
-        title: "Fibrotic",
-        score: 0.58,
-        description: "Moderate fibrotic changes observed",
-      },
-      {
-        title: "Calcification",
-        score: 0.21,
-        description: "Minimal calcification noted",
-      },
-    ],
+  const handlePrint = () => {
+    window.print();
   };
-
-
-  // Handle back to upload
-  const handleBack = () => {
-    // In a real app, you would use navigation here
-    console.log("Navigate back to upload page");
-    navigate("/model");
-  };
-
-
 
   return (
-    <div className="min-h-screen bg-gray-900 p-6">
-
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <button
-            onClick={handleBack}
-            className="flex items-center text-blue-600 hover:text-blue-800 transition"
-          >
-            <ChevronLeft className="w-5 h-5 mr-1" />
-            Back to Upload
-          </button>
+    <div className="bg-gray-900 text-gray-200 min-h-screen p-4 md:p-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-4">
+          <Link to="/guest" className="text-blue-500 hover:text-blue-400 text-sm">
+            <i className="fas fa-arrow-left mr-2"></i>&larr; Back to Guest Form
+          </Link>
         </div>
 
-        {/* Layout 2 kolom */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Kolom Kiri: Diagnosis dan Indicators */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Diagnosis Result */}
-            <DiagnosisProgressBar
-              diagnosis={analysisResult.diagnosis}
-              confidence={analysisResult.confidence}
+          {/* Left Column */}
+          <div className="lg:col-span-1 space-y-6 flex flex-col">
+            <AIDiagnosisSection 
+              diagnosis={diagnosis}
+              confidence={confidence}
             />
-
-            {/* Visual Interpretation Cards */}
-            <div>
-              <h2 className="font-bold text-lg text-blue-500 mb-3">
-                Detailed Indicators
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                {analysisResult.indicators.map((indicator, index) => (
-                  <VisualInterpretationCard
-                    key={index}
-                    title={indicator.title}
-                    score={indicator.score}
-                    description={indicator.description}
-                  />
-                ))}
-              </div>
-            </div>
+            <DetailedIndicatorsSection indicators={mockDetailedIndicators} />
           </div>
 
-          {/* Kolom Kanan: Gambar Preview lebih besar */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden h-full">
-              <ImagePreview
-                name={analysisResult.name}
-                jenisKelamin={analysisResult.jenisKelamin}
-                gejala={analysisResult.gejala}
-                imageUrl={analysisResult.imageUrl}
-                modelInfo={analysisResult.modelInfo}
-                patientType={analysisResult.patientType}
-                analysisTime={format(new Date(analysisResult.analysisTime), "EEE, MMM dd yyyy, p")}
-              />
-            </div>
-
-            <Link
-              to={"/"}
-              className="flex items-center justify-end text-sm text-gray-300 hover:text-red-500"
-            >
-              <LogOut className="w-4 h-4 mr-2" /> Exit
-            </Link>
+          {/* Right Column */}
+          <div className="lg:col-span-2 space-y-6 flex flex-col">
+            <XRayImageSection 
+              imageUrl={image}
+              name={patients.fullName}
+              patientType={model_type}
+              imageLoading={imageLoading}
+              setImageLoading={setImageLoading}
+            />
+            <PatientInfoBelowXRay 
+              name={patients.fullName}
+              jenisKelamin={patients.gender}
+              modelInfo={model_version}
+              gejala={gejala}
+              patientType={model_type}
+              analysisTime={format(new Date(created_at), "dd MMM yyyy, HH:mm")}
+            />
           </div>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+          <button 
+            onClick={handlePrint}
+            className="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
+          >
+            <i className="fas fa-print mr-2"></i>Print Results
+          </button>
         </div>
       </div>
     </div>

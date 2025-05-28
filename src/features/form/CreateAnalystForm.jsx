@@ -5,7 +5,7 @@ import {
     ChevronDown
 } from "lucide-react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
 
@@ -16,7 +16,7 @@ function CreateAnalystForm({ setNotification}) {
         fullName: '',
         gender: '',
         id: 2,
-        ai_diagnosis: "TBC (50%)",
+        ai_diagnosis: "TBC (80%)",
         gejala: [],
         image: "", // Can be a string URL or empty
         model_type: "",
@@ -134,7 +134,7 @@ function CreateAnalystForm({ setNotification}) {
 
                     {/* Checkbox Gejala */}
                     <div className="mt-3">
-                        <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                        <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                             <Badge className="w-4 h-4 mr-1" />
                             Tipe Gejala
                         </label>
@@ -167,7 +167,7 @@ function CreateAnalystForm({ setNotification}) {
                     <div className="space-y-6">
                         {/* Dropdown Tipe Model */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                            <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                 <Brain className="w-4 h-4 mr-1" />
                                 Tipe Model
                             </label>
@@ -206,7 +206,7 @@ function CreateAnalystForm({ setNotification}) {
                         >
                             {selectedModelType && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-1 flex items-center">
+                                    <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                         <Brain className="w-4 h-4 mr-1" />
                                         Versi Model
                                     </label>
@@ -245,7 +245,7 @@ function CreateAnalystForm({ setNotification}) {
                 <motion.button 
                     type="submit"
                     disabled={isCreating}
-                    className="mt-6 w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
+                    className="cursor-pointer mt-6 w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
                     whileTap={{ scale: 0.98 }}
                 >
                     {isCreating ? "Memproses..." : "Analisis"}

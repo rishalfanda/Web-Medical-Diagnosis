@@ -1,9 +1,4 @@
 import { format } from "date-fns";
-import {
-  AlertCircle,
-  ChevronLeft,
-  LogOut
-} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetDiagnosisId } from "../hooks/diagnosis/useGetDiagnosisId";
@@ -147,10 +142,8 @@ const DetailedIndicatorsSection = ({ indicators }) => {
 // X-Ray Image Section - styled like first component
 const XRayImageSection = ({ 
   imageUrl, 
-  name,
   patientType,
   imageLoading, 
-  setImageLoading 
 }) => {
   return (
     <div className="bg-gray-800 p-4 pt-6 rounded-lg shadow-lg relative">
@@ -255,11 +248,9 @@ function Result() {
   }
 
   const {
-    id, 
     ai_diagnosis,
     created_at, 
     patients, 
-    users, 
     gejala, 
     image, 
     model_type, 

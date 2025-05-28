@@ -8,7 +8,7 @@ function EditUser({ user }) {
     <div className="h-4 w-4">
       <Modal>
         <Modal.Open opens="edit-form">
-          <button className="text-blue-500 hover:text-blue-600">
+          <button className="text-blue-500 hover:text-blue-600 cursor-pointer">
             <Edit className="h-4 w-4" />
           </button>
         </Modal.Open>

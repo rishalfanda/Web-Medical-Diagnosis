@@ -1,11 +1,10 @@
-import { Edit, Home, LogOut, Search, Trash2, Users } from "lucide-react";
+import { Home, LogOut, Search, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import AddUser from "../../features/user/AddUser";
-import { useGetUsers } from "../../hooks/user/useGetUsers";
-import Spinner from "../../ui/Spinner";
-import EditPengaduan from "../../features/user/EditUser";
 import DeleteUser from "../../features/user/DeleteUser";
 import EditUser from "../../features/user/EditUser";
+import { useGetUsers } from "../../hooks/user/useGetUsers";
+import Spinner from "../../ui/Spinner";
 
 function Admin() {
   const { isPending, users } = useGetUsers();
@@ -89,7 +88,6 @@ function Admin() {
                 />
                 <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
               </div>
-              <button className="text-2xl">🔔</button>
             </div>
           </div>
 

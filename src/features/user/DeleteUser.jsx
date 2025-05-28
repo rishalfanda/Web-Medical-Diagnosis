@@ -8,7 +8,7 @@ function DeleteUser({user}) {
         <div className='h-4 w-4'>
             <Modal>
                 <Modal.Open opens="delete">
-                    <button className="text-red-500 hover:text-red-600">
+                    <button className="text-red-500 hover:text-red-600 cursor-pointer">
                     <Trash2 className="h-4 w-4" />
                     </button>
                 </Modal.Open>
