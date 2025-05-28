@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import styled from 'styled-components';
-import Button from './Button';
+import Button from './ButtonStyledComponents';
 import Heading from './Heading';
 
 const StyledConfirmDelete = styled.div`

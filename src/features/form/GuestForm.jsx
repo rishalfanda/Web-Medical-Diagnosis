@@ -15,7 +15,7 @@ function GuestForm({ setNotification}) {
         fullName: '',
         gender: '',
         id: 2,
-        ai_diagnosis: "TBC (50%)",
+        ai_diagnosis: "TBC (80%)",
         gejala: [],
         image: "", // Can be a string URL or empty
         model_type: "",

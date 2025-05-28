@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import DeleteDiagnosis from "../../features/diagnosis/DeleteDiagnosis";
 import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
-import Spinner from "../../ui/Spinner";
+import Spinner from "../../components/ui/Spinner";
+
 
 function User() {
   const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
@@ -56,7 +57,7 @@ function User() {
               className="px-4 py-2 bg-gray-800 border border-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-yellow-500"
             />
             <button
-              className="bg-yellow-500 text-gray-800 px-4 py-2 rounded-md hover:bg-yellow-400 transition font-medium cursor-pointer"
+              className="bg-yellow-500 text-gray-700 px-4 py-2 rounded-md hover:bg-yellow-400 transition font-medium cursor-pointer"
               onClick={() => navigate("/model")}
             >
               Analyse New Image

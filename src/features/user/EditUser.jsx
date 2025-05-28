@@ -1,7 +1,7 @@
 import { Edit } from 'lucide-react';
-import Menus from '../../ui/Menus';
-import Modal from '../../ui/Modal';
+import Modal from '../../components/ui/Modal';
 import CreateUserForm from './CreateUserForm';
+
 
 function EditUser({ user }) {
   return (

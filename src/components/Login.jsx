@@ -122,22 +122,6 @@ function Login() {
               No registration required. Access limited features for evaluation.
             </p>
           </div>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-700"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-900 text-gray-400">Or</span>
-            </div>
-          </div>
-
-          <p className="text-center text-sm text-gray-400">
-            Don't have an account?{" "}
-            <a href="#" className="text-blue-400 hover:underline">
-              Sign up
-            </a>
-          </p>
         </div>
       </div>
 

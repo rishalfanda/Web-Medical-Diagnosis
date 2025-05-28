@@ -12,6 +12,7 @@ import Test from "./components/Test";
 import Guest from "./pages/guest/Guest";
 import GuestResult from "./pages/result/GuestResult";
 import PageNotFound from "./pages/PageNotFound";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,18 +30,23 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login/>}/>
+
+          {/* Must be a Proteted Route */}
           {/* route ke form dengan akses login */}
-          <Route path="/model" element={<Model />} />
-          {/* route ke form untuk guest */}
-          <Route path="/guest" element={<Guest/>}/>
-          {/* route ke result dengan akses login */}
-          <Route path="/result/:resultId" element={<Result />} />
-          {/* route ke result buat guest */}
-          <Route path="/guest-result/:resultId" element={<GuestResult/>}/>
           <Route path="/admin" element={<Admin />} />
           <Route path="/user" element={<User />} />
-          <Route path="/test" element={<Test/>}/>
+          <Route path="/model" element={<Model />} />
+          {/* route ke result dengan akses login */}
+          <Route path="/result/:resultId" element={<Result />} />
+          {/* Must be a Proteted Route */}
+
+          {/* route ke form untuk guest */}
+          <Route path="/guest" element={<Guest/>}/>
+          {/* route ke result buat guest */}
+          <Route path="/guest-result/:resultId" element={<GuestResult/>}/>
+          
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

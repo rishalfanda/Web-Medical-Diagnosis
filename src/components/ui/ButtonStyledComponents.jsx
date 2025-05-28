@@ -61,7 +61,7 @@ const variations = {
   `,
 };
 
-const Button = styled.button`
+const ButtonStyledComponents = styled.button`
   border-radius: var(--border-radius-sm);
   border: none;
   box-shadow: var(--shadow-sm);
@@ -71,10 +71,10 @@ const Button = styled.button`
   ${(props) => variations[props.$variation]}
 `;
 
-Button.defaultProps = {
+ButtonStyledComponents.defaultProps = {
   $variation: 'primary',
   $size: 'medium',
 };
 
 
-export default Button;
+export default ButtonStyledComponents;

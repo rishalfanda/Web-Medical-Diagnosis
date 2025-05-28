@@ -4,7 +4,7 @@ import AddUser from "../../features/user/AddUser";
 import DeleteUser from "../../features/user/DeleteUser";
 import EditUser from "../../features/user/EditUser";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
-import Spinner from "../../ui/Spinner";
+import Spinner from "../../components/ui/Spinner";
 
 function Admin() {
   const { isPending, users } = useGetUsers();

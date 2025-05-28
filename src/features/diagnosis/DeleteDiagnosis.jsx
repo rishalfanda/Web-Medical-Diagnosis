@@ -1,7 +1,8 @@
 import { Trash2 } from 'lucide-react';
-import Modal from '../../ui/Modal';
-import ConfirmDelete from '../../ui/ConfirmDelete';
+import Modal from '../../components/ui/Modal';
+import ConfirmDelete from '../../components/ui/ConfirmDelete';
 import { useDeleteDiagnosis } from '../../hooks/diagnosis/useDeleteDiagnosis';
+
 
 function DeleteDiagnosis({diagnosis}) {
     const{isDeleting, deleteDiagnosis} = useDeleteDiagnosis()
