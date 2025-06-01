@@ -95,12 +95,12 @@ export async function createDiagnosis(newDiagnosis) {
       .from("diagnosis-image")
       .upload(imageName, image);
 
-    //4 deleting the users if there was an error uploading image
+    //4 deleting the diagnosis if there was an error uploading image
     if (storageError) {
       await supabase.from("diagnosis").delete().eq("id", data.id);
       console.log(storageError);
       throw new Error(
-        "Diagnosis image could not be uploaded and the user was not created"
+        "Diagnosis image could not be uploaded and the diagnosis was not created"
       );
     }
   }
