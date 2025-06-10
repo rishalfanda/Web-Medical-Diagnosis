@@ -2,6 +2,7 @@ import { useState } from "react";
 import DiagnosisRow from "../features/diagnosis/DiagnosisRow";
 import GuestForm from "../features/form/GuestForm";
 import Notification from "../features/form/Notification";
+import GuestPostForm from "../features/form/GuestPostForm";
 
 function ModelGuest() {
   const [notification, setNotification] = useState({
@@ -17,7 +18,7 @@ function ModelGuest() {
         <Notification notification={notification} />
 
         <div className="mb-5">
-          <GuestForm setNotification={setNotification}/>
+          <GuestPostForm setNotification={setNotification}/>
         </div>
 
       </div>

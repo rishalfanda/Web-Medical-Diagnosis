@@ -1,3 +1,4 @@
+import axios from "axios";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getDiagnosis() {
@@ -149,4 +150,10 @@ export async function deleteDiagnosis(id) {
   }
 
   return { success: true };
+}
+
+export async function postDiagnosis(data){
+  const response = await axios.post('http://localhost:5000/predict', data)
+
+  return response.data;
 }

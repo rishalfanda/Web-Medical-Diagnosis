@@ -2,6 +2,8 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetDiagnosisId } from "../../hooks/diagnosis/useGetDiagnosisId";
+import useGuestDiagnosisStore from "../../store/guestDiagnosisStore";
+import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 
 
 // Helper functions from first component
@@ -204,18 +206,29 @@ const PatientInfoBelowXRay = ({
 
 // Main Result Component
 function GuestResult() {
-  const {isGetting, diagnosisId, error} = useGetDiagnosisId();
+  const {guestDiagnosisData} = useGuestDiagnosisStore()
+  const {isPost, isError} = usePostDiagnosis()
   const [imageLoading, setImageLoading] = useState(true);
 
+  const {
+    areas_label,
+    file,
+    pred_result
+  } = guestDiagnosisData;
+
+  console.log(areas_label, pred_result)
+
+  const percentage = pred_result[1].toFixed(2) * 100;
+
   useEffect(() => {
-    if (diagnosisId?.image) {
+    if (guestDiagnosisData?.file) {
       const img = new Image();
       img.onload = () => setImageLoading(false);
-      img.src = diagnosisId.image;
+      img.src = guestDiagnosisData.file;
     }
-  }, [diagnosisId?.image]);
+  }, [guestDiagnosisData?.file]);
 
-  if (isGetting) {
+  if (isPost) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -224,27 +237,13 @@ function GuestResult() {
     );
   }
 
-  if (error || !diagnosisId) {
+  if (isError || !guestDiagnosisData) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <p className="text-red-400">Terjadi kesalahan saat memuat data diagnosis.</p>
       </div>
     );
   }
-
-  const {
-    ai_diagnosis,
-    created_at, 
-    patients,  
-    gejala, 
-    image, 
-    model_type, 
-    model_version
-  } = diagnosisId;
-
-  const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
-  const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
-  const diagnosis = ai_diagnosis.replace(/\s*\(\d+%\)/, "").trim();
 
   // Mock detailed indicators based on overall confidence
   const mockDetailedIndicators = [
@@ -297,8 +296,8 @@ function GuestResult() {
           {/* Left Column */}
           <div className="lg:col-span-1 space-y-6 flex flex-col">
             <AIDiagnosisSection 
-              diagnosis={diagnosis}
-              confidence={confidence}
+              diagnosis={percentage}
+              confidence={percentage}
             />
             <DetailedIndicatorsSection indicators={mockDetailedIndicators} />
           </div>
@@ -306,20 +305,18 @@ function GuestResult() {
           {/* Right Column */}
           <div className="lg:col-span-2 space-y-6 flex flex-col">
             <XRayImageSection 
-              imageUrl={image}
-              name={patients.fullName}
-              patientType={model_type}
+              imageUrl={file}
               imageLoading={imageLoading}
               setImageLoading={setImageLoading}
             />
-            <PatientInfoBelowXRay 
+            {/*<PatientInfoBelowXRay 
               name={patients.fullName}
               jenisKelamin={patients.gender}
               modelInfo={model_version}
               gejala={gejala}
               patientType={model_type}
               analysisTime={format(new Date(created_at), "dd MMM yyyy, HH:mm")}
-            />
+            />*/}
           </div>
         </div>
         

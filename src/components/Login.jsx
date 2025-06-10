@@ -116,7 +116,7 @@ function Login() {
               className="w-full bg-green-600 text-white py-2 rounded-lg shadow-md hover:bg-green-700 transition"
               disabled={isLoading}
             >
-              {isLoading ? "Processing..." : "Try Demo Version"}
+              {isLoading ? "Processing..." : "Try Guests Version"}
             </button>
             <p className="text-xs text-center text-gray-400 mt-2">
               No registration required. Access limited features for evaluation.

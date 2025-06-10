@@ -7,9 +7,11 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
+import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 
 function GuestForm({ setNotification}) {
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
+    const {isPostData, isPost} = usePostDiagnosis()
 
     const defaultValues = {
         fullName: '',
