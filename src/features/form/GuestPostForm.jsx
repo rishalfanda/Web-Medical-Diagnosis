@@ -23,7 +23,7 @@ function GuestPostForm({ setNotification}) {
         defaultValues,
     });
 
-    const { handleSubmit, control, reset, setValue } = methods;   
+    const { handleSubmit, control, setValue } = methods;   
 
     async function onSubmit(data) {
     const formData = new FormData();

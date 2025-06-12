@@ -40,7 +40,7 @@ const ZoomableImage = ({ imageUrl }) => {
           className="overflow-auto fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
           onClick={() => setIsOpen(false)}
         >
-          <div className="relative max-w-6xl max-h-[95vh] bg-gray-800 rounded-2xl p-4">
+          <div className="relative max-w-6xl max-h-[95vh] rounded-2xl p-4">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-2 right-2 text-white hover:text-gray-300 text-2xl z-10"
