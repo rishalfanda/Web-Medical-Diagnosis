@@ -1,18 +1,17 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
-import Model from "./components/Model";
-import Result from "./components/Result";
 import Admin from "./pages/admin/Admin";
+import Login from "./pages/login/Login";
 import User from "./pages/user/User";
 /* import "./index.css"; */
-import Guest from "./pages/guest/Guest";
+import GuestForm from "./pages/guest/GuestForm";
 import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
 import GuestResult from "./pages/result/GuestResult";
+import DoctorResult from "./pages/result/Result";
+import DoctorForm from "./pages/user/DoctorForm";
 import GlobalStyles from "./styles/GlobalStyles";
-import TestPostResult from "./pages/result/TestPostResult";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,17 +36,15 @@ function App() {
           {/* route ke form dengan akses login */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/user" element={<User />} />
-          <Route path="/model" element={<Model />} />
+          <Route path="/doctor-form" element={<DoctorForm />} />
           {/* route ke result dengan akses login */}
-          <Route path="/result/:resultId" element={<Result />} />
+          <Route path="/result/:resultId" element={<DoctorResult />} />
           {/* Must be a Proteted Route */}
 
           {/* route ke form untuk guest */}
-          <Route path="/guest" element={<Guest/>}/>
+          <Route path="/guest" element={<GuestForm/>}/>
           {/* route ke result buat guest */}
           <Route path="/guest-result" element={<GuestResult/>}/>
-
-          <Route path="/testPostApi" element={<TestPostResult/>}/>
           
           <Route path="*" element={<PageNotFound />} />
         </Routes>

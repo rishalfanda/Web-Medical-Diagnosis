@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
 
-function CreateAnalystForm({ setNotification}) {
+function CreateDoctorAnalystForm({ setNotification}) {
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
 
     const defaultValues = {
@@ -213,19 +213,19 @@ function CreateAnalystForm({ setNotification}) {
 
                                     <div className="relative">
                                         <Controller
-                                            name="model_version"
+                                            name="model_id"
                                             control={control}
                                             rules={{ required: 'Versi model harus dipilih' }}
                                             render={({ field }) => (
                                                 <select
-                                                    id="model_version"
+                                                    id="model_id"
                                                     value={field.value}
                                                     onChange={field.onChange}
                                                     disabled={isCreating}
                                                     className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                                 >
                                                     <option value="">Pilih Versi Model</option>
-                                                    <option value="Model Versi 1">Model Versi 1</option>
+                                                    <option value="Versi 1">Model Versi 1</option>
                                                 </select>
                                             )}
                                         />
@@ -255,4 +255,4 @@ function CreateAnalystForm({ setNotification}) {
     );
 }
 
-export default CreateAnalystForm;
+export default CreateDoctorAnalystForm;

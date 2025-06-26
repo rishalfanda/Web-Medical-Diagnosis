@@ -1,16 +1,14 @@
 import { useState } from "react";
-import DiagnosisRow from "../features/diagnosis/DiagnosisRow";
-import CreateAnalystForm from "../features/form/CreateAnalystForm";
-import Notification from "../features/form/Notification";
+import DiagnosisRow from "../../features/diagnosis/DiagnosisRow";
+import CreateGuestAnalystForm from "../../features/form/CreateGuestAnalystForm";
+import Notification from "../../features/form/Notification";
 
-function Model() {
+function GuestForm() {
   const [notification, setNotification] = useState({
     show: false,
     type: "",
     message: "",
   });
-
-  console.log("model page is render")
 
   return (
     <DiagnosisRow>
@@ -19,13 +17,12 @@ function Model() {
         <Notification notification={notification} />
 
         <div className="mb-5">
-          <CreateAnalystForm setNotification={setNotification}/>
+          <CreateGuestAnalystForm setNotification={setNotification}/>
         </div>
 
-        {/* <UploadImage diagnosis={diagnosis}  /> */}
       </div>
     </DiagnosisRow>
   );
 }
 
-export default Model;
+export default GuestForm;

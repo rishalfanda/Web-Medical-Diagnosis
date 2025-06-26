@@ -28,3 +28,18 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
     value,
   );
+
+//helper for result
+export const getScoreColor = (score) => {
+  if (score > 70) return 'bg-red-500';
+  if (score > 40) return 'bg-orange-500';
+  if (score > 20) return 'bg-yellow-500';
+  return 'bg-green-500';
+};
+
+export const getScoreTextColor = (score) => {
+  if (score > 70) return 'text-red-400';
+  if (score > 40) return 'text-orange-400';
+  if (score > 20) return 'text-yellow-400';
+  return 'text-green-400';
+};

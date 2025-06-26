@@ -1,4 +1,4 @@
-import CreateAnalystForm from "../form/CreateAnalystForm";
+import CreateAnalystForm from "../form/CreateDoctorAnalystForm";
 
 function DiagnosisRow({ children }) {
   return (

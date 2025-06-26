@@ -1,36 +1,29 @@
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useGetDiagnosisId } from "../../hooks/diagnosis/useGetDiagnosisId";
 import { AIDiagnosisSection } from "../../components/AIDiagnosisSection";
 import { DetailedIndicatorsSection } from "../../components/DetailedIndicatorsSection";
+import { PatientInfoBelowXRay } from "../../components/PatientInfoBelowXRay";
 import { XRayImageSection } from "../../components/XRayImageSection";
-import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
-import useGuestDiagnosisStore from "../../store/guestDiagnosisStore";
 
 
 // Main Result Component
-function GuestResult() {
-  const {guestDiagnosisData} = useGuestDiagnosisStore()
-  const {isPost, isError} = usePostDiagnosis()
+function DoctorResult() {
+  const {isGetting, diagnosisId, error} = useGetDiagnosisId();
+  const navigate = useNavigate();
   const [imageLoading, setImageLoading] = useState(true);
 
-  const {
-    areas_label,
-    file,
-    pred_result
-  } = guestDiagnosisData;
-  console.log(guestDiagnosisData)
-
-  const percentage = pred_result[1].toFixed(2) * 100;
 
   useEffect(() => {
-    if (guestDiagnosisData?.file) {
+    if (diagnosisId?.image) {
       const img = new Image();
       img.onload = () => setImageLoading(false);
-      img.src = guestDiagnosisData.file;
+      img.src = diagnosisId.image;
     }
-  }, [guestDiagnosisData?.file]);
+  }, [diagnosisId?.image]);
 
-  if (isPost) {
+  if (isGetting) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -39,7 +32,7 @@ function GuestResult() {
     );
   }
 
-  if (isError || !guestDiagnosisData) {
+  if (error || !diagnosisId) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <p className="text-red-400">Terjadi kesalahan saat memuat data diagnosis.</p>
@@ -47,7 +40,21 @@ function GuestResult() {
     );
   }
 
-  // Mock detailed indicators based on overall confidence dummy data
+  const {
+    ai_diagnosis,
+    created_at, 
+    patients, 
+    gejala, 
+    image, 
+    model_type, 
+    model_id
+  } = diagnosisId;
+
+  const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
+  const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
+  const diagnosis = ai_diagnosis.replace(/\s*\(\d+%\)/, "").trim();
+
+  // Mock detailed indicators based on overall confidence
   const mockDetailedIndicators = [
     {
       title: "Infiltrate",
@@ -81,6 +88,10 @@ function GuestResult() {
     },
   ];
 
+  const handleSaveChanges = () => {
+    navigate('/user');
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -89,8 +100,8 @@ function GuestResult() {
     <div className="bg-gray-900 text-gray-200 min-h-screen p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
         <div className="mb-4">
-          <Link to="/guest" className="text-blue-500 hover:text-blue-400 text-sm">
-            <i className="fas fa-arrow-left mr-2"></i>&larr; Back to Guest Form
+          <Link to="/doctor-form" className="text-blue-500 hover:text-blue-400 text-sm">
+            <i className="fas fa-arrow-left mr-2"></i>&larr; Back to Upload
           </Link>
         </div>
 
@@ -98,8 +109,8 @@ function GuestResult() {
           {/* Left Column */}
           <div className="lg:col-span-1 space-y-6 flex flex-col">
             <AIDiagnosisSection 
-              diagnosis={percentage}
-              confidence={percentage}
+              diagnosis={diagnosis}
+              confidence={confidence}
             />
             <DetailedIndicatorsSection indicators={mockDetailedIndicators} />
           </div>
@@ -107,15 +118,31 @@ function GuestResult() {
           {/* Right Column */}
           <div className="lg:col-span-2 space-y-6 flex flex-col">
             <XRayImageSection 
-              imageUrl={file}
+              imageUrl={image}
+              name={patients.fullName}
+              patientType={model_type}
               imageLoading={imageLoading}
               setImageLoading={setImageLoading}
+            />
+            <PatientInfoBelowXRay 
+              name={patients.fullName}
+              jenisKelamin={patients.gender}
+              modelInfo={model_id}
+              gejala={gejala}
+              patientType={model_type}
+              analysisTime={format(new Date(created_at), "dd MMM yyyy, HH:mm")}
             />
           </div>
         </div>
         
         {/* Action Buttons */}
         <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+          <button 
+            onClick={handleSaveChanges}
+            className="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
+          >
+            <i className="fas fa-check mr-2"></i>Confirm & Exit to Dashboard
+          </button>
           <button 
             onClick={handlePrint}
             className="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
@@ -128,4 +155,4 @@ function GuestResult() {
   );
 }
 
-export default GuestResult;
+export default DoctorResult;

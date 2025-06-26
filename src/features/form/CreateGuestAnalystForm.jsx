@@ -9,13 +9,13 @@ import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 import PostImage from "../diagnosis/PostImage";
 import useGuestDiagnosisStore from "../../store/guestDiagnosisStore";
 
-function GuestPostForm({ setNotification}) {
+function CreateGuestAnalystForm({ setNotification}) {
     const {isPostData, isPost} = usePostDiagnosis()
     const {setGuestDiagnosisData} = useGuestDiagnosisStore()
 
     const defaultValues = {
         file: "",
-        model_id: 1
+        model_id: ""
     };
 
     const navigate = useNavigate()
@@ -109,4 +109,4 @@ function GuestPostForm({ setNotification}) {
     );
 }
 
-export default GuestPostForm;
+export default CreateGuestAnalystForm;
