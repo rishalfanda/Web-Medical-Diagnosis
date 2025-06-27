@@ -127,7 +127,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         >
           Cancel
         </Button>
-        <Button $variation="yellow" $size="medium" disabled={isWorking}>
+        <Button $variation="indigo" $size="medium" disabled={isWorking}>
           {isEditSession ? "Edit user" : "Create new user"}
         </Button>
       </FormRow>

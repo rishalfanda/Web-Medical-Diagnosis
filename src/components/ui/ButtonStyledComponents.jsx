@@ -21,6 +21,7 @@ const sizes = {
   customYellow: css`
     padding: 0.5rem 1rem; /* py-2 px-4 */
   `,
+  
 };
 
 const variations = {
@@ -32,6 +33,17 @@ const variations = {
 
     &:hover {
       background-color: #ca8a04; /* Tailwind's hover:bg-yellow-600 */
+    }
+  `,
+  indigo: css`
+    background: linear-gradient(to right, #3b82f6, #4f46e5); /* from-blue-500 to-indigo-600 */
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* shadow-lg */
+    transition: all 0.3s ease; /* transition-all duration-300 */
+
+    &:hover {
+      background: linear-gradient(to right, #2563eb, #4338ca); /* hover:from-blue-600 to-indigo-700 */
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); /* hover:shadow-xl */
     }
   `,
   primary: css`

@@ -1,10 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Admin from "./pages/admin/Admin";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
 import User from "./pages/user/User";
 /* import "./index.css"; */
+import AdminAppLayout from "./pages/admin/AdminAppLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import DoctorList from "./pages/admin/DoctorList";
 import GuestForm from "./pages/guest/GuestForm";
 import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
@@ -34,7 +36,14 @@ function App() {
 
           {/* Must be a Proteted Route */}
           {/* route ke form dengan akses login */}
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<AdminAppLayout />}>
+            <Route index element={<Navigate to="dashboard" />} />
+            <Route path="dashboard" element={<AdminDashboard/>}/>
+            <Route path="doctors" element={<DoctorList />} />
+          </Route>
+
+          {/* <Route path="admin" element={<Admin />} /> */}
+
           <Route path="/user" element={<User />} />
           <Route path="/doctor-form" element={<DoctorForm />} />
           {/* route ke result dengan akses login */}
