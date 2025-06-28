@@ -6,7 +6,7 @@ function AdminHeader() {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                        Hospital Management
+                        TB Screen AI
                     </h1>
                     <p className="text-gray-600 mt-1">Manage doctors and medical staff</p>
                 </div>

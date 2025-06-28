@@ -1,15 +1,22 @@
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { Home, Info, LogOut } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import DeleteDiagnosis from "../../features/diagnosis/DeleteDiagnosis";
 import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
 import Spinner from "../../components/ui/Spinner";
+import { useState } from "react";
 
 
 function User() {
   const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
   const { isPending, users } = useGetUsers();
+  const [searchTerm, setSearchTerm] = useState("")
+  
+  const filteredPatient = diagnosis?.filter(patients => 
+    patients.patients.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    patients.ai_diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const doctorUser = users?.[1];
   const avatarUser = doctorUser?.avatar;
@@ -53,6 +60,8 @@ function User() {
           <div className="flex items-center space-x-2">
             <input
               type="text"
+              value={searchTerm}
+              onChange={(e)=> setSearchTerm(e.target.value)}
               placeholder="Search..."
               className="px-4 py-2 bg-gray-800 border border-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring focus:ring-yellow-500"
             />
@@ -81,7 +90,7 @@ function User() {
               </tr>
             </thead>
             <tbody>
-              {diagnosis.map((record) => (
+              {filteredPatient.map((record) => (
                 <tr
                   key={record.id}
                   className="border-b border-gray-700 hover:bg-gray-700"
