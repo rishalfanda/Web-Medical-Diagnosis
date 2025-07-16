@@ -25,6 +25,7 @@ function DoctorList() {
                 <h2 className="text-xl font-bold text-gray-800">Medical Staff Directory</h2>
                 <p className="text-gray-600 text-sm mt-1">Manage doctors and medical professionals</p>
               </div>
+              
               <div className="flex items-center space-x-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />

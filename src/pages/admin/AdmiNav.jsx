@@ -55,7 +55,7 @@ function AdminNav() {
                 </a> */}
             
             <div className="absolute bottom-6 left-6 right-6">
-                <NavLink to="/login" className="flex items-center p-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg">
+                <NavLink to="/login" className="flex items-center w-full p-3 text-red-400 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 rounded-xl transition-all duration-300 group">
                     <LogOut className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                     <span className="font-medium">Logout</span>
                 </NavLink>
