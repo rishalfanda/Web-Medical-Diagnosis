@@ -1,10 +1,10 @@
 import { Home, Info, LogOut, Search, Activity, User, FileText, Calendar, TrendingUp, Eye, Brain, Users, Stethoscope, Heart, Plus, Filter } from 'lucide-react';
 import { useState } from "react";
-import { useGetDiagnosis } from '../../hooks/diagnosis/useGetDiagnosis';
-import { useGetUsers } from '../../hooks/user/useGetUsers';
+import { useGetDiagnosis } from '../hooks/diagnosis/useGetDiagnosis';
+import { useGetUsers } from '../hooks/user/useGetUsers';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import DeleteDiagnosis from '../../features/diagnosis/DeleteDiagnosis';
+import DeleteDiagnosis from '../features/diagnosis/DeleteDiagnosis';
 
 function NewUserAppLayout() {
   // Replace these with your actual hooks

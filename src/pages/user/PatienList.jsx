@@ -125,7 +125,7 @@ function PatienList() {
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-medium rounded-full border border-purple-500/30">
                         <Brain className="h-3 w-3 mr-1" />
-                        {record.model_type}
+                        {record.model_id}
                       </span>
                     </td>
                     <td className="px-6 py-4">

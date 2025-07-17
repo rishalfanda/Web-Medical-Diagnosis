@@ -14,10 +14,12 @@ import GuestResult from "./pages/result/GuestResult";
 import DoctorResult from "./pages/result/Result";
 import DoctorForm from "./pages/user/DoctorForm";
 import GlobalStyles from "./styles/GlobalStyles";
-import NewUserAppLayout from "./pages/user/NewUserAppLayout";
+import NewUserAppLayout from "./don't deleted/NewUserAppLayout";
 import UserDashboard from "./pages/user/UserDashboard";
 import UserAppLayout from "./pages/user/UserAppLayout";
 import PatienList from "./pages/user/PatienList";
+import Dataset from "./pages/user/dataset/Dataset";
+import Citra from "./pages/user/citra/Citra";
 
 
 const queryClient = new QueryClient({
@@ -52,7 +54,12 @@ function App() {
             <Route index element = {<Navigate to="dashboard" />} />
             <Route path="dashboard" element = {<UserDashboard/>}/>
             <Route path="patients" element = {<PatienList/>} />
+            <Route path="dataset" element = {<Dataset/>} />
+            <Route path="dataset/citra/:datasetId" element = {<Citra/>}/>
           </Route>
+
+          <Route path="test" element={<User/>}/>
+
           <Route path="/doctor-form" element={<DoctorForm />} />
           {/* route ke result dengan akses login */}
           <Route path="/result/:resultId" element={<DoctorResult />} />

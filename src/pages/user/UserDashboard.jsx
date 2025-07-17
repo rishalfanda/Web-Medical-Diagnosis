@@ -23,7 +23,8 @@ function UserDashboard() {
               </div>
             </div>
           </div>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
+
+          {/* <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">AI Analyses</p>
@@ -33,7 +34,8 @@ function UserDashboard() {
                 <Brain className="h-6 w-6 text-white" />
               </div>
             </div>
-          </div>
+          </div> */}
+
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
@@ -45,7 +47,8 @@ function UserDashboard() {
               </div>
             </div>
           </div>
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
+
+          {/* <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">Accuracy Rate</p>
@@ -55,7 +58,8 @@ function UserDashboard() {
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
             </div>
-          </div>
+          </div> */}
+
         </div>
     )
 }

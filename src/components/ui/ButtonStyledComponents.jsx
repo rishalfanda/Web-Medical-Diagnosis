@@ -1,5 +1,20 @@
 import styled, { css } from 'styled-components';
 
+const designs = {
+  modal: css`
+    background-color: transparent;
+    color: #f3f4f6; /* text-gray-100 */
+    border: 1px solid #4b5563; /* border-gray-600 */
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #374151; /* hover:bg-gray-700 */
+    }
+  `,
+};
+
+
 const sizes = {
   small: css`
     font-size: 1.2rem;
@@ -81,6 +96,7 @@ const ButtonStyledComponents = styled.button`
 
   ${(props) => sizes[props.$size]}
   ${(props) => variations[props.$variation]}
+  ${(props) => props.$design && designs[props.$design]}
 `;
 
 ButtonStyledComponents.defaultProps = {

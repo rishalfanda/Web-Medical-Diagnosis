@@ -89,7 +89,7 @@ function DoctorResult() {
   ];
 
   const handleSaveChanges = () => {
-    navigate('/user');
+    navigate('/user/patients');
   };
 
   const handlePrint = () => {

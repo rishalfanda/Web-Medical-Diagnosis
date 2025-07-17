@@ -1,4 +1,4 @@
-import { Activity, Calendar, FileText, Home, LogOut, Users } from "lucide-react";
+import { Activity, BrainCog, Calendar, FileText, Home, LogOut, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 function UserNav() {
@@ -33,7 +33,7 @@ function UserNav() {
       </NavLink>
 
       <NavLink
-        to="/user/analytics"
+        to="/user/dataset"
         className={({ isActive }) =>
           `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
             isActive
@@ -42,11 +42,11 @@ function UserNav() {
           }`
         }
       >
-        <Activity className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
-        <span className="font-medium">Analytics</span>
+        <BrainCog className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+        <span className="font-medium">Dataset</span>
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         to="/user/schedule"
         className={({ isActive }) =>
           `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
@@ -72,7 +72,7 @@ function UserNav() {
       >
         <FileText className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
         <span className="font-medium">Reports</span>
-      </NavLink>
+      </NavLink> */}
 
       {/* Logout */}
       <div className="absolute bottom-6 left-6 right-6">
