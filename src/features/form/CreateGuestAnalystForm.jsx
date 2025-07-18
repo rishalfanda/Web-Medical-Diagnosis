@@ -80,6 +80,13 @@ function CreateGuestAnalystForm({ setNotification}) {
                                         >
                                             <option value="">Pilih Versi Model</option>
                                             <option value="1">Model Versi 1</option>
+                                            <option value="2">Model Versi 2</option>
+                                            <option value="3">Model Versi 3</option>
+                                            <option value="4">Model Versi 4</option>
+                                            <option value="5">Model Versi 5</option>
+                                            <option value="6">Model Versi 6</option>
+                                            <option value="7">Model Versi 7</option>
+                                            <option value="8">Model Versi 8</option>
                                         </select>
                                         )}
                                 />
