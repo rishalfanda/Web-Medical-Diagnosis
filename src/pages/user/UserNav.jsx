@@ -1,7 +1,10 @@
 import { Activity, BrainCog, Calendar, FileText, Home, LogOut, Users } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
 
 function UserNav() {
+  const handleLogout = useAuthStore((state) => state.handleLogout);
+  const navigate = useNavigate()
   return (
     <nav className="space-y-2">
       <NavLink
@@ -77,7 +80,11 @@ function UserNav() {
       {/* Logout */}
       <div className="absolute bottom-6 left-6 right-6">
         <NavLink
-          to="/"
+          onClick={async (e) => {
+            e.preventDefault();
+            await handleLogout();
+            navigate("/");
+          }}
           className={({ isActive }) =>
             `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
               isActive

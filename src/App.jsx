@@ -12,14 +12,15 @@ import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
 import GuestResult from "./pages/result/GuestResult";
 import DoctorResult from "./pages/result/Result";
-import DoctorForm from "./pages/user/DoctorForm";
-import GlobalStyles from "./styles/GlobalStyles";
-import NewUserAppLayout from "./don't deleted/NewUserAppLayout";
-import UserDashboard from "./pages/user/UserDashboard";
-import UserAppLayout from "./pages/user/UserAppLayout";
-import PatienList from "./pages/user/PatienList";
-import Dataset from "./pages/user/dataset/Dataset";
 import Citra from "./pages/user/citra/Citra";
+import Dataset from "./pages/user/dataset/Dataset";
+import DoctorForm from "./pages/user/DoctorForm";
+import PatienList from "./pages/user/PatienList";
+import UserAppLayout from "./pages/user/UserAppLayout";
+import UserDashboard from "./pages/user/UserDashboard";
+import GlobalStyles from "./styles/GlobalStyles";
+import AuthWrapper from "./pages/auth/AuthWrapper";
+import RoleWrapper from "./pages/auth/RoleWrapper";
 
 
 const queryClient = new QueryClient({
@@ -40,35 +41,54 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login/>}/>
-
-          {/* Must be a Proteted Route */}
-          {/* route ke form dengan akses login */}
-          <Route path="/admin" element={<AdminAppLayout />}>
-            <Route index element={<Navigate to="dashboard" />} />
-            <Route path="dashboard" element={<AdminDashboard/>}/>
-            <Route path="doctors" element={<DoctorList />} />
-          </Route>
-
-          {/* Route for user */}
-          <Route path="/user" element ={<UserAppLayout/>}>
-            <Route index element = {<Navigate to="dashboard" />} />
-            <Route path="dashboard" element = {<UserDashboard/>}/>
-            <Route path="patients" element = {<PatienList/>} />
-            <Route path="dataset" element = {<Dataset/>} />
-            <Route path="dataset/citra/:datasetId" element = {<Citra/>}/>
-          </Route>
-
           <Route path="test" element={<User/>}/>
-
-          <Route path="/doctor-form" element={<DoctorForm />} />
-          {/* route ke result dengan akses login */}
-          <Route path="/result/:resultId" element={<DoctorResult />} />
-          {/* Must be a Proteted Route */}
-
           {/* route ke form untuk guest */}
           <Route path="/guest" element={<GuestForm/>}/>
           {/* route ke result buat guest */}
           <Route path="/guest-result" element={<GuestResult/>}/>
+
+          {/* protected routes */}
+          <Route path="/*" element={
+            <AuthWrapper>
+              <Routes>
+                {/* route for admin */}
+                <Route path="/admin" element={
+                    <RoleWrapper requiredRole="admin">
+                      <AdminAppLayout/>
+                    </RoleWrapper>
+                  }>
+                  <Route index element={<Navigate to="dashboard" />} />
+                  <Route path="dashboard" element={<AdminDashboard/>}/>
+                  <Route path="doctors" element={<DoctorList />} />
+                </Route>
+
+                {/* Route for user */}
+                <Route path="/user" element ={
+                    <RoleWrapper requiredRole="user">
+                      <UserAppLayout/>
+                    </RoleWrapper>
+                  }>
+                  <Route index element = {<Navigate to="dashboard" />} />
+                  <Route path="dashboard" element = {<UserDashboard/>}/>
+                  <Route path="patients" element = {<PatienList/>} />
+                  <Route path="dataset" element = {<Dataset/>} />
+                  <Route path="dataset/citra/:datasetId" element = {<Citra/>}/>
+                </Route>
+
+                <Route path="/doctor-form" element={
+                    <RoleWrapper requiredRole="user">
+                      <DoctorForm />
+                    </RoleWrapper>
+                  } />
+                  
+                <Route path="/result/:resultId" element={
+                    <RoleWrapper requiredRole="user">
+                      <DoctorResult />
+                    </RoleWrapper>
+                  } />
+              </Routes>
+            </AuthWrapper>
+          }/>
           
           <Route path="*" element={<PageNotFound />} />
         </Routes>

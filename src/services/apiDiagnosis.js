@@ -44,6 +44,12 @@ export async function createDiagnosis(newDiagnosis) {
     image,
     model_type,
     model_id,
+    Infiltrat,    // luas purple
+    Konsolidasi,  // luas pengganti putih
+    Kavitas,      // luas yellow
+    Efusi,        // luas brown
+    Fibrotik,     // luas blue
+    Kalsifikasi   // luas darktail
   } = newDiagnosis;
 
 
@@ -77,6 +83,12 @@ export async function createDiagnosis(newDiagnosis) {
     image: imagePath,
     model_type,
     model_id,
+    Infiltrat,    // luas purple
+    Konsolidasi,  // luas pengganti putih
+    Kavitas,      // luas yellow
+    Efusi,        // luas brown
+    Fibrotik,     // luas blue
+    Kalsifikasi   // luas darktail
   };
 
   const { data, error } = await supabase
