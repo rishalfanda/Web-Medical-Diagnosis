@@ -1,7 +1,12 @@
 import { Home, LogOut, Stethoscope } from "lucide-react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+import useAuthStore from "../../store/authStore"
 
 function AdminNav() {
+    const navigate = useNavigate()
+
+    const handleLogout = useAuthStore((state) => state.handleLogout);
+
     return (
         <nav className="space-y-2">
             <NavLink
@@ -55,7 +60,15 @@ function AdminNav() {
                 </a> */}
             
             <div className="absolute bottom-6 left-6 right-6">
-                <NavLink to="/login" className="flex items-center w-full p-3 text-red-400 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 rounded-xl transition-all duration-300 group">
+                <NavLink 
+                    to="#"  
+                    onClick={async (e) => {
+                        e.preventDefault();
+                        await handleLogout();
+                        navigate("/");
+                    }}
+                    className="flex items-center w-full p-3 text-red-400 hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 rounded-xl transition-all duration-300 group"
+                >
                     <LogOut className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                     <span className="font-medium">Logout</span>
                 </NavLink>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "../../features/login/user";
+import useAuthStore from "../../store/authStore";
 
 function Login() {
   const navigate = useNavigate();
@@ -9,24 +9,23 @@ function Login() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const handleLogin = useAuthStore((state) => state.handleLogin);
 
   // Function to handle regular login
-  const handleLogin = (e) => {
+  const handleLoginClient = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const foundUser = users.find(
-      (u) => u.email === email && u.password === password
-    );
+    const { user, role, error } = await handleLogin(email, password)
 
     setTimeout(() => {
       setIsLoading(false);
 
-      if (foundUser) {
-        console.log("Login berhasil sebagai:", foundUser.role);
-        if (foundUser.role === "admin") {
+      if (user && !error) {
+        console.log("Login berhasil sebagai:", role);
+        if (role === "admin") {
           navigate("/admin");
-        } else if (foundUser.role === "user") {
+        } else if (role === "user") {
           navigate("/user");
         }
       } else {
@@ -62,7 +61,7 @@ function Login() {
         </div>
 
         <div className="max-w-md w-full">
-          <form className="space-y-5" onSubmit={handleLogin}>
+          <form className="space-y-5" onSubmit={handleLoginClient}>
             <div>
               <label className="block text-sm text-gray-300">Email</label>
               <input
