@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteDiagnosis from '../../features/diagnosis/DeleteDiagnosis';
 import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
 
-function PatienList() {
+function  PatienList() {
     const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate()

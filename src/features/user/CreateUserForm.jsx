@@ -27,8 +27,6 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   function onSubmit(data) {
     const image =
       typeof data.avatar === "string" ? data.avatar : data.avatar[0];
-
-    console.log(editId);
     if (isEditSession)
       editUser(
         { newUserData: { ...data, avatar: image }, id: editId },
