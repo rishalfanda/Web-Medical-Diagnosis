@@ -6,17 +6,19 @@ import {
 } from "lucide-react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
 import UploadImage from "../diagnosis/UploadImage";
 
 function CreateDoctorAnalystForm({ setNotification}) {
+    const {isPostData, isPost} = usePostDiagnosis()
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
 
     const defaultValues = {
         fullName: '',
         gender: '',
         id: 2,
-        ai_diagnosis: "TBC (80%)",
+        ai_diagnosis: "Non-TBC (0%)",
         gejala: [],
         image: "", // Can be a string URL or empty
         model_type: "",
@@ -50,25 +52,61 @@ function CreateDoctorAnalystForm({ setNotification}) {
             gejalaFormatted = data.gejala;
         }
 
-        // Process the image - could be a File object or a string URL
-        const image = data.image;
-        
-        const payload = {
-            ...data,
-            image: image,
-            gejala: gejalaFormatted
-        };
+        // Post to API
+        const formData = new FormData();
+        formData.append("file", data.image); // pastikan field ini ada dan bukan kosong
+        formData.append("model_id", String(data.model_id)); // backend butuh string
 
-        createDiagnosis(payload, {
-            onSuccess: (newDiagnosis) => {
-                if (setNotification) {
-                    setNotification({
-                        type: "success",
-                        message: "Analisis berhasil dibuat"
-                    });
-                }
-                reset();
-                navigate(`/result/${newDiagnosis.id}`);
+        isPostData(formData, {
+            onSuccess: (response) => {  
+                console.log("sukses post")
+
+                const {
+                    areas_label,
+                    file,
+                    pred_result
+                } = response;
+                console.log("sukses destructure result")
+
+                const percentage = pred_result[1].toFixed(2) * 100;
+                console.log("sukses convert percentage")
+                
+                const payload = {
+                    ...data,
+                    ai_diagnosis: `${percentage > 50 ? "TBC" : "Non-TBC"} (${percentage}%)`,
+                    image: response.file,
+                    gejala: gejalaFormatted,
+                    Infiltrat: areas_label["luas purple"],
+                    Konsolidasi: areas_label["luas pengganti putih"],
+                    Kavitas: areas_label["luas yellow"],
+                    Efusi: areas_label["luas brown"],
+                    Fibrotik: areas_label["luas blue"],
+                    Kalsifikasi: areas_label["luas darktail"]
+                };
+                console.log("sukses create payload")
+
+                createDiagnosis(payload, {
+                    onSuccess: (newDiagnosis) => {
+                        
+                        console.log("sukses post")
+                        if (setNotification) {
+                            setNotification({
+                                type: "success",
+                                message: "Analisis berhasil dibuat"
+                            });
+                        }
+                        reset();
+                        navigate(`/result/${newDiagnosis.id}`);
+                    },
+                    onError: (error) => {
+                        if (setNotification) {
+                            setNotification({
+                                type: "error",
+                                message: error.message || "Gagal membuat analisis"
+                            });
+                        }
+                    }
+                });
             },
             onError: (error) => {
                 if (setNotification) {
@@ -216,16 +254,23 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                             control={control}
                                             rules={{ required: 'Versi model harus dipilih' }}
                                             render={({ field }) => (
-                                                <select
-                                                    id="model_id"
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    disabled={isCreating}
-                                                    className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
-                                                >
-                                                    <option value="">Pilih Versi Model</option>
-                                                    <option value="Versi 1">Model Versi 1</option>
-                                                </select>
+                                            <select
+                                                id="model_id"
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                disabled={isPost}
+                                                className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+                                            >
+                                                <option value="">Pilih Versi Model</option>
+                                                <option value="1">Model Versi 1</option>
+                                                <option value="2">Model Versi 2</option>
+                                                <option value="3">Model Versi 3</option>
+                                                <option value="4">Model Versi 4</option>
+                                                <option value="5">Model Versi 5</option>
+                                                <option value="6">Model Versi 6</option>
+                                                <option value="7">Model Versi 7</option>
+                                                <option value="8">Model Versi 8</option>
+                                            </select>
                                             )}
                                         />
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />

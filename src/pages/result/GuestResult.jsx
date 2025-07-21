@@ -18,7 +18,6 @@ function GuestResult() {
     file,
     pred_result
   } = guestDiagnosisData;
-  console.log(guestDiagnosisData)
 
   const percentage = pred_result[1].toFixed(2) * 100;
 
@@ -98,7 +97,7 @@ function GuestResult() {
           {/* Left Column */}
           <div className="lg:col-span-1 space-y-6 flex flex-col">
             <AIDiagnosisSection 
-              diagnosis={percentage}
+              diagnosis={percentage > 50 ? "TBC" : "Non-TBC"}
               confidence={percentage}
             />
             <DetailedIndicatorsSection indicators={mockDetailedIndicators} />

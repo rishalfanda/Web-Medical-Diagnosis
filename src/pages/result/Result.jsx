@@ -47,7 +47,13 @@ function DoctorResult() {
     gejala, 
     image, 
     model_type, 
-    model_id
+    model_id,
+    Infiltrat,
+    Konsolidasi,
+    Kavitas,
+    Efusi,
+    Fibrotik,
+    Kalsifikasi
   } = diagnosisId;
 
   const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
@@ -58,32 +64,32 @@ function DoctorResult() {
   const mockDetailedIndicators = [
     {
       title: "Infiltrate",
-      score: 0.82,
+      score: Infiltrat,
       description: "Diffuse infiltrates present in upper lobe",
     },
     {
       title: "Consolidation",
-      score: 0.65,
+      score: Konsolidasi,
       description: "Moderate consolidation in right upper zone",
     },
     {
       title: "Cavity",
-      score: 0.37,
+      score: Kavitas,
       description: "Small cavitation suspected",
     },
     {
       title: "Effusion",
-      score: 0.12,
+      score: Efusi,
       description: "No significant pleural effusion",
     },
     {
       title: "Fibrotic",
-      score: 0.58,
+      score: Fibrotik,
       description: "Moderate fibrotic changes observed",
     },
     {
       title: "Calcification",
-      score: 0.21,
+      score: Kalsifikasi,
       description: "Minimal calcification noted",
     },
   ];
