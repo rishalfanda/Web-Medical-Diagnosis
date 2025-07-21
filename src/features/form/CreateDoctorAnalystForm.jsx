@@ -74,7 +74,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 const payload = {
                     ...data,
                     ai_diagnosis: `${percentage > 50 ? "TBC" : "Non-TBC"} (${percentage}%)`,
-                    image: response.file,
+                    image: file,
                     gejala: gejalaFormatted,
                     Infiltrat: areas_label["luas purple"],
                     Konsolidasi: areas_label["luas pengganti putih"],
