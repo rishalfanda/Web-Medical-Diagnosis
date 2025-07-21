@@ -1,8 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import AuthWrapper from "./pages/AuthWrapper"
-import RoleWrapper from "./pages/RoleWrapper"
 import Login from "./pages/login/Login";
 import User from "./pages/user/User";
 /* import "./index.css"; */
