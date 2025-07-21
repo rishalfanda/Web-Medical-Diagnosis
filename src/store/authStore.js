@@ -3,6 +3,7 @@ import supabase from "../services/supabase"
 
 const useAuthStore = create((set) => ({
     currentUser: null,
+    id: 0,
     name: null,
     avatar: null,
     role: null,
@@ -14,17 +15,18 @@ const useAuthStore = create((set) => ({
 
         const { data: { user }, error } = await supabase.auth.getUser();
         if(error || !user) {
-            set({ currentUser: null, name: null, avatar: null, role: null, loading: false, error });
+            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, loading: false, error });
         } else {
             set({ currentUser: user, error: null });
 
-            let fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
+            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
             try { // kalau hasil query db empty bakal error tadi kucoba gitu
-                const { data: { name, avatar, role }, error } = await supabase
+                const { data: { id, name, avatar, role }, error } = await supabase
                 .from('users')
-                .select('name, avatar, role') 
+                .select('id, name, avatar, role') 
                 .eq('auth_uuid', user.id)
                 .single()
+                fetchedId = id
                 fetchedName = name
                 fetchedAvatar = avatar
                 fetchedRole = role
@@ -35,9 +37,9 @@ const useAuthStore = create((set) => ({
             }
 
             if(fetchedError || !fetchedRole) {
-                set({ name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
             } else {
-                set({ name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
             }
         }
     },
@@ -49,18 +51,19 @@ const useAuthStore = create((set) => ({
             password
         })
         if(error || !user) {
-            set({ currentUser: null, name: null, avatar: null, role: null, loading: false, error });
+            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, loading: false, error });
             return { user: null, role: null, error }
         } else {
             set({ currentUser: user, error: null });
 
-            let fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
+            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
             try { // kalau hasil query db empty bakal error tadi kucoba gitu
-                const { data: { name, avatar, role }, error } = await supabase
+                const { data: { id, name, avatar, role }, error } = await supabase
                 .from('users')
-                .select('name, avatar, role') 
+                .select('id, name, avatar, role') 
                 .eq('auth_uuid', user.id)
                 .single()
+                fetchedId = id
                 fetchedName = name
                 fetchedAvatar = avatar
                 fetchedRole = role
@@ -71,10 +74,10 @@ const useAuthStore = create((set) => ({
             }
 
             if(fetchedError || !fetchedRole) {
-                set({ name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
                 return { user, role: "user", error: fetchedError }
             } else {
-                set({ name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
                 return { user, role: fetchedRole, error }
             }
         }

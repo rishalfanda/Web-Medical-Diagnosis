@@ -8,9 +8,11 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 import { useCreateDiagnosis } from "../../hooks/diagnosis/useCreateDiagnosis";
+import useAuthStore from "../../store/authStore";
 import UploadImage from "../diagnosis/UploadImage";
 
 function CreateDoctorAnalystForm({ setNotification}) {
+    const id = useAuthStore((state) => state.id);
     const {isPostData, isPost} = usePostDiagnosis()
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
 
@@ -73,6 +75,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 
                 const payload = {
                     ...data,
+                    id: id,
                     ai_diagnosis: `${percentage > 50 ? "TBC" : "Non-TBC"} (${percentage}%)`,
                     image: file,
                     gejala: gejalaFormatted,
