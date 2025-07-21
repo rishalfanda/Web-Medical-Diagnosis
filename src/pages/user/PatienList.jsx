@@ -4,20 +4,22 @@ import { Brain, Eye, Filter, Plus, Search, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
 import DeleteDiagnosis from '../../features/diagnosis/DeleteDiagnosis';
-import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
+import { useGetDiagnosisUserUuid } from '../../hooks/diagnosis/useGetDiagnosisUserUuid';
 
 function  PatienList() {
-    const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
+    const currentUser = useAuthStore((state) => state.currentUser);
+    const { isGetting, diagnosisUserUuid, error } = useGetDiagnosisUserUuid(currentUser?.id);
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate()
 
-    const filteredPatient = diagnosis?.filter(patients => 
+    const filteredPatient = diagnosisUserUuid?.filter(patients => 
     patients.patients.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     patients.ai_diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-    if (isGetDiagnosis) return (
+    if (isGetting) return (
     <div className="flex items-center justify-center h-screen bg-gray-900">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
     </div>
@@ -162,7 +164,7 @@ function  PatienList() {
           {/* Table Footer */}
           <div className="px-6 py-4 bg-gray-700/20 border-t border-gray-700/50">
             <div className="flex justify-between items-center text-sm text-gray-400">
-              <p>Total medical analyses: {diagnosis?.length || 0}</p>
+              <p>Total medical analyses: {diagnosisUserUuid?.length || 0}</p>
               <div className="flex items-center space-x-2">
                 <span>Rows per page:</span>
                 <select className="bg-gray-800/50 border border-gray-700/50 rounded px-2 py-1 text-sm text-white">

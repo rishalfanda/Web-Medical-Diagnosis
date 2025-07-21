@@ -34,6 +34,23 @@ export async function getDiagnosisId(id) {
   return data ;
 }
 
+export async function getDiagnosisUserUuid(uuid) {
+  const { data, error } = await supabase
+    .from("diagnosis")
+    .select(
+      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, patients(fullName, gender), users!inner(name)"
+    )
+    .eq("users.auth_uuid", uuid)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    throw new Error("diagnosis could not be loaded");
+  }
+
+  return data ;
+}
+
 export async function createDiagnosis(newDiagnosis) {
   const {
     ai_diagnosis,

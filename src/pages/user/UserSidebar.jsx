@@ -1,11 +1,10 @@
-import { useGetUsers } from "../../hooks/user/useGetUsers";
 import UserNav from "./UserNav";
+import useAuthStore from "../../store/authStore";
 
 function UserSidebar() {
-    const { isPending, users } = useGetUsers();
-    const doctorUser = users?.[1];
-    const avatarUser = doctorUser?.avatar;
-    const nameDoctor = doctorUser?.name;
+    const name = useAuthStore((state) => state.name);
+    const avatar = useAuthStore((state) => state.avatar);
+    let isPending = false //udah ngga fetch manual, pake store
 
     if (isPending) return (
         <div className="flex items-center justify-center h-screen bg-gray-900">
@@ -20,7 +19,7 @@ function UserSidebar() {
             <div className="text-center mb-8">
                 <div className="relative inline-block">
                 <img
-                    src={avatarUser}
+                    src={avatar}
                     alt="Doctor Profile"
                     className="w-20 h-20 rounded-full border-4 border-blue-500/30 shadow-lg mx-auto"
                 />
@@ -28,7 +27,7 @@ function UserSidebar() {
                     <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 </div>
-                <h3 className="font-bold text-lg text-white mt-3">{nameDoctor}</h3>
+                <h3 className="font-bold text-lg text-white mt-3">{name}</h3>
                 <span className="inline-block px-3 py-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-semibold rounded-full mt-1">
                 Medical Doctor
                 </span>

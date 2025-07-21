@@ -3,6 +3,8 @@ import supabase from "../services/supabase"
 
 const useAuthStore = create((set) => ({
     currentUser: null,
+    name: null,
+    avatar: null,
     role: null,
     error: null,
     loading: true,
@@ -12,20 +14,30 @@ const useAuthStore = create((set) => ({
 
         const { data: { user }, error } = await supabase.auth.getUser();
         if(error || !user) {
-            set({ currentUser: null, role: null, loading: false, error });
+            set({ currentUser: null, name: null, avatar: null, role: null, loading: false, error });
         } else {
             set({ currentUser: user, error: null });
 
-            const { data: { role }, error } = await supabase
-            .from('users')
-            .select('role') 
-            .eq('auth_uuid', user.id)
-            .single()
+            let fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
+            try { // kalau hasil query db empty bakal error tadi kucoba gitu
+                const { data: { name, avatar, role }, error } = await supabase
+                .from('users')
+                .select('name, avatar, role') 
+                .eq('auth_uuid', user.id)
+                .single()
+                fetchedName = name
+                fetchedAvatar = avatar
+                fetchedRole = role
+                fetchedError = error
+            } catch {
+                set({ role: "user", loading: false });
+                return
+            }
 
-            if(error || !role) {
-                set({ role: null, loading: false, error });
+            if(fetchedError || !fetchedRole) {
+                set({ name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
             } else {
-                set({ role, loading: false });
+                set({ name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
             }
         }
     },
@@ -37,30 +49,41 @@ const useAuthStore = create((set) => ({
             password
         })
         if(error || !user) {
-            set({ currentUser: null, loading: false, error })
+            set({ currentUser: null, name: null, avatar: null, role: null, loading: false, error });
             return { user: null, role: null, error }
         } else {
-            set({ currentUser: user, error: null })
+            set({ currentUser: user, error: null });
 
-            const { data: { role }, error } = await supabase
-            .from('users')
-            .select('role') 
-            .eq('auth_uuid', user.id)
-            .single()
-
-            if(error || !role) {
-                set({ role: null, loading: false, error });
-            } else {
-                set({ role, loading: false });
+            let fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedError = null;
+            try { // kalau hasil query db empty bakal error tadi kucoba gitu
+                const { data: { name, avatar, role }, error } = await supabase
+                .from('users')
+                .select('name, avatar, role') 
+                .eq('auth_uuid', user.id)
+                .single()
+                fetchedName = name
+                fetchedAvatar = avatar
+                fetchedRole = role
+                fetchedError = error
+            } catch {
+                set({ role: "user", loading: false });
+                return { user, role: "user" }
             }
-            return { user, role, error: null }
+
+            if(fetchedError || !fetchedRole) {
+                set({ name: fetchedName, avatar: fetchedAvatar, role: "user", loading: false, error: fetchedError });
+                return { user, role: "user", error: fetchedError }
+            } else {
+                set({ name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, loading: false });
+                return { user, role: fetchedRole, error }
+            }
         }
     },
 
     handleLogout: async () => {
         await supabase.auth.signOut()
         setTimeout(() => {
-            set({ user: null, role: null, loading: false, error: null })
+            set({ user: null, name: null, avatar: null, role: null, loading: false, error: null })
         }, 50)
     }
 
