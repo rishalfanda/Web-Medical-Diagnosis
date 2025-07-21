@@ -59,37 +59,38 @@ function DoctorResult() {
   const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
   const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;
   const diagnosis = ai_diagnosis.replace(/\s*\(\d+%\)/, "").trim();
+  
 
   // Mock detailed indicators based on overall confidence
   const mockDetailedIndicators = [
     {
       title: "Infiltrate",
-      score: Infiltrat,
+      score: Infiltrat.toFixed(4),
       description: "Diffuse infiltrates present in upper lobe",
     },
     {
       title: "Consolidation",
-      score: Konsolidasi,
+      score: Konsolidasi.toFixed(4),
       description: "Moderate consolidation in right upper zone",
     },
     {
       title: "Cavity",
-      score: Kavitas,
+      score: Kavitas.toFixed(4),
       description: "Small cavitation suspected",
     },
     {
       title: "Effusion",
-      score: Efusi,
+      score: Efusi.toFixed(4),
       description: "No significant pleural effusion",
     },
     {
       title: "Fibrotic",
-      score: Fibrotik,
+      score: Fibrotik.toFixed(4),
       description: "Moderate fibrotic changes observed",
     },
     {
       title: "Calcification",
-      score: Kalsifikasi,
+      score: Kalsifikasi.toFixed(4),
       description: "Minimal calcification noted",
     },
   ];
