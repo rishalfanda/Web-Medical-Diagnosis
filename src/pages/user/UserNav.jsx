@@ -3,10 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
 function UserNav() {
-  const navigate = useNavigate()
-
   const handleLogout = useAuthStore((state) => state.handleLogout);
-
+  const navigate = useNavigate()
   return (
     <nav className="space-y-2">
       <NavLink
@@ -82,7 +80,6 @@ function UserNav() {
       {/* Logout */}
       <div className="absolute bottom-6 left-6 right-6">
         <NavLink
-          to="#"
           onClick={async (e) => {
             e.preventDefault();
             await handleLogout();

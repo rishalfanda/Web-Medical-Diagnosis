@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/tailwind/Card";
 
 const Index = () => {
-    console.log("page ini di render")
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       {/* Header */}

@@ -79,7 +79,6 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 }
             }
         });
-        console.log(data)
     }
     return (
         <FormProvider {...methods}>

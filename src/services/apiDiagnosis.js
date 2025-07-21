@@ -49,7 +49,7 @@ export async function createDiagnosis(newDiagnosis) {
     Kavitas,      // luas yellow
     Efusi,        // luas brown
     Fibrotik,     // luas blue
-    kalsifikasi   // luas darktail
+    Kalsifikasi   // luas darktail
   } = newDiagnosis;
 
 
@@ -88,7 +88,7 @@ export async function createDiagnosis(newDiagnosis) {
     Kavitas,      // luas yellow
     Efusi,        // luas brown
     Fibrotik,     // luas blue
-    kalsifikasi   // luas darktail
+    Kalsifikasi   // luas darktail
   };
 
   const { data, error } = await supabase

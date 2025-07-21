@@ -1,7 +1,7 @@
 import { getScoreColor, getScoreTextColor } from "../utils/helpers";
 
 export const IndicatorCard = ({ indicator }) => {
-  const score = Math.round(indicator.score * 100000) / 1000; // Convert decimal to percentage
+const score = Math.round(indicator.score * 100000) / 1000; // Convert decimal to percentage
   return (
     <div className="bg-gray-800 p-4 rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-1">

@@ -14,14 +14,15 @@ import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
 import GuestResult from "./pages/result/GuestResult";
 import DoctorResult from "./pages/result/Result";
-import DoctorForm from "./pages/user/DoctorForm";
-import GlobalStyles from "./styles/GlobalStyles";
-import NewUserAppLayout from "./don't deleted/NewUserAppLayout";
-import UserDashboard from "./pages/user/UserDashboard";
-import UserAppLayout from "./pages/user/UserAppLayout";
-import PatienList from "./pages/user/PatienList";
-import Dataset from "./pages/user/dataset/Dataset";
 import Citra from "./pages/user/citra/Citra";
+import Dataset from "./pages/user/dataset/Dataset";
+import DoctorForm from "./pages/user/DoctorForm";
+import PatienList from "./pages/user/PatienList";
+import UserAppLayout from "./pages/user/UserAppLayout";
+import UserDashboard from "./pages/user/UserDashboard";
+import GlobalStyles from "./styles/GlobalStyles";
+import AuthWrapper from "./pages/auth/AuthWrapper";
+import RoleWrapper from "./pages/auth/RoleWrapper";
 
 
 const queryClient = new QueryClient({
