@@ -53,7 +53,7 @@ export async function postCreateUser(params) {
 }
 
 export async function createEditUser(newUser, id){
-    const hasImagePath = newUser.avatar?.startsWith?.(supabaseUrl);
+  const hasImagePath = newUser.avatar?.startsWith?.(supabaseUrl);
 
   const imageName = `${Math.random()}-${newUser.avatar.name}`.replaceAll(
     '/',
@@ -72,47 +72,66 @@ export async function createEditUser(newUser, id){
     }
 
     const { password, ...rest} = newUser
-      let query = supabase.from('users');
-  if (!id) {
+    let query = supabase.from('users');
+
+    if (!id) {
       //post create API
-    const response = await axios.post('http://localhost:5000/createuser',
+      const response = await axios.post('http://localhost:5000/createuser',
       newUser,
       {
         headers:{
           "Content-Type": "application/json",
-          Authorization: `Bearer ${dataSession.session.access_token}`,
+          Authorization: `Bearer ${dataSession.session.access_token}`
         }
       }
     )
+    
     if (!response.data?.user) {
       console.log(error);
-      throw new Error('users could not be created');
+      throw new Error('user could not be created');
     }
 
     const user = response.data?.user;
-    console.log(user)
 
-
-    //1 create/edit user
-
-    //A Create
-
-    query = query.insert([{ ...rest, avatar: imagePath, role: "user", auth_uuid: user.id
-}]);
+    query = query.insert([{ ...rest, avatar: imagePath, role: (newUser.role ? newUser.role : "user"), auth_uuid: user.id}]);
   } 
 
   //B Edit
   if (id) {
-    const response = await axios.post('http://localhost:5000/updateuser/',
-      newUser,
-      {
-        headers:{
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${dataSession.session.access_token}`,
-        }
+    if (newUser.email || newUser.password) {
+      const check_uuid = await query.select("auth_uuid").eq('id', id).single();
+      if (!check_uuid.data?.auth_uuid) {
+        console.log(error);
+        throw new Error('Could not retrieve user data before updating');
       }
-    )
-    query = query.update({ ...rest, avatar: imagePath, role: "user", auth_uuid: user.id}).eq('id', id);
+      const { auth_uuid } = check_uuid.data;
+
+      var reqBody = {};
+      if (newUser.email) {
+        reqBody["email"] = newUser.email;
+      }
+      if (newUser.password) {
+        reqBody["password"] = newUser.password;
+      }
+
+      const response = await axios.patch(`http://localhost:5000/updateuser/${auth_uuid}`,
+        reqBody,
+        {
+          headers:{
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${dataSession.session.access_token}`
+          }
+        }
+      )
+
+      if (!response.data?.user) {
+        console.log(error);
+        throw new Error('user could not be edited');
+      }
+
+    }
+
+    query = query.update({ ...rest, avatar: imagePath}).eq('id', id);
   }
   const { data, error } = await query.select().single();
 
@@ -127,8 +146,8 @@ export async function createEditUser(newUser, id){
     .from('avatars')
     .upload(imageName, newUser.avatar);
 
-  //3 deleting the users if there was an error uploading image
-  if (storageError) {
+  //3 deleting the users if there was an error uploading image while creating user
+  if (storageError && !id) {
     await supabase.from('users').delete().eq('id', data.id);
     console.log(storageError);
     throw new Error(
@@ -139,23 +158,36 @@ export async function createEditUser(newUser, id){
   return data;
 }
 
-export async function deleteUser(id, auth_uuid) {
+export async function deleteUser(id) {
 
-    //get session from Supabase
-    const { data: dataSession, error:errorSession } = await supabase.auth.getSession()
-    if(errorSession){
-      throw new Error("Error get session")
-    }
+  //get session from Supabase
+  const { data: dataSession, error:errorSession } = await supabase.auth.getSession()
+  if(errorSession){
+    throw new Error("Error get session")
+  }
+
+  const check_uuid = await supabase.from('users').select("auth_uuid").eq('id', id).single();
+  if (!check_uuid.data?.auth_uuid) {
+    console.log(error);
+    throw new Error('Could not retrieve user data before deleting');
+  }
+  const { auth_uuid } = check_uuid.data;
 
   //post create API
-  const response = await axios.delete('http://localhost:5000/deleteUser',
+  const response = await axios.delete(`http://localhost:5000/deleteuser/${auth_uuid}`,
     {
       headers:{
         "Content-Type": "application/json",
-        Authorization: `Bearer ${dataSession.session.access_token}`,
+        Authorization: `Bearer ${dataSession.session.access_token}`
       }
     }
   )
+
+  if (!response.data?.user) {
+    console.log(error);
+    throw new Error('user could not be deleted');
+  }
+
   const { data, error } = await supabase.from('users').delete().eq('id', id);
   if (error) {
     console.log(error);

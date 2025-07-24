@@ -50,10 +50,10 @@ export async function createEditCitra(dataset_id, id, newCitra) {
       .from("citra-image")
       .upload(imageName, image_citra);
 
-    if (uploadError) {
+    if (uploadError && !id) {
       await supabase.from("citra").delete().eq("id", data.id);
       console.log(uploadError);
-      throw new Error("Citra image could not be uploaded. Edit dibatalkan.");
+      throw new Error("Citra image could not be uploaded. Create dibatalkan.");
     }
   }
 
