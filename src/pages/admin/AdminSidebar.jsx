@@ -4,7 +4,7 @@ import AdminNav from "./AdmiNav";
 function AdminSidebar() {
   const {isPending, users} = useGetUsers()
   
-  const firstUser = users?.[0];
+  const firstUser = users?.[6];
   const avatarAdmin = firstUser?.avatar;
   const nameAdmin = firstUser?.name;
   if (isPending) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;

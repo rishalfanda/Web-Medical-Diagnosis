@@ -4,21 +4,15 @@ import Button from "../../components/ui/ButtonStyledComponents";
 import Form from "../../components/ui/Form";
 import FormRow from "../../components/ui/FormRow";
 import Input from "../../components/ui/Input";
-import { useCreateUser } from "../../hooks/user/useCreateUser";
-import { useEditUser } from "../../hooks/user/useEditUser";
+import { usePostCreateUser } from "../../hooks/user/usePostCreateUser";
 import useAuthStore from "../../store/authStore";
-import FileInput from "../../components/ui/FileInput";
-import { useGetSession } from "../../hooks/session/useGetSession";
 
 
-function CreateUserForm({ userToEdit = {}, onCloseModal }) {
-  const { createUser, isCreating } = useCreateUser();
-  const { editUser, isEditing } = useEditUser();
-  const {session, isGetSession} = useGetSession()
+function TestCreate({ userToEdit = {}, onCloseModal }) {
+  const {postCreateUser, isPostCreatingUser} = usePostCreateUser()
+  const currentUser = useAuthStore((state) => state.currentUser);
 
-  const currentUser = useAuthStore((state) => state.currentUser)
-
-  console.log(session)
+  console.log(currentUser)
 
   const { id: editId, ...editValues } = userToEdit;
 
@@ -29,24 +23,12 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
   const { errors } = formState;
 
-  const isWorking = isCreating || isEditing ;
+  const isWorking = isPostCreatingUser;
 
   function onSubmit(data) {
-    const image =
-      typeof data.avatar === "string" ? data.avatar : data.avatar[0];
-    if (isEditSession)
-      editUser(
-        { newUserData: { ...data, avatar: image, auth_uuid: currentUser.id, instance_id: 1}, id: editId },
-        {
-          onSuccess: (data) => {
-            reset();
-            onCloseModal?.();
-          },
-        }
-      );
-    else
-      createUser(
-        { ...data, avatar: image, auth_uuid: currentUser.id, instance_id: 1},
+
+      postCreateUser(
+        { ...data },
         {
           onSuccess: (data) => {
             reset();
@@ -64,7 +46,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? "modal" : "regular"}
     >
-      <FormRow label="Name" error={errors?.name?.message}>
+      {/* <FormRow label="Name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
@@ -73,7 +55,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
             required: "this field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
       <FormRow label="Email" error={errors?.email?.message}>
         <Input
@@ -97,7 +79,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="phone" error={errors?.phone?.message}>
+      {/* <FormRow label="phone" error={errors?.phone?.message}>
         <Input
           type="number"
           id="phone"
@@ -120,7 +102,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
             required: isEditSession ? false : "this field is required",
           })}
         />
-      </FormRow>
+      </FormRow> */}
 
       <FormRow>
         {/* type is an HTML attribute! */}
@@ -140,4 +122,4 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   );
 }
 
-export default CreateUserForm;
+export default TestCreate;

@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import EditUser from "../../features/user/EditUser";
 import DeleteUser from "../../features/user/DeleteUser";
 import AddUser from "../../features/user/AddUser";
+import { useGetSession } from "../../hooks/session/useGetSession";
 
 function DoctorList() {
     const { isPending, users } = useGetUsers();
@@ -54,7 +55,7 @@ function DoctorList() {
                     Contact
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Phone
+                    Role
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Joined Date
@@ -91,7 +92,7 @@ function DoctorList() {
                       <p className="text-gray-900">{user.email}</p>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-gray-900">{user.phone}</p>
+                      <p className="text-gray-900">{user.role}</p>
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-gray-900">

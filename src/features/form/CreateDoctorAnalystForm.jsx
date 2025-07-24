@@ -35,13 +35,15 @@ function CreateDoctorAnalystForm({ setNotification}) {
         defaultValues,
     });
 
+    const isWorking = isCreating || isPost
+
     const { register, handleSubmit, control, reset, watch, setValue } = methods;
     const selectedModelType = watch("model_type");      
 
     async function onSubmit(data) {
         // Format gejala array jadi string seperti: "Demam", "Batuk dan Keringat Malam"
         let gejalaFormatted = '';
-        if (Array.isArray(data.gejala)) {
+        if (Array.isArray(data.gejala) && data.gejala.length > 0) {
             const length = data.gejala.length;
             if (length === 1) {
                 gejalaFormatted = data.gejala[0];
@@ -51,7 +53,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 gejalaFormatted = data.gejala.slice(0, -1).join(", ") + " dan " + data.gejala.slice(-1);
             }
         } else {
-            gejalaFormatted = data.gejala;
+            gejalaFormatted = "Tidak Ada Gejala";
         }
 
         // Post to API
@@ -77,7 +79,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                     ...data,
                     id: id,
                     ai_diagnosis: `${percentage > 50 ? "TBC" : "Non-TBC"} (${percentage}%)`,
-                    image: response.file,
+                    image: file,
                     gejala: gejalaFormatted,
                     Infiltrat: areas_label["luas purple"],
                     Konsolidasi: areas_label["luas pengganti putih"],
@@ -133,7 +135,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                             <input
                                 className="w-full px-4 py-2 mt-1 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 type="text"
-                                disabled={isCreating}
+                                disabled={isWorking}
                                 id="fullName"
                                 {...register('fullName', {
                                     required: 'Nama harus diisi',
@@ -157,7 +159,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                         <select
                                             id="gender"
                                             value={field.value}
-                                            disabled={isCreating}
+                                            disabled={isWorking}
                                             onChange={field.onChange}
                                             className="w-full px-4 py-2 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
                                         >
@@ -189,10 +191,9 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                         type="checkbox"
                                         value={label}
                                         {...register("gejala", {
-                                            required: "Gejala harus dipilih",
                                         })}
                                         className="form-checkbox h-5 w-5 text-blue-600 bg-gray-700 border-gray-600"
-                                        disabled={isCreating}
+                                        disabled={isWorking}
                                     />
                                     <span>{label}</span>
                                 </label>
@@ -221,7 +222,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                         <select
                                             id="model_type"
                                             value={field.value}
-                                            disabled={isCreating}
+                                            disabled={isWorking}
                                             onChange={field.onChange}
                                             className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                         >
@@ -285,17 +286,17 @@ function CreateDoctorAnalystForm({ setNotification}) {
 
                     {/* Kanan - Image Upload */}
                     <div>
-                        <UploadImage disabled={isCreating} />
+                        <UploadImage disabled={isWorking} />
                     </div>
                 </div>
                 
                 <motion.button 
                     type="submit"
-                    disabled={isCreating}
+                    disabled={isWorking}
                     className="cursor-pointer mt-6 w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
                     whileTap={{ scale: 0.98 }}
                 >
-                    {isCreating ? "Memproses..." : "Analisis"}
+                    {isWorking ? "Memproses..." : "Analisis"}
                 </motion.button>
             </form>
         </FormProvider>
