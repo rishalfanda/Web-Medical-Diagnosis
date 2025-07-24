@@ -7,6 +7,7 @@ import { DetailedIndicatorsSection } from "../../components/DetailedIndicatorsSe
 import { PatientInfoBelowXRay } from "../../components/PatientInfoBelowXRay";
 import { XRayImageSection } from "../../components/XRayImageSection";
 import useAuthStore from "../../store/authStore";
+import PageNotFound from "../PageNotFound";
 
 
 // Main Result Component
@@ -62,7 +63,7 @@ function DoctorResult() {
   if (user_id != id) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
-        <p className="text-red-400">Anda tidak dapat mengakses hasil diagnosis ini.</p>
+        <PageNotFound/>
       </div>
     );
   }

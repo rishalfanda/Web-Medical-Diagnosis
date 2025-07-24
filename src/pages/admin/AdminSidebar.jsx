@@ -1,12 +1,8 @@
 import { useGetUsers } from "../../hooks/user/useGetUsers";
-import useAuthStore from "../../store/authStore";
 import AdminNav from "./AdmiNav";
 
 function AdminSidebar() {
   const {isPending, users} = useGetUsers()
-  const currentUser = useAuthStore((state) => state.currentUser);
-  console.log(currentUser)
-  console.log(users)
   
   const firstUser = users?.[6];
   const avatarAdmin = firstUser?.avatar;

@@ -34,7 +34,7 @@ function AdminNav() {
                 }
             >
                 <Stethoscope className="mr-3 h-5 w-5" />
-                <span className="font-medium">Doctors</span>
+                <span className="font-medium">Tenaga Kesehatan</span>
             </NavLink>
 
             {/* <a

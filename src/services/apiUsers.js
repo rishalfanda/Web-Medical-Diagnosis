@@ -1,3 +1,4 @@
+import axios from "axios";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getUsers(){
@@ -28,6 +29,29 @@ export async function getUser(id) {
     return data;
 }
 
+//buat test doang
+export async function postCreateUser(params) {
+    //get session from Supabase
+    const { data: dataSession, error:errorSession } = await supabase.auth.getSession()
+    if(errorSession){
+      throw new Error("Error get session")
+    }
+
+
+  //post create API
+  const response = await axios.post('http://localhost:5000/createuser',
+    params,
+    {
+      headers:{
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${dataSession.session.access_token}`,
+      }
+    }
+  )
+
+  return response.data
+}
+
 export async function createEditUser(newUser, id){
     const hasImagePath = newUser.avatar?.startsWith?.(supabaseUrl);
 
@@ -40,15 +64,56 @@ export async function createEditUser(newUser, id){
     ? newUser.avatar
     : `${supabaseUrl}/storage/v1/object/public/avatars//${imageName}`;
 
-  //1 create/edit users
-  let query = supabase.from('users');
+  
+  //get session from Supabase
+    const { data: dataSession, error:errorSession } = await supabase.auth.getSession()
+    if(errorSession){
+      throw new Error("Error get session")
+    }
 
-  //A Create
-  if (!id) query = query.insert([{ ...newUser, avatar: imagePath }]);
+    const { password, ...rest} = newUser
+      let query = supabase.from('users');
+  if (!id) {
+      //post create API
+    const response = await axios.post('http://localhost:5000/createuser',
+      newUser,
+      {
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${dataSession.session.access_token}`,
+        }
+      }
+    )
+    if (!response.data?.user) {
+      console.log(error);
+      throw new Error('users could not be created');
+    }
+
+    const user = response.data?.user;
+    console.log(user)
+
+
+    //1 create/edit user
+
+    //A Create
+
+    query = query.insert([{ ...rest, avatar: imagePath, role: "user", auth_uuid: user.id
+}]);
+  } 
 
   //B Edit
-  if (id) query = query.update({ ...newUser, avatar: imagePath }).eq('id', id);
-
+  if (id) {
+    const response = await axios.post('http://localhost:5000/updateuser/',
+      newUser,
+      {
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${dataSession.session.access_token}`,
+        }
+      }
+    )
+    query = query.update({ ...rest, avatar: imagePath, role: "user", auth_uuid: user.id}).eq('id', id);
+  }
   const { data, error } = await query.select().single();
 
   if (error) {
@@ -74,7 +139,23 @@ export async function createEditUser(newUser, id){
   return data;
 }
 
-export async function deleteUser(id) {
+export async function deleteUser(id, auth_uuid) {
+
+    //get session from Supabase
+    const { data: dataSession, error:errorSession } = await supabase.auth.getSession()
+    if(errorSession){
+      throw new Error("Error get session")
+    }
+
+  //post create API
+  const response = await axios.delete('http://localhost:5000/deleteUser',
+    {
+      headers:{
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${dataSession.session.access_token}`,
+      }
+    }
+  )
   const { data, error } = await supabase.from('users').delete().eq('id', id);
   if (error) {
     console.log(error);

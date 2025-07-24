@@ -186,3 +186,9 @@ export async function postDiagnosis(data){
 
   return response.data;
 }
+
+export async function getSession(){
+  const { data, error } = await supabase.auth.getSession()
+
+  return data
+}

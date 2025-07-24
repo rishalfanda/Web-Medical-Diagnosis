@@ -1,14 +1,15 @@
-import { Brain, Eye, Filter, Plus, Search, User } from 'lucide-react';
+import { Brain, Eye, Plus, Search, User } from 'lucide-react';
 
 
 import { format } from 'date-fns';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../../store/authStore';
 import DeleteDiagnosis from '../../features/diagnosis/DeleteDiagnosis';
 import { useGetDiagnosisUserUuid } from '../../hooks/diagnosis/useGetDiagnosisUserUuid';
+import useAuthStore from '../../store/authStore';
 
 function  PatienList() {
+  
     const currentUser = useAuthStore((state) => state.currentUser);
     const { isGetting, diagnosisUserUuid, error } = useGetDiagnosisUserUuid(currentUser?.id);
     const [searchTerm, setSearchTerm] = useState("");
@@ -18,6 +19,8 @@ function  PatienList() {
     patients.patients.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     patients.ai_diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
 
     if (isGetting) return (
     <div className="flex items-center justify-center h-screen bg-gray-900">
