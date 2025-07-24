@@ -62,8 +62,8 @@ export async function createEditUser(newUser, id){
     .from('avatars')
     .upload(imageName, newUser.avatar);
 
-  //3 deleting the users if there was an error uploading image
-  if (storageError) {
+  //3 deleting the users if there was an error uploading image while creating user
+  if (storageError && !id) {
     await supabase.from('users').delete().eq('id', data.id);
     console.log(storageError);
     throw new Error(
