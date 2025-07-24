@@ -18,8 +18,6 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
   const currentUser = useAuthStore((state) => state.currentUser)
 
-  console.log(session)
-
   const { id: editId, ...editValues } = userToEdit;
 
   const isEditSession = Boolean(editId);
