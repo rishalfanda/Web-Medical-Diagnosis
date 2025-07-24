@@ -6,6 +6,7 @@ import { AIDiagnosisSection } from "../../components/AIDiagnosisSection";
 import { DetailedIndicatorsSection } from "../../components/DetailedIndicatorsSection";
 import { PatientInfoBelowXRay } from "../../components/PatientInfoBelowXRay";
 import { XRayImageSection } from "../../components/XRayImageSection";
+import useAuthStore from "../../store/authStore";
 
 
 // Main Result Component
@@ -13,6 +14,7 @@ function DoctorResult() {
   const {isGetting, diagnosisId, error} = useGetDiagnosisId();
   const navigate = useNavigate();
   const [imageLoading, setImageLoading] = useState(true);
+  const id = useAuthStore((state) => state.id);
 
 
   useEffect(() => {
@@ -48,6 +50,7 @@ function DoctorResult() {
     image, 
     model_type, 
     model_id,
+    user_id,
     Infiltrat,
     Konsolidasi,
     Kavitas,
@@ -55,6 +58,14 @@ function DoctorResult() {
     Fibrotik,
     Kalsifikasi
   } = diagnosisId;
+
+  if (user_id != id) {
+    return (
+      <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <p className="text-red-400">Anda tidak dapat mengakses hasil diagnosis ini.</p>
+      </div>
+    );
+  }
 
   const matchConfidence = ai_diagnosis.match(/\((\d+)%\)/);
   const confidence = matchConfidence ? parseInt(matchConfidence[1], 10) : 0;

@@ -5,7 +5,7 @@ export async function getDiagnosis() {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, users(name), patients(fullName, gender)"
+      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, user_id, users(name), patients(fullName, gender)"
     )
     .order("created_at", { ascending: true });
 
@@ -21,7 +21,7 @@ export async function getDiagnosisId(id) {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at, image, ai_diagnosis, gejala, model_type, model_id, Infiltrat, Konsolidasi, Kavitas, Efusi, Fibrotik, Kalsifikasi, users(name), patients(fullName, gender)"
+      "id, created_at, image, ai_diagnosis, gejala, model_type, model_id, user_id, Infiltrat, Konsolidasi, Kavitas, Efusi, Fibrotik, Kalsifikasi, users(name), patients(fullName, gender)"
     )
     .eq("id", id)
     .maybeSingle();
@@ -38,7 +38,7 @@ export async function getDiagnosisUserUuid(uuid) {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, patients(fullName, gender), users!inner(name)"
+      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, user_id, patients(fullName, gender), users!inner(name)"
     )
     .eq("users.auth_uuid", uuid)
     .order("created_at", { ascending: true });
