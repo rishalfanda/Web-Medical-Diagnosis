@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import Button from "../../components/ui/ButtonStyledComponents";
 import Form from "../../components/ui/Form";
@@ -9,6 +9,7 @@ import { useEditUser } from "../../hooks/user/useEditUser";
 import useAuthStore from "../../store/authStore";
 import FileInput from "../../components/ui/FileInput";
 import { useGetSession } from "../../hooks/session/useGetSession";
+import Select from "../../components/ui/Select";
 
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
@@ -21,7 +22,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = userToEdit;
 
   const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, formState } = useForm({
+  const { register, handleSubmit, reset, formState, control } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
 
@@ -95,7 +96,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="phone" error={errors?.phone?.message}>
+      <FormRow label="Phone" error={errors?.phone?.message}>
         <Input
           type="number"
           id="phone"
@@ -107,6 +108,26 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
               message: "phone should be atleast one",
             },
           })}
+        />
+      </FormRow>
+
+      <FormRow label="Instansi">
+        <Controller
+          name="instance_id"
+          control={control}
+          render={({ field }) => (
+            <Select
+              id="instance_id"
+              options={[
+                { value: '1', label: 'RS TEST JOGJA' },
+                { value: '2', label: 'RS Test Papua' },
+                { value: '3', label: 'Res Test Kalimantan' },
+              ]}
+              disabled={isWorking}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
       </FormRow>
 

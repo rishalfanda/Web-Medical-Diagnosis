@@ -1,4 +1,4 @@
-import { Home, LogOut, Stethoscope } from "lucide-react"
+import { BrainCog, Home, LogOut, Stethoscope } from "lucide-react"
 import { NavLink, useNavigate } from "react-router-dom"
 import useAuthStore from "../../store/authStore"
 
@@ -35,6 +35,20 @@ function AdminNav() {
             >
                 <Stethoscope className="mr-3 h-5 w-5" />
                 <span className="font-medium">Tenaga Kesehatan</span>
+            </NavLink>
+
+            <NavLink
+                to="/admin/dataset"
+                className={({ isActive }) =>
+                `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
+                    isActive
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white"
+                    : "text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-emerald-500 hover:to-teal-500"
+                }`
+                }
+            >
+                <BrainCog className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                <span className="font-medium">Dataset</span>
             </NavLink>
 
             {/* <a

@@ -60,6 +60,8 @@ function App() {
                   <Route index element={<Navigate to="dashboard" />} />
                   <Route path="dashboard" element={<AdminDashboard/>}/>
                   <Route path="doctors" element={<DoctorList />} />
+                  <Route path="dataset" element={<Dataset/>}/>
+                  <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                 </Route>
 
                 {/* Route for user */}
