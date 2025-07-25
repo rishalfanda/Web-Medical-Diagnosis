@@ -24,7 +24,7 @@ function Login() {
       if (user && !error) {
         console.log("Login berhasil sebagai:", role);
         if (role === "admin") {
-          navigate("/admin");
+          navigate("/superadmin"); //diganti ke superadmin yaa
         } else if (role === "user") {
           navigate("/user");
         }

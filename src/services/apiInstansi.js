@@ -17,14 +17,14 @@ export async function getInstansi(){
 }
 
 //create dataset
-export async function createEditinstansi(newinstansi, id) {
+export async function createEditinstansi(newInstansi, id) {
     let query = supabase.from("instansi")
 
     //create
-    if(!id) query = query.insert([{...newinstansi}])
+    if(!id) query = query.insert([{...newInstansi}])
 
     //edit
-    if(id) query = query.update({...newinstansi}).eq('id', id)
+    if(id) query = query.update({...newInstansi}).eq('id', id)
 
     const {data, error} = await query.select().single()
 

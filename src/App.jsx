@@ -21,6 +21,7 @@ import UserDashboard from "./pages/user/UserDashboard";
 import GlobalStyles from "./styles/GlobalStyles";
 import AuthWrapper from "./pages/auth/AuthWrapper";
 import RoleWrapper from "./pages/auth/RoleWrapper";
+import Instansi from "./pages/admin/instansi/Instansi";
 
 
 const queryClient = new QueryClient({
@@ -51,6 +52,21 @@ function App() {
           <Route path="/*" element={
             <AuthWrapper>
               <Routes>
+                {/* route for superadmin */}
+                <Route path="/superadmin" element={
+                    <RoleWrapper requiredRole="admin">
+                      <AdminAppLayout/>
+                    </RoleWrapper>
+                  }>
+                  <Route index element={<Navigate to="dashboard" />} />
+                  <Route path="dashboard" element={<AdminDashboard/>}/>
+                  <Route path="doctors" element={<DoctorList />} />
+                  <Route path="dataset" element={<Dataset/>}/>
+                  <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
+                  <Route path="instansi" element={<Instansi/>}/>
+                </Route>
+
+
                 {/* route for admin */}
                 <Route path="/admin" element={
                     <RoleWrapper requiredRole="admin">

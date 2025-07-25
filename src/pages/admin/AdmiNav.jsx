@@ -1,6 +1,6 @@
-import { BrainCog, Home, LogOut, Stethoscope } from "lucide-react"
-import { NavLink, useNavigate } from "react-router-dom"
-import useAuthStore from "../../store/authStore"
+import { BrainCog, Home, LogOut, Map, Stethoscope } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
 
 function AdminNav() {
     const navigate = useNavigate()
@@ -10,12 +10,12 @@ function AdminNav() {
     return (
         <nav className="space-y-2">
             <NavLink
-                to="/admin/dashboard"
+                to="/superadmin/dashboard"
                 className={({ isActive }) =>
                 `flex items-center p-3 rounded-xl transition-all duration-300 group ${
                 isActive
-                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
-                : "text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-indigo-600"
+                ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white"
+                : "text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500"
                 }`
             }
             >
@@ -24,7 +24,7 @@ function AdminNav() {
             </NavLink>
 
             <NavLink
-                to="/admin/doctors"
+                to="/superadmin/doctors"
                 className={({ isActive }) =>
                 `flex items-center p-3 rounded-xl transition-all duration-300 group ${
                 isActive
@@ -38,7 +38,7 @@ function AdminNav() {
             </NavLink>
 
             <NavLink
-                to="/admin/dataset"
+                to="/superadmin/dataset"
                 className={({ isActive }) =>
                 `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
                     isActive
@@ -49,6 +49,20 @@ function AdminNav() {
             >
                 <BrainCog className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="font-medium">Dataset</span>
+            </NavLink>
+
+            <NavLink
+                to="/superadmin/instansi"
+                className={({ isActive }) =>
+                `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
+                    isActive
+                    ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white"
+                    : "text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-violet-500 hover:to-purple-600"
+                }`
+                }
+            >
+                <Map className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                <span className="font-medium">Instansi</span>
             </NavLink>
 
             {/* <a

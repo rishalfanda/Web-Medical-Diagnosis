@@ -111,7 +111,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Instansi">
+      {/* <FormRow label="Instansi">
         <Controller
           name="instance_id"
           control={control}
@@ -129,7 +129,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
             />
           )}
         />
-      </FormRow>
+      </FormRow> */}
 
       <FormRow label="Avatar">
         <FileInput
