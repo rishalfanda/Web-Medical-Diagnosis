@@ -10,18 +10,18 @@ function CreateEditInstansi({instansiToEdit = {}, onCloseModal}) {
     const {createInstansi, isCreateInstansi} = useCreateInstansi()
     const {editInstansi, isEditInstansi} = useEditInstansi()
 
-    const { id: editId, ...editValues } = instansiToEdit
+    const {id: editId, ...editValues} = instansiToEdit;
     const isEditSession = Boolean(editId);
-
     const { register, handleSubmit, reset, formState } = useForm({
         defaultValues: isEditSession ? editValues : {},
     });
+
     const { errors } = formState;
 
-    const isWorking = isCreateInstansi || isEditInstansi
+    const isWorking = isEditInstansi || isCreateInstansi
 
     function onSubmit(data){
-        if(isEditInstansi){
+        if(isEditSession){
             editInstansi(
                 {newInstansi: {...data}, id: editId},
                 {
