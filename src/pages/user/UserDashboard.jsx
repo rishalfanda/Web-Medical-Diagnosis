@@ -1,8 +1,9 @@
-import { Activity, Brain, TrendingUp, Users } from 'lucide-react';
+import { Activity, Users } from 'lucide-react';
 import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
 
 function UserDashboard() {
     const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
+    
 
     if (isGetDiagnosis) return (
     <div className="flex items-center justify-center h-screen bg-gray-900">

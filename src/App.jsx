@@ -66,7 +66,6 @@ function App() {
                   <Route path="instansi" element={<Instansi/>}/>
                 </Route>
 
-
                 {/* route for admin */}
                 <Route path="/admin" element={
                     <RoleWrapper requiredRole="admin">

@@ -1,21 +1,24 @@
 import { Controller, useForm } from "react-hook-form";
 
 import Button from "../../components/ui/ButtonStyledComponents";
+import FileInput from "../../components/ui/FileInput";
 import Form from "../../components/ui/Form";
 import FormRow from "../../components/ui/FormRow";
 import Input from "../../components/ui/Input";
 import { useCreateUser } from "../../hooks/user/useCreateUser";
 import { useEditUser } from "../../hooks/user/useEditUser";
 import useAuthStore from "../../store/authStore";
-import FileInput from "../../components/ui/FileInput";
-import { useGetSession } from "../../hooks/session/useGetSession";
+import { useGetInstansi } from "../../hooks/instansi/useGetInstansi";
 import Select from "../../components/ui/Select";
 
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const { createUser, isCreating } = useCreateUser();
   const { editUser, isEditing } = useEditUser();
-  const {session, isGetSession} = useGetSession()
+  const {instansi, isGetInstansi} = useGetInstansi()
+  const instansiOptions = Array.isArray(instansi)
+  ? instansi.map((item) => ({ value: item.id, label: item.name }))
+  : [];
 
   const currentUser = useAuthStore((state) => state.currentUser)
 
@@ -35,7 +38,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       typeof data.avatar === "string" ? data.avatar : data.avatar[0];
     if (isEditSession)
       editUser(
-        { newUserData: { ...data, avatar: image, auth_uuid: currentUser.id, instance_id: 1}, id: editId },
+        { newUserData: { ...data, avatar: image, auth_uuid: currentUser.id}, id: editId },
         {
           onSuccess: (data) => {
             reset();
@@ -45,7 +48,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       );
     else
       createUser(
-        { ...data, avatar: image, auth_uuid: currentUser.id, instance_id: 1},
+        { ...data, avatar: image, auth_uuid: currentUser.id},
         {
           onSuccess: (data) => {
             reset();
@@ -91,7 +94,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
           id="password"
           disabled={isWorking}
           {...register("password", {
-            required: "this field is required",
+            required:isEditSession ? false : "this field is required",
           })}
         />
       </FormRow>
@@ -111,25 +114,26 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      {/* <FormRow label="Instansi">
-        <Controller
-          name="instance_id"
-          control={control}
-          render={({ field }) => (
-            <Select
-              id="instance_id"
-              options={[
-                { value: '1', label: 'RS TEST JOGJA' },
-                { value: '2', label: 'RS Test Papua' },
-                { value: '3', label: 'Res Test Kalimantan' },
-              ]}
-              disabled={isWorking}
-              value={field.value}
-              onChange={field.onChange}
-            />
-          )}
-        />
-      </FormRow> */}
+      <FormRow label="Instansi">
+        {isGetInstansi ? (
+          <p>Loading instansi...</p>
+        ) : (
+          <Controller
+            name="instance_id"
+            control={control}
+            render={({ field }) => (
+              <Select
+                id="instance_id"
+                options={instansiOptions}
+                disabled={isWorking}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        )}
+      </FormRow>
+
 
       <FormRow label="Avatar">
         <FileInput
