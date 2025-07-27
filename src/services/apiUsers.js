@@ -98,14 +98,14 @@ export async function createEditUser(newUser, id){
 
   //B Edit
   if (id) {
-    if (newUser.email || newUser.password) {
-      const check_uuid = await query.select("auth_uuid").eq('id', id).single();
-      if (!check_uuid.data?.auth_uuid) {
-        console.log(error);
-        throw new Error('Could not retrieve user data before updating');
-      }
-      const { auth_uuid } = check_uuid.data;
+    const check_uuid = await query.select("auth_uuid").eq('id', id).single();
+    if (!check_uuid.data?.auth_uuid) {
+      console.log(error);
+      throw new Error('Could not retrieve user data before updating');
+    }
+    const { auth_uuid } = check_uuid.data;
 
+    if (newUser.email || newUser.password) {
       var reqBody = {};
       if (newUser.email) {
         reqBody["email"] = newUser.email;
@@ -113,7 +113,6 @@ export async function createEditUser(newUser, id){
       if (newUser.password) {
         reqBody["password"] = newUser.password;
       }
-
       const response = await axios.patch(`http://localhost:5000/updateuser/${auth_uuid}`,
         reqBody,
         {
@@ -123,7 +122,6 @@ export async function createEditUser(newUser, id){
           }
         }
       )
-
       if (!response.data?.user) {
         console.log(error);
         throw new Error('user could not be edited');
@@ -131,15 +129,13 @@ export async function createEditUser(newUser, id){
 
     }
 
-    query = query.update({ ...rest, avatar: imagePath}).eq('id', id);
+    query = query.update({ ...rest, avatar: imagePath, auth_uuid: auth_uuid}).eq('id', id);
   }
   const { data, error } = await query.select().single();
-
   if (error) {
     console.log(error);
     throw new Error('users could not be created');
   }
-
   //2 upload image
   if (hasImagePath) return data;
   const { error: storageError } = await supabase.storage
