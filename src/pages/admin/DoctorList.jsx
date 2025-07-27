@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { useGetUsers } from "../../hooks/user/useGetUsers";
 import { Search } from "lucide-react";
-import EditUser from "../../features/user/EditUser";
-import DeleteUser from "../../features/user/DeleteUser";
+import { useState } from "react";
 import AddUser from "../../features/user/AddUser";
-import { useGetSession } from "../../hooks/session/useGetSession";
+import DeleteUser from "../../features/user/DeleteUser";
+import EditUser from "../../features/user/EditUser";
+import { useGetUsers } from "../../hooks/user/useGetUsers";
 
 function DoctorList() {
     const { isPending, users } = useGetUsers();

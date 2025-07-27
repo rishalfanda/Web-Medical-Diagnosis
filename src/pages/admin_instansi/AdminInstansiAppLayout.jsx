@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import AdminHeader from "./AdminHeader"
+import AdminInstansiHeader from "./AdminInstansiHeader"
 import AdminInstansiSidebar from "./AdminInstansiSidebar"
 
 function AdminInstansiAppLayout() {
@@ -7,7 +7,7 @@ function AdminInstansiAppLayout() {
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
             <AdminInstansiSidebar/>
             <main className="ml-72 p-8">
-                <AdminHeader/>
+                <AdminInstansiHeader/>
                 <Outlet/>
             </main>
         </div>

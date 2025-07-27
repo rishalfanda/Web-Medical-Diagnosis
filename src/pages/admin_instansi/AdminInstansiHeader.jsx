@@ -1,6 +1,6 @@
 import { Bell } from "lucide-react"
 
-function AdminHeader() {
+function AdminInstansiHeader() {
     return (
             /* Header */
             <div className="flex justify-between items-center mb-8">
@@ -27,4 +27,4 @@ function AdminHeader() {
     )
 }
 
-export default AdminHeader
+export default AdminInstansiHeader

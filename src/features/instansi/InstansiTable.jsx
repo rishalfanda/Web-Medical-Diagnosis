@@ -1,19 +1,21 @@
-import { useState } from "react";
-import { useGetInstansi } from "../../hooks/instansi/useGetInstansi"
 import { Search } from "lucide-react";
+import { useState } from "react";
+import { useGetInstansi } from "../../hooks/instansi/useGetInstansi";
 import AddInstansi from "./AddInstansi";
-import EditInstansi from "./EditInstansi";
 import DeleteInstansi from "./DeleteInstansi";
+import EditInstansi from "./EditInstansi";
 
 function InstansiTable() {
     const {instansi, isGetInstansi} = useGetInstansi()
     const [searchTerm, setSearchTerm] = useState("");
-
-    const filteredInstansi = instansi?.filter(instansi => 
-        instansi.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-    );
+    console.log(instansi)
 
     if (isGetInstansi) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
+
+    const filteredInstansi = instansi?.filter(instansi => 
+        instansi.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-white/20 shadow-xl overflow-hidden">
           {/* Table Header */}
@@ -29,7 +31,7 @@ function InstansiTable() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search doctors..."
+                    placeholder="Search instansi..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10 pr-4 py-2 w-64 border border-gray-200 rounded-xl bg-gray-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 outline-none"

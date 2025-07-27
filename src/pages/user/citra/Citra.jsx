@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
 import AddCitra from "../../../features/citra/AddCitra";
 import DeleteCitra from "../../../features/citra/DeleteCitra";
 import EditCitra from "../../../features/citra/EditCitra";
