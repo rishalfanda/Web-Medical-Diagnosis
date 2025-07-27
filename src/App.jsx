@@ -50,19 +50,6 @@ function App() {
           {/* route ke result buat guest */}
           <Route path="/guest-result" element={<GuestResult/>}/>
 
-          {/* route for admin instansi*/}
-                <Route path="/admin" element={
-                      <AdminInstansiAppLayout/>
-                  }>
-                  <Route index element={<Navigate to="dashboard" />} />
-                  <Route path="dashboard" element={<AdminInstansiDashboard/>}/>
-                  <Route path="doctors" element={<DoctorList />} />
-                  <Route path="dataset" element={<Dataset/>}/>
-                  <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
-                  <Route path="instansi" element={<Instansi/>}/>
-                </Route>
-
-
           {/* protected routes */}
           <Route path="/*" element={
             <AuthWrapper>
@@ -79,6 +66,19 @@ function App() {
                   <Route path="dataset" element={<Dataset/>}/>
                   <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                   <Route path="instansi" element={<Instansi/>}/>
+                </Route>
+
+                {/* route for admin instansi*/}
+                <Route path="/admin" element={
+                    <RoleWrapper requiredRole="admin">
+                      <AdminInstansiAppLayout/>
+                    </RoleWrapper>
+                  }>
+                  <Route index element={<Navigate to="dashboard" />} />
+                  <Route path="dashboard" element={<AdminInstansiDashboard/>}/>
+                  <Route path="doctors" element={<DoctorList />} />
+                  <Route path="dataset" element={<Dataset/>}/>
+                  <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                 </Route>
 
                 {/* Route for user */}

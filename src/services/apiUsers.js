@@ -1,6 +1,8 @@
 import axios from "axios";
 import supabase, { supabaseUrl } from "./supabase";
 
+const flaskApiUrl = import.meta.env.VITE_FLASK_API_URL
+
 export async function getUsers(){
     const {data, error} = await supabase
     .from('users')
@@ -39,7 +41,7 @@ export async function postCreateUser(params) {
 
 
   //post create API
-  const response = await axios.post('http://localhost:5000/createuser',
+  const response = await axios.post(`${flaskApiUrl}:5000/createuser`,
     params,
     {
       headers:{
@@ -76,7 +78,7 @@ export async function createEditUser(newUser, id){
 
     if (!id) {
       //post create API
-      const response = await axios.post('http://srv928265.hstgr.cloud:5000/createuser',
+      const response = await axios.post(`${flaskApiUrl}:5000/createuser`,
       newUser,
       {
         headers:{
@@ -113,7 +115,7 @@ export async function createEditUser(newUser, id){
       if (newUser.password) {
         reqBody["password"] = newUser.password;
       }
-      const response = await axios.patch(`http://srv928265.hstgr.cloud:5000/updateuser/${auth_uuid}`,
+      const response = await axios.patch(`${flaskApiUrl}:5000/updateuser/${auth_uuid}`,
         reqBody,
         {
           headers:{
@@ -170,7 +172,7 @@ export async function deleteUser(id) {
   const { auth_uuid } = check_uuid.data;
 
   //post create API
-  const response = await axios.delete(`http://srv928265.hstgr.cloud:5000/deleteuser/${auth_uuid}`,
+  const response = await axios.delete(`${flaskApiUrl}:5000/deleteuser/${auth_uuid}`,
     {
       headers:{
         "Content-Type": "application/json",

@@ -1,6 +1,8 @@
 import axios from "axios";
 import supabase, { supabaseUrl } from "./supabase";
 
+const flaskApiUrl = import.meta.env.VITE_FLASK_API_URL
+
 export async function getDiagnosis() {
   const { data, error } = await supabase
     .from("diagnosis")
@@ -182,7 +184,7 @@ export async function deleteDiagnosis(id) {
 }
 
 export async function postDiagnosis(data){
-  const response = await axios.post('http://srv928265.hstgr.cloud:5000/predict', data)
+  const response = await axios.post(`${flaskApiUrl}:5000/predict`, data)
 
   return response.data;
 }
