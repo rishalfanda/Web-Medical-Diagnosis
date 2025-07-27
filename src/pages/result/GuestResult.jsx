@@ -50,32 +50,32 @@ function GuestResult() {
   const mockDetailedIndicators = [
     {
       title: "Infiltrate",
-      score: areas_label["luas purple"],
+      score: areas_label["luas purple"].toFixed(4),
       description: "Diffuse infiltrates present in upper lobe",
     },
     {
       title: "Consolidation",
-      score: areas_label["luas pengganti putih"],
+      score: areas_label["luas pengganti putih"].toFixed(4),
       description: "Moderate consolidation in right upper zone",
     },
     {
       title: "Cavity",
-      score: areas_label["luas yellow"],
+      score: areas_label["luas yellow"].toFixed(4),
       description: "Small cavitation suspected",
     },
     {
       title: "Effusion",
-      score: areas_label["luas brown"],
+      score: areas_label["luas brown"].toFixed(4),
       description: "No significant pleural effusion",
     },
     {
       title: "Fibrotic",
-      score: areas_label["luas blue"],
+      score: areas_label["luas blue"].toFixed(4),
       description: "Moderate fibrotic changes observed",
     },
     {
       title: "Calcification",
-      score: areas_label["luas darktail"],
+      score: areas_label["luas darktail"].toFixed(4),
       description: "Minimal calcification noted",
     },
   ];

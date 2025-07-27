@@ -5,8 +5,15 @@ import FormRowDataset from "../../components/ui/FormRowDataset";
 import InputDataset from "../../components/ui/InputDataset";
 import { useCreateDataset } from "../../hooks/dataset/useCreateDataset";
 import { useEditDataset } from "../../hooks/dataset/useEditDataset";
+import useAuthStore from "../../store/authStore";
+import Form from "../../components/ui/Form";
+import FormRow from "../../components/ui/FormRow";
+import Input from "../../components/ui/Input";
 
 function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
+    const role = useAuthStore((state) => state.role)
+    const isAdminOrNull = role === "admin" || role === null;
+
     const {createDataset, isCreateDataset} = useCreateDataset()
     const {editDataset, isEditDataset} = useEditDataset()
 
@@ -44,7 +51,52 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
         }
     }
     return (
-        <FormDataset
+        <> 
+        {
+            isAdminOrNull ?(
+            <Form
+            onSubmit={handleSubmit(onSubmit)}
+            type={onCloseModal ? "modal" : "regular"}
+            >
+            <FormRow label="Nama Dataset" error={errors?.nama_dataset?.message}>
+                <Input
+                type="text"
+                id="nama_dataset"
+                disabled={isWorking}
+                {...register("nama_dataset", {
+                    required: "this field is required",
+                })}
+                />
+            </FormRow>
+
+            <FormRow label="Lokasi" error={errors?.lokasi?.message}>
+                <Input
+                type="text"
+                id="lokasi"
+                disabled={isWorking}
+                {...register("lokasi", {
+                    required: "this field is required",
+                })}
+                />
+            </FormRow>
+
+            <FormRow>
+                {/* type is an HTML attribute! */}
+                <Button
+                    $variation="secondary"
+                    $size="medium"
+                    $type="reset"
+                    onClick={() => onCloseModal?.()}
+                >
+                Cancel
+                </Button>
+                <Button $variation="indigo" $size="medium" disabled={isWorking}>
+                {isEditSession ? "Edit Dataset" : "Create Dataset"}
+                </Button>
+            </FormRow>
+        </Form>
+            ):(
+                <FormDataset
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}
             >
@@ -86,6 +138,10 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
                 </Button>
             </FormRowDataset>
         </FormDataset>
+            )
+            
+        }
+    </>
     )
 }
 

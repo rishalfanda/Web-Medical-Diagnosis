@@ -134,6 +134,25 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         )}
       </FormRow>
 
+        <FormRow label="Role">
+        <Controller
+          name="role"
+          control={control}
+          render={({ field }) => (
+            <Select
+              id="role"
+              options={[
+                { value: 'user', label: 'User' },
+                { value: 'admin', label: 'Admin Instansi' },
+              ]}
+              disabled={isWorking}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
+        />
+      </FormRow>
+
 
       <FormRow label="Avatar">
         <FileInput

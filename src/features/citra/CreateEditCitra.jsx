@@ -6,8 +6,15 @@ import FormRowDataset from "../../components/ui/FormRowDataset";
 import InputDataset from "../../components/ui/InputDataset";
 import { useCreateCitra } from "../../hooks/citra/useCreateCitra";
 import { useEditCitra } from "../../hooks/citra/useEditCitra";
+import useAuthStore from "../../store/authStore";
+import Form from "../../components/ui/Form";
+import FormRow from "../../components/ui/FormRow";
+import Input from "../../components/ui/Input";
 
 function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
+    const role = useAuthStore((state) => state.role)
+    const isAdminOrNull = role === "admin" || role === null;
+
     const {createCitra, isCreateCitra} = useCreateCitra()
     const {editCitra, isEditCitra} = useEditCitra()
 
@@ -55,7 +62,62 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
         }
     }
     return (
-        <FormDataset
+        <>
+        {
+            isAdminOrNull ? (
+            <Form
+            onSubmit={handleSubmit(onSubmit)}
+            type={onCloseModal ? "modal" : "regular"}
+            >
+            <FormRow label="Kode Citra" error={errors?.kode_citra?.message}>
+                <Input
+                type="text"
+                id="kode_citra"
+                disabled={isWorking}
+                {...register("kode_citra", {
+                    required: "this field is required",
+                })}
+                />
+            </FormRow>
+
+            <FormRow label="Diagnosis" error={errors?.diagnosis?.message}>
+                <Input
+                type="text"
+                id="diagnosis"
+                disabled={isWorking}
+                {...register("diagnosis", {
+                    required: "this field is required",
+                })}
+                />
+            </FormRow>
+
+            <FormRow label="Image Citra">
+                <FileInput
+                id="image_citra"
+                accept="image/*"
+                {...register("image_citra", {
+                    required: isEditSession ? false : "this field is required",
+                })}
+                />
+            </FormRow>
+
+            <FormRow>
+                {/* type is an HTML attribute! */}
+                <Button
+                    $variation="secondary"
+                    $size="medium"
+                    $type="reset"
+                    onClick={() => onCloseModal?.()}
+                >
+                Cancel
+                </Button>
+                <Button $variation="indigo" $size="medium" disabled={isWorking}>
+                    {isEditSession ? "Edit Citra" : "Create Citra"}
+                </Button>
+            </FormRow>
+        </Form>
+            ): (
+                <FormDataset
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}
             >
@@ -107,6 +169,9 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
                 </Button>
             </FormRowDataset>
         </FormDataset>
+            )
+        }
+        </>
     )
 }
 

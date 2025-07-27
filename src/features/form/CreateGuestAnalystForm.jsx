@@ -79,14 +79,7 @@ function CreateGuestAnalystForm({ setNotification}) {
                                         className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                     >
                                         <option value="">Pilih Versi Model</option>
-                                        <option value="1">Model Versi 1</option>
-                                        <option value="2">Model Versi 2</option>
-                                        <option value="3">Model Versi 3</option>
-                                        <option value="4">Model Versi 4</option>
-                                        <option value="5">Model Versi 5</option>
-                                        <option value="6">Model Versi 6</option>
-                                        <option value="7">Model Versi 7</option>
-                                        <option value="8">Model Versi 8</option>
+                                        <option value="7">Model Versi 1</option>
                                     </select>
                                     )}
                                 />

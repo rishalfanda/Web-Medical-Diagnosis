@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 :root {
-
   &, &.light-mode{
   /* Grey */
   --color-grey-0: #fff;
@@ -95,6 +94,15 @@ const GlobalStyles = createGlobalStyle`
   --border-radius-md: 7px;
   --border-radius-lg: 9px;
 }
+
+button {
+  cursor: pointer;
+}
+
+*:disabled {
+  cursor: not-allowed;
+}
 `
+
 
 export default GlobalStyles;
