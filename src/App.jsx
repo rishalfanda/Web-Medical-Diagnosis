@@ -7,6 +7,7 @@ import User from "./pages/user/User";
 import AdminAppLayout from "./pages/admin/AdminAppLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import DoctorList from "./pages/admin/DoctorList";
+import InstansiDoctorList from "./pages/admin_instansi/InstansiDoctorList";
 import GuestForm from "./pages/guest/GuestForm";
 import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
@@ -76,7 +77,7 @@ function App() {
                   }>
                   <Route index element={<Navigate to="dashboard" />} />
                   <Route path="dashboard" element={<AdminInstansiDashboard/>}/>
-                  <Route path="doctors" element={<DoctorList />} />
+                  <Route path="doctors" element={<InstansiDoctorList />} />
                   <Route path="dataset" element={<Dataset/>}/>
                   <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                 </Route>

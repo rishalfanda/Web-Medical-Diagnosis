@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { getDiagnosisUserUuid } from "../../services/apiDiagnosis";
 
 export function useGetDiagnosisUserUuid(UserUuid){
