@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Button from "../../components/ui/ButtonStyledComponents";
 import FormDataset from "../../components/ui/FormDataset";
 import FormRowDataset from "../../components/ui/FormRowDataset";
@@ -9,17 +9,24 @@ import useAuthStore from "../../store/authStore";
 import Form from "../../components/ui/Form";
 import FormRow from "../../components/ui/FormRow";
 import Input from "../../components/ui/Input";
+import { useGetInstansi } from "../../hooks/instansi/useGetInstansi";
+import Select from "../../components/ui/Select";
 
 function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
     const role = useAuthStore((state) => state.role)
     const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
+
+    const {instansi, isGetInstansi} = useGetInstansi()
+    const instansiOptions = Array.isArray(instansi)
+        ? instansi.map((item) => ({ value: item.id, label: item.name }))
+        : [];
 
     const {createDataset, isCreateDataset} = useCreateDataset()
     const {editDataset, isEditDataset} = useEditDataset()
 
     const {id: editId, ...editValues} = datasetToEdit;
     const isEditSession = Boolean(editId);
-    const { register, handleSubmit, reset, formState } = useForm({
+    const { register, handleSubmit, reset, formState, control } = useForm({
         defaultValues: isEditSession ? editValues : {},
     });
 
@@ -80,6 +87,26 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
                 />
             </FormRow>
 
+            <FormRow label="Instansi"> 
+                {isGetInstansi ? (
+                    <p>Loading instansi...</p>
+                ) : (
+                    <Controller
+                    name="instance_id"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                        id="instance_id"
+                        options={instansiOptions}
+                        disabled={isWorking}
+                        value={field.value}
+                        onChange={field.onChange}
+                        />
+                    )}
+                    />
+                )}
+            </FormRow>
+
             <FormRow>
                 {/* type is an HTML attribute! */}
                 <Button
@@ -134,8 +161,13 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
                 Cancel
                 </Button>
                 <Button $variation="indigo" $size="medium" disabled={isWorking}>
-                {isEditSession ? "Edit Dataset" : "Create Dataset"}
+                    {isWorking
+                        ? "Memproses..."
+                        : isEditSession
+                        ? "Edit Dataset"
+                        : "Create Dataset"}
                 </Button>
+
             </FormRowDataset>
         </FormDataset>
             )

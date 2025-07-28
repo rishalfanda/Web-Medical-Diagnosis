@@ -5,15 +5,21 @@ import AddDataset from "../../../features/dataset/AddDataset";
 import EditDataset from "../../../features/dataset/EditDataset";
 import { useGetDataset } from "../../../hooks/dataset/useGetDataset";
 import useAuthStore from "../../../store/authStore";
+import { useGetDatasetsInstanceId } from "../../../hooks/dataset/useGetDatasetInstanceId";
 
 function Dataset() {
     const {isGetDataset, dataset} = useGetDataset()
     const navigate = useNavigate()
     const role = useAuthStore((state) => state.role)
+    const instance_id = useAuthStore((state) => state.instance_id)
+    const {isGetting, datasetsInstanceId} = useGetDatasetsInstanceId(instance_id)
+
+    
+    console.log(datasetsInstanceId)
 
     const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
-    if (isGetDataset) return (
+    if (isGetDataset || isGetting) return (
       <div
         className={`${
           isAdminOrSuperadmin ? "bg-white/80" : "bg-gray-900"

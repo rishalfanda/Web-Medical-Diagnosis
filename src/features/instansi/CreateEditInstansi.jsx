@@ -70,7 +70,10 @@ function CreateEditInstansi({instansiToEdit = {}, onCloseModal}) {
           Cancel
         </Button>
         <Button $variation="indigo" $size="medium" disabled={isWorking}>
-          {isEditSession ? "Edit Instansi" : "Create new Instansi"}
+          {
+            isWorking ? "Memproses..." :
+            isEditSession ? "Edit Instansi" : "Create new Instansi"
+          }
         </Button>
       </FormRow>
     </Form>

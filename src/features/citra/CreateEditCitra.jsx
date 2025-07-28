@@ -164,7 +164,10 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
                 Cancel
                 </Button>
                 <Button $variation="indigo" $size="medium" disabled={isWorking}>
-                    {isEditSession ? "Edit Citra" : "Create Citra"}
+                    {
+                    isWorking ? "Memproses..." :
+                    isEditSession ? "Edit Citra" : "Create Citra"
+                    }
                 </Button>
             </FormRowDataset>
         </FormDataset>
