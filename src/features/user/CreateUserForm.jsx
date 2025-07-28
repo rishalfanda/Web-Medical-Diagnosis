@@ -20,7 +20,8 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   ? instansi.map((item) => ({ value: item.id, label: item.name }))
   : [];
 
-  const currentUser = useAuthStore((state) => state.currentUser)
+  const role = useAuthStore((state) => state.role)
+  const instance_id = useAuthStore((state) => state.instance_id)
 
   const { id: editId, ...editValues } = userToEdit;
 
@@ -38,7 +39,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       typeof data.avatar === "string" ? data.avatar : data.avatar[0];
     if (isEditSession)
       editUser(
-        { newUserData: { ...data, avatar: image, auth_uuid: currentUser.id}, id: editId },
+        { newUserData: { ...data, avatar: image}, id: editId },
         {
           onSuccess: (data) => {
             reset();
@@ -48,7 +49,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       );
     else
       createUser(
-        { ...data, avatar: image, auth_uuid: currentUser.id},
+        { ...data, avatar: image},
         {
           onSuccess: (data) => {
             reset();
@@ -114,45 +115,66 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="Instansi">
-        {isGetInstansi ? (
-          <p>Loading instansi...</p>
-        ) : (
+      {role == "superadmin" ? (
+        <FormRow label="Instansi"> 
+          {isGetInstansi ? (
+            <p>Loading instansi...</p>
+          ) : (
+            <Controller
+              name="instance_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  id="instance_id"
+                  options={instansiOptions}
+                  disabled={isWorking}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          )}
+        </FormRow>
+      ) : (
+        <Controller
+          name="instance_id"
+          control={control}
+          defaultValue={instance_id}
+          render={({ field }) => (
+            <input type="hidden" {...field} value={instance_id} />
+          )}
+        />
+      )}
+
+      {role == "superadmin" ? (
+        <FormRow label="Role">
           <Controller
-            name="instance_id"
+            name="role"
             control={control}
             render={({ field }) => (
               <Select
-                id="instance_id"
-                options={instansiOptions}
+                id="role"
+                options={[
+                  { value: 'user', label: 'User' },
+                  { value: 'admin', label: 'Admin Instansi' },
+                ]}
                 disabled={isWorking}
                 value={field.value}
                 onChange={field.onChange}
               />
             )}
           />
-        )}
-      </FormRow>
-
-        <FormRow label="Role">
+        </FormRow>
+      ) : (
         <Controller
           name="role"
           control={control}
+          defaultValue={"user"}
           render={({ field }) => (
-            <Select
-              id="role"
-              options={[
-                { value: 'user', label: 'User' },
-                { value: 'admin', label: 'Admin Instansi' },
-              ]}
-              disabled={isWorking}
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <input type="hidden" {...field} value={"user"} />
           )}
         />
-      </FormRow>
-
+      )}
 
       <FormRow label="Avatar">
         <FileInput
