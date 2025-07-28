@@ -24,8 +24,8 @@ function InstansiDoctorList() {
           <div className="p-6 border-b border-gray-200/50">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold text-gray-800">Medical Staff Directory</h2>
-                <p className="text-gray-600 text-sm mt-1">Manage doctors and medical professionals</p>
+                <h2 className="text-xl font-bold text-gray-800">Direktori Tenaga Medis</h2>
+                <p className="text-gray-600 text-sm mt-1">Kelola daftar dokter dan tenaga medis</p>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -33,7 +33,7 @@ function InstansiDoctorList() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Search doctors..."
+                    placeholder="Cari Tenaga Medis..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10 pr-4 py-2 w-64 border border-gray-200 rounded-xl bg-gray-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 outline-none"
@@ -50,19 +50,19 @@ function InstansiDoctorList() {
               <thead className="bg-gray-50/50">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Doctor
+                    Tenaga Medis
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Contact
+                    Kontak
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Role
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Joined Date
+                    Tanggal Bergabung
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Actions
+                    Aksi
                   </th>
                 </tr>
               </thead>

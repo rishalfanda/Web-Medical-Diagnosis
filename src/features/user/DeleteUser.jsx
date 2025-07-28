@@ -15,7 +15,7 @@ function DeleteUser({user}) {
                 </Modal.Open>
                 <Modal.Window name="delete">
                     <ConfirmDelete
-                        resourceName="user"
+                        resourceName={user.name}
                         disabled={isDeleting}
                         onConfirm={() => deleteUser(user.id)}
                     />

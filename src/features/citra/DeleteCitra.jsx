@@ -16,7 +16,7 @@ function DeleteCitra({ citra }) {
         </ModalUser.Open>
         <ModalUser.Window name="delete-citra">
           <ConfirmDelete
-            resourceName="Citra"
+            resourceName={citra.kode_citra}
             disabled={isDeleteCitra}
             onConfirm={() => deleteCitra(citra.id)}
           />

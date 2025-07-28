@@ -1,7 +1,6 @@
 import { Activity, Stethoscope, UserPlus } from "lucide-react";
-import { useGetUsers } from "../../hooks/user/useGetUsers";
-import useAuthStore from "../../store/authStore";
 import { useGetUsersInstanceId } from "../../hooks/user/useGetUsersInstanceId";
+import useAuthStore from "../../store/authStore";
 function AdminInstansiDashboard() {
     const instance_id = useAuthStore((state) => state.instance_id);
     const { isGetting, usersInstanceId } = useGetUsersInstanceId(instance_id);
@@ -12,7 +11,7 @@ function AdminInstansiDashboard() {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-gray-600">Total Doctors</p>
+                        <p className="text-sm font-medium text-gray-600">Total Tenaga Kesehatan</p>
                         <p className="text-2xl font-bold text-gray-900">{usersInstanceId?.length || 0}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl">
@@ -24,7 +23,7 @@ function AdminInstansiDashboard() {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-gray-600">Active Today</p>
+                        <p className="text-sm font-medium text-gray-600">Aktif Hari Ini</p>
                         <p className="text-2xl font-bold text-gray-900">{Math.floor((usersInstanceId?.length || 0) * 0.8)}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
@@ -36,7 +35,7 @@ function AdminInstansiDashboard() {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-gray-600">New This Month</p>
+                        <p className="text-sm font-medium text-gray-600">Terbaru Bulan Ini</p>
                         <p className="text-2xl font-bold text-gray-900">{Math.floor((usersInstanceId?.length || 0) * 0.2)}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl">

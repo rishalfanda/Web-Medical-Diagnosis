@@ -1,8 +1,7 @@
 import { Trash2 } from 'lucide-react';
-import Modal from '../../components/ui/Modal';
 import ConfirmDelete from '../../components/ui/ConfirmDelete';
-import { useDeleteDiagnosis } from '../../hooks/diagnosis/useDeleteDiagnosis';
 import ModalUser from '../../components/ui/ModalUser';
+import { useDeleteDiagnosis } from '../../hooks/diagnosis/useDeleteDiagnosis';
 
 
 function DeleteDiagnosis({diagnosis}) {
@@ -16,7 +15,7 @@ function DeleteDiagnosis({diagnosis}) {
             </ModalUser.Open>
             <ModalUser.Window name="deleteDiagnosis">
                 <ConfirmDelete
-                        resourceName="diagnosis"
+                        resourceName={diagnosis.patients.fullName}
                         disabled={isDeleting}
                         onConfirm={() => deleteDiagnosis(diagnosis.id)}
                 />

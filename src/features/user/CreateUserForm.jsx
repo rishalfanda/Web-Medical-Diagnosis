@@ -16,10 +16,19 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const { createUser, isCreating } = useCreateUser();
   const { editUser, isEditing } = useEditUser();
   const {instansi, isGetInstansi} = useGetInstansi()
-  const instansiOptions = Array.isArray(instansi)
-  ? instansi.map((item) => ({ value: item.id, label: item.name }))
-  : [];
+  const instansiOptions = [
+  { value: "", label: "Pilih Instansi" },
+  ...(
+    Array.isArray(instansi)
+      ? instansi.map((item) => ({ value: item.id, label: item.name }))
+      : []
+  ),
+];
 
+
+
+
+  console.log(instansiOptions)
   const role = useAuthStore((state) => state.role)
   const instance_id = useAuthStore((state) => state.instance_id)
 
@@ -155,6 +164,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
               <Select
                 id="role"
                 options={[
+                  {value: '', label: 'Pilih Role'},
                   { value: 'user', label: 'User' },
                   { value: 'admin', label: 'Admin Instansi' },
                 ]}

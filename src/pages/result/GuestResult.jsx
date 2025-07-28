@@ -6,11 +6,10 @@ import { XRayImageSection } from "../../components/XRayImageSection";
 import { usePostDiagnosis } from "../../hooks/diagnosis/usePostDiagnosis";
 import useGuestDiagnosisStore from "../../store/guestDiagnosisStore";
 
-
-// Main Result Component
+// Komponen Utama Hasil Diagnosis Guest
 function GuestResult() {
-  const {guestDiagnosisData} = useGuestDiagnosisStore()
-  const {isPost, isError} = usePostDiagnosis()
+  const { guestDiagnosisData } = useGuestDiagnosisStore();
+  const { isPost, isError } = usePostDiagnosis();
   const [imageLoading, setImageLoading] = useState(true);
 
   const {
@@ -33,7 +32,7 @@ function GuestResult() {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="mt-4 text-xl">Loading prediction results...</p>
+        <p className="mt-4 text-xl">Memuat hasil prediksi...</p>
       </div>
     );
   }
@@ -46,37 +45,37 @@ function GuestResult() {
     );
   }
 
-  // Mock detailed indicators based on overall confidence dummy data
+  // Indikator detail mock berdasarkan confidence
   const mockDetailedIndicators = [
     {
-      title: "Infiltrate",
+      title: "Infiltrat",
       score: areas_label["luas purple"].toFixed(4),
-      description: "Diffuse infiltrates present in upper lobe",
+      description: "Terdapat infiltrat difus di lobus atas",
     },
     {
-      title: "Consolidation",
+      title: "Konsolidasi",
       score: areas_label["luas pengganti putih"].toFixed(4),
-      description: "Moderate consolidation in right upper zone",
+      description: "Konsolidasi sedang di zona atas kanan",
     },
     {
-      title: "Cavity",
+      title: "Kavitas",
       score: areas_label["luas yellow"].toFixed(4),
-      description: "Small cavitation suspected",
+      description: "Diduga terdapat kavitas kecil",
     },
     {
-      title: "Effusion",
+      title: "Efusi",
       score: areas_label["luas brown"].toFixed(4),
-      description: "No significant pleural effusion",
+      description: "Tidak terdapat efusi pleura yang signifikan",
     },
     {
-      title: "Fibrotic",
+      title: "Fibrotik",
       score: areas_label["luas blue"].toFixed(4),
-      description: "Moderate fibrotic changes observed",
+      description: "Perubahan fibrotik sedang teramati",
     },
     {
-      title: "Calcification",
+      title: "Kalsifikasi",
       score: areas_label["luas darktail"].toFixed(4),
-      description: "Minimal calcification noted",
+      description: "Terdapat kalsifikasi minimal",
     },
   ];
 
@@ -89,21 +88,21 @@ function GuestResult() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-4">
           <Link to="/guest" className="text-blue-500 hover:text-blue-400 text-sm">
-            <i className="fas fa-arrow-left mr-2"></i>&larr; Back to Guest Form
+            <i className="fas fa-arrow-left mr-2"></i>&larr; Kembali ke Form Tamu
           </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
+          {/* Kolom Kiri */}
           <div className="lg:col-span-1 space-y-6 flex flex-col">
             <AIDiagnosisSection 
-              diagnosis={percentage > 50 ? "TBC" : "Non-TBC"}
+              diagnosis={percentage > 50 ? "TBC" : "Bukan TBC"}
               confidence={percentage}
             />
             <DetailedIndicatorsSection indicators={mockDetailedIndicators} />
           </div>
 
-          {/* Right Column */}
+          {/* Kolom Kanan */}
           <div className="lg:col-span-2 space-y-6 flex flex-col">
             <XRayImageSection 
               imageUrl={file}
@@ -113,13 +112,13 @@ function GuestResult() {
           </div>
         </div>
         
-        {/* Action Buttons */}
+        {/* Tombol Aksi */}
         <div className="mt-8 pt-6 border-t border-gray-700 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
           <button 
             onClick={handlePrint}
             className="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
           >
-            <i className="fas fa-print mr-2"></i>Print Results
+            <i className="fas fa-print mr-2"></i>Cetak Hasil
           </button>
         </div>
       </div>
