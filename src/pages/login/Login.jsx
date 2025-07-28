@@ -7,7 +7,6 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleLogin = useAuthStore((state) => state.handleLogin);
 
@@ -85,21 +84,6 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center text-gray-300">
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-                Remember me
-              </label>
-              <a href="#" className="text-blue-400 hover:underline">
-                Forgot password?
-              </a>
             </div>
 
             <button

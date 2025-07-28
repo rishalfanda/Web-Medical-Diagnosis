@@ -1,8 +1,11 @@
 import { Activity, Stethoscope, UserPlus } from "lucide-react";
 import { useGetUsers } from "../../hooks/user/useGetUsers";
+import useAuthStore from "../../store/authStore";
+import { useGetUsersInstanceId } from "../../hooks/user/useGetUsersInstanceId";
 function AdminInstansiDashboard() {
-    const {isPending, users} = useGetUsers()
-    if (isPending) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
+    const instance_id = useAuthStore((state) => state.instance_id);
+    const { isGetting, usersInstanceId } = useGetUsersInstanceId(instance_id);
+    if (isGetting) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
 
     return(
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -10,7 +13,7 @@ function AdminInstansiDashboard() {
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="text-sm font-medium text-gray-600">Total Doctors</p>
-                        <p className="text-2xl font-bold text-gray-900">{users?.length || 0}</p>
+                        <p className="text-2xl font-bold text-gray-900">{usersInstanceId?.length || 0}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl">
                         <Stethoscope className="h-6 w-6 text-white" />
@@ -22,7 +25,7 @@ function AdminInstansiDashboard() {
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="text-sm font-medium text-gray-600">Active Today</p>
-                        <p className="text-2xl font-bold text-gray-900">{Math.floor((users?.length || 0) * 0.8)}</p>
+                        <p className="text-2xl font-bold text-gray-900">{Math.floor((usersInstanceId?.length || 0) * 0.8)}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl">
                         <Activity className="h-6 w-6 text-white" />
@@ -34,7 +37,7 @@ function AdminInstansiDashboard() {
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="text-sm font-medium text-gray-600">New This Month</p>
-                        <p className="text-2xl font-bold text-gray-900">{Math.floor((users?.length || 0) * 0.2)}</p>
+                        <p className="text-2xl font-bold text-gray-900">{Math.floor((usersInstanceId?.length || 0) * 0.2)}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl">
                         <UserPlus className="h-6 w-6 text-white" />

@@ -1,45 +1,55 @@
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useMoveBack } from "../hooks/useMoveBack";
-import Heading from "../components/ui/Heading";
-
-const StyledPageNotFound = styled.main`
-  height: 100vh;
-  background-color: var(--color-grey-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4.8rem;
-`;
-
-const Box = styled.div`
-  /* box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 4.8rem;
-  flex: 0 1 96rem;
-  text-align: center;
-
-  & h1 {
-    margin-bottom: 3.2rem;
-  }
-`;
+import { ArrowLeft, AlertTriangle } from "lucide-react";
 
 function PageNotFound() {
   const moveBack = useMoveBack();
 
   return (
-    <StyledPageNotFound>
-      <Box>
-        <Heading as="h1">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-8">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-xl p-12 max-w-2xl w-full text-center">
+        {/* Icon */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-amber-100 p-6 rounded-full">
+            <AlertTriangle className="w-16 h-16 text-amber-500" />
+          </div>
+        </div>
+        
+        {/* Heading */}
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          Oops! Page Not Found
+        </h1>
+        
+        {/* Subheading */}
+        <p className="text-lg text-gray-600 mb-8 leading-relaxed">
           The page you are looking for could not be found 😢
-        </Heading>
-        <button onClick={moveBack} >
-          &larr; Go back
+        </p>
+        
+        {/* Additional message */}
+        <p className="text-sm text-gray-500 mb-10">
+          It seems like the page you're trying to access doesn't exist or has been moved.
+        </p>
+        
+        {/* Go back button */}
+        <button 
+          onClick={moveBack}
+          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Go back
         </button>
-      </Box>
-    </StyledPageNotFound>
+        
+        {/* Alternative action */}
+        <div className="mt-6">
+          <Link 
+            to= "/"
+            className="text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+          >
+            Or go to homepage
+          </Link>
+        </div>
+      </div>
+    </main>
   );
 }
 

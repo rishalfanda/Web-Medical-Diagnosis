@@ -1,11 +1,13 @@
 import { Activity, Users } from 'lucide-react';
-import { useGetDiagnosis } from "../../hooks/diagnosis/useGetDiagnosis";
+import { useGetDiagnosisUserUuid } from '../../hooks/diagnosis/useGetDiagnosisUserUuid';
+import useAuthStore from '../../store/authStore';
 
 function UserDashboard() {
-    const { isGetDiagnosis, diagnosis } = useGetDiagnosis();
+    const currentUser = useAuthStore((state) => state.currentUser);
+    const { isGetting, diagnosisUserUuid, error } = useGetDiagnosisUserUuid(currentUser?.id);
     
 
-    if (isGetDiagnosis) return (
+    if (isGetting) return (
     <div className="flex items-center justify-center h-screen bg-gray-900">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
     </div>
@@ -17,7 +19,7 @@ function UserDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">Total Patients</p>
-                <p className="text-2xl font-bold text-white">{diagnosis?.length || 0}</p>
+                <p className="text-2xl font-bold text-white">{diagnosisUserUuid?.length || 0}</p>
               </div>
               <div className="p-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl">
                 <Users className="h-6 w-6 text-white" />
@@ -29,7 +31,7 @@ function UserDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">AI Analyses</p>
-                <p className="text-2xl font-bold text-white">{diagnosis?.length || 0}</p>
+                <p className="text-2xl font-bold text-white">{diagnosisUserUuid?.length || 0}</p>
               </div>
               <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
                 <Brain className="h-6 w-6 text-white" />
@@ -41,7 +43,7 @@ function UserDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-400">Today's Cases</p>
-                <p className="text-2xl font-bold text-white">{Math.floor((diagnosis?.length || 0) * 0.3)}</p>
+                <p className="text-2xl font-bold text-white">{Math.floor((diagnosisUserUuid?.length || 0) * 0.3)}</p>
               </div>
               <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
                 <Activity className="h-6 w-6 text-white" />
