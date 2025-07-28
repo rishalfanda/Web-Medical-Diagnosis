@@ -184,7 +184,7 @@ export async function deleteDiagnosis(id) {
 }
 
 export async function postDiagnosis(data){
-  const response = await axios.post(`${flaskApiUrl}:5000/predict`, data)
+  const response = await axios.post(`${flaskApiUrl}/predict`, data)
 
   return response.data;
 }
