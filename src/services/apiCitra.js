@@ -3,7 +3,7 @@ import supabase, { supabaseUrl } from "./supabase";
 export async function getCitra(id){
     const {data, error} = await supabase
     .from("citra")
-    .select("id, created_at, kode_citra, image_citra, diagnosis, dataset_id, dataset(nama_dataset)")
+    .select("id, created_at, kode_citra, image_citra, diagnosis, dataset_id, dataset(nama_dataset, instance_id)")
     .order("created_at", {ascending: true})
     .eq("dataset_id", id)
 
