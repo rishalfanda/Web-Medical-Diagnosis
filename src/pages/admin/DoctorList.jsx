@@ -88,7 +88,10 @@ function DoctorList() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-gray-900">{user.email}</p>
+                      <div>
+                        <p className="font-semibold text-gray-900">{user.email}</p>
+                        <p className="text-sm text-gray-500">{user.phone}</p>
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-gray-900">{user.role}</p>
