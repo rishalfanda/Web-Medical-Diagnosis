@@ -10,7 +10,7 @@ const RoleWrapper = ({ requiredRole, children }) => {
   if (loading) return <div>Loading...</div>;
 
   if (!currentUser || role !== requiredRole) {
-    if (["user", "admin"].includes(role) ) {
+    if (["user", "admin", "superadmin"].includes(role) ) {
       return <Navigate to={"/" + role} replace />;
     }
     return <Navigate to="/login" replace />;

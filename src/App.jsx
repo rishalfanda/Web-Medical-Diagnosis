@@ -56,7 +56,7 @@ function App() {
               <Routes>
                 {/* route for superadmin */}
                 <Route path="/superadmin" element={
-                    <RoleWrapper requiredRole="admin">
+                    <RoleWrapper requiredRole="superadmin">
                       <AdminAppLayout/>
                     </RoleWrapper>
                   }>
