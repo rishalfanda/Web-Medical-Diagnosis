@@ -1,36 +1,54 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+
+import Button from "../../components/ui/ButtonStyledComponents";
+import FileInput from "../../components/ui/FileInput";
+import Form from "../../components/ui/Form";
+import FormRow from "../../components/ui/FormRow";
+import Input from "../../components/ui/Input";
 import { useCreateUser } from "../../hooks/user/useCreateUser";
 import { useEditUser } from "../../hooks/user/useEditUser";
-import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
-import Textarea from "../../ui/Textarea";
+import useAuthStore from "../../store/authStore";
+import { useGetInstansi } from "../../hooks/instansi/useGetInstansi";
+import Select from "../../components/ui/Select";
+
 
 function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const { createUser, isCreating } = useCreateUser();
   const { editUser, isEditing } = useEditUser();
+  const {instansi, isGetInstansi} = useGetInstansi()
+  const instansiOptions = [
+  { value: "", label: "Pilih Instansi" },
+  ...(
+    Array.isArray(instansi)
+      ? instansi.map((item) => ({ value: item.id, label: item.name }))
+      : []
+  ),
+];
+
+
+
+
+  console.log(instansiOptions)
+  const role = useAuthStore((state) => state.role)
+  const instance_id = useAuthStore((state) => state.instance_id)
 
   const { id: editId, ...editValues } = userToEdit;
 
   const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, formState } = useForm({
+  const { register, handleSubmit, reset, formState, control } = useForm({
     defaultValues: isEditSession ? editValues : {},
   });
 
   const { errors } = formState;
 
-  const isWorking = isCreating || isEditing;
+  const isWorking = isCreating || isEditing ;
 
   function onSubmit(data) {
     const image =
       typeof data.avatar === "string" ? data.avatar : data.avatar[0];
-
-    console.log(editId);
     if (isEditSession)
       editUser(
-        { newUserData: { ...data, avatar: image }, id: editId },
+        { newUserData: { ...data, avatar: image}, id: editId },
         {
           onSuccess: (data) => {
             reset();
@@ -40,7 +58,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
       );
     else
       createUser(
-        { ...data, avatar: image },
+        { ...data, avatar: image},
         {
           onSuccess: (data) => {
             reset();
@@ -85,15 +103,15 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
           type="password"
           id="password"
           disabled={isWorking}
-          {...register("email", {
-            required: "this field is required",
+          {...register("password", {
+            required:isEditSession ? false : "this field is required",
           })}
         />
       </FormRow>
 
-      <FormRow label="phone" error={errors?.phone?.message}>
+      <FormRow label="Phone" error={errors?.phone?.message}>
         <Input
-          type="number"
+          type="text"
           id="phone"
           disabled={isWorking}
           {...register("phone", {
@@ -105,6 +123,68 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
+
+      {role == "superadmin" ? (
+        <FormRow label="Instansi"> 
+          {isGetInstansi ? (
+            <p>Loading instansi...</p>
+          ) : (
+            <Controller
+              name="instance_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  id="instance_id"
+                  options={instansiOptions}
+                  disabled={isWorking}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          )}
+        </FormRow>
+      ) : (
+        <Controller
+          name="instance_id"
+          control={control}
+          defaultValue={instance_id}
+          render={({ field }) => (
+            <input type="hidden" {...field} value={instance_id} />
+          )}
+        />
+      )}
+
+      {role == "superadmin" ? (
+        <FormRow label="Role">
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <Select
+                id="role"
+                options={[
+                  {value: '', label: 'Pilih Role'},
+                  { value: 'user', label: 'User' },
+                  { value: 'admin', label: 'Admin Instansi' },
+                ]}
+                disabled={isWorking}
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </FormRow>
+      ) : (
+        <Controller
+          name="role"
+          control={control}
+          defaultValue={"user"}
+          render={({ field }) => (
+            <input type="hidden" {...field} value={"user"} />
+          )}
+        />
+      )}
 
       <FormRow label="Avatar">
         <FileInput
@@ -126,8 +206,11 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
         >
           Cancel
         </Button>
-        <Button $variation="yellow" $size="medium" disabled={isWorking}>
-          {isEditSession ? "Edit user" : "Create new user"}
+        <Button $variation="indigo" $size="medium" disabled={isWorking}>
+          {
+          isWorking ? "Memproses..." :
+          isEditSession ? "Edit user" : "Create new user"
+          }
         </Button>
       </FormRow>
     </Form>

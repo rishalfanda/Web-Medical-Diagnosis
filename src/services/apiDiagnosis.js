@@ -1,10 +1,13 @@
+import axios from "axios";
 import supabase, { supabaseUrl } from "./supabase";
+
+const flaskApiUrl = import.meta.env.VITE_FLASK_API_URL
 
 export async function getDiagnosis() {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_version, users(name), patients(fullName, gender)"
+      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, user_id, users(name), patients(fullName, gender)"
     )
     .order("created_at", { ascending: true });
 
@@ -20,10 +23,27 @@ export async function getDiagnosisId(id) {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_version, users(name), patients(fullName, gender)"
+      "id, created_at, image, ai_diagnosis, gejala, model_type, model_id, user_id, Infiltrat, Konsolidasi, Kavitas, Efusi, Fibrotik, Kalsifikasi, users(name), patients(fullName, gender)"
     )
     .eq("id", id)
     .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    throw new Error("diagnosis could not be loaded");
+  }
+
+  return data ;
+}
+
+export async function getDiagnosisUserUuid(uuid) {
+  const { data, error } = await supabase
+    .from("diagnosis")
+    .select(
+      "id, created_at ,image, ai_diagnosis, gejala, model_type, model_id, user_id, patients(fullName, gender), users!inner(name)"
+    )
+    .eq("users.auth_uuid", uuid)
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error(error);
@@ -42,7 +62,13 @@ export async function createDiagnosis(newDiagnosis) {
     gejala,
     image,
     model_type,
-    model_version,
+    model_id,
+    Infiltrat,    // luas purple
+    Konsolidasi,  // luas pengganti putih
+    Kavitas,      // luas yellow
+    Efusi,        // luas brown
+    Fibrotik,     // luas blue
+    Kalsifikasi   // luas darktail
   } = newDiagnosis;
 
 
@@ -75,7 +101,13 @@ export async function createDiagnosis(newDiagnosis) {
     gejala,
     image: imagePath,
     model_type,
-    model_version,
+    model_id,
+    Infiltrat,    // luas purple
+    Konsolidasi,  // luas pengganti putih
+    Kavitas,      // luas yellow
+    Efusi,        // luas brown
+    Fibrotik,     // luas blue
+    Kalsifikasi   // luas darktail
   };
 
   const { data, error } = await supabase
@@ -95,12 +127,12 @@ export async function createDiagnosis(newDiagnosis) {
       .from("diagnosis-image")
       .upload(imageName, image);
 
-    //4 deleting the users if there was an error uploading image
+    //4 deleting the diagnosis if there was an error uploading image
     if (storageError) {
       await supabase.from("diagnosis").delete().eq("id", data.id);
       console.log(storageError);
       throw new Error(
-        "Diagnosis image could not be uploaded and the user was not created"
+        "Diagnosis image could not be uploaded and the diagnosis was not created"
       );
     }
   }
@@ -149,4 +181,16 @@ export async function deleteDiagnosis(id) {
   }
 
   return { success: true };
+}
+
+export async function postDiagnosis(data){
+  const response = await axios.post(`${flaskApiUrl}/predict`, data)
+
+  return response.data;
+}
+
+export async function getSession(){
+  const { data, error } = await supabase.auth.getSession()
+
+  return data
 }

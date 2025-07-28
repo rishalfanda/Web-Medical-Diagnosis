@@ -1,0 +1,5 @@
+
+{
+  "name": "Sistem Analisis Rontgen TBC",
+  "description": "A web application for doctors to upload patient data and X-ray images for AI-powered Tuberculosis (TBC) prediction, providing analysis results and patient record management."
+}
