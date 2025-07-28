@@ -8,11 +8,11 @@ import useAuthStore from "../../store/authStore";
 
 function InstansiDoctorList() {
     const instance_id = useAuthStore((state) => state.instance_id);
-    const { isPending, usersInstanceId } = useGetUsersInstanceId(instance_id);
+    const { isGetting, usersInstanceId } = useGetUsersInstanceId(instance_id);
     
     const [searchTerm, setSearchTerm] = useState("");
     
-    if (isPending) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
+    if (isGetting) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
     
     const filteredUsers = usersInstanceId?.filter(user => 
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
