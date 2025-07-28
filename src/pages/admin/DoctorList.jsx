@@ -7,7 +7,7 @@ import { useGetUsers } from "../../hooks/user/useGetUsers";
 
 function DoctorList() {
     const { isPending, users } = useGetUsers();
-    
+    console.log(users)
     const [searchTerm, setSearchTerm] = useState("");
     
     if (isPending) return <div className="flex items-center justify-center h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>;
@@ -57,7 +57,7 @@ function DoctorList() {
                     Role
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Joined Date
+                    Instansi
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Actions
@@ -95,11 +95,7 @@ function DoctorList() {
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-gray-900">
-                        {new Date(user.created_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
+                        {user.instansi?.name || "-"}
                       </p>
                     </td>
                     <td className="px-6 py-4">

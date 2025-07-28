@@ -6,7 +6,12 @@ const flaskApiUrl = import.meta.env.VITE_FLASK_API_URL
 export async function getUsers(){
     const {data, error} = await supabase
     .from('users')
-    .select("*")
+    .select(`
+    *,
+    instansi (
+      name
+    )
+  `)
     .order('created_at', { ascending: true });
 
     if(error){
