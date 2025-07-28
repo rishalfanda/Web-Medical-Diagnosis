@@ -1,10 +1,12 @@
 import { format } from "date-fns";
 import { Eye } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import AddDataset from "../../../features/dataset/AddDataset";
+import EditDataset from "../../../features/dataset/EditDataset";
 import useAuthStore from "../../../store/authStore";
 import { useGetDatasetsInstanceId } from "../../../hooks/dataset/useGetDatasetInstanceId";
 
-function Dataset() {
+function AdminInstansiDataset() {
     const navigate = useNavigate()
     const role = useAuthStore((state) => state.role)
     const instance_id = useAuthStore((state) => state.instance_id)
@@ -36,6 +38,9 @@ function Dataset() {
               <div>
                 <h2 className={`${isAdminOrSuperadmin? "text-xl font-bold text-gray-800" : "text-xl font-bold text-white"}`}>Dataset Records</h2>
                 <p className={`${isAdminOrSuperadmin? "text-gray-600 text-sm mt-1" : "text-gray-400 text-sm mt-1"}`}>AI-powered medical dataset results</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                  <AddDataset dataset={datasetsInstanceId}/>
               </div>
             </div>
           </div>
@@ -87,6 +92,7 @@ function Dataset() {
                     
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-2">
+                        <EditDataset dataset={record}/>
                         <button
                           onClick={() => navigate(`citra/${record.id}`)}
                           className="p-2 text-blue-400 hover:text-white hover:bg-blue-500/20 rounded-lg transition-all duration-300 group cursor-pointer"
@@ -119,4 +125,4 @@ function Dataset() {
     )
 }
 
-export default Dataset
+export default AdminInstansiDataset

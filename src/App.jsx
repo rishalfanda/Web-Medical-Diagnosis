@@ -15,6 +15,8 @@ import GuestResult from "./pages/result/GuestResult";
 import DoctorResult from "./pages/result/Result";
 import Citra from "./pages/user/citra/Citra";
 import Dataset from "./pages/user/dataset/Dataset";
+import AdminInstansiDataset from "./pages/admin_instansi/dataset/adminInstansiDataset";
+import AdminDataset from "./pages/admin/dataset/adminDataset";
 import DoctorForm from "./pages/user/DoctorForm";
 import PatienList from "./pages/user/PatienList";
 import UserAppLayout from "./pages/user/UserAppLayout";
@@ -64,7 +66,7 @@ function App() {
                   <Route index element={<Navigate to="dashboard" />} />
                   <Route path="dashboard" element={<AdminDashboard/>}/>
                   <Route path="doctors" element={<DoctorList />} />
-                  <Route path="dataset" element={<Dataset/>}/>
+                  <Route path="dataset" element={<AdminDataset/>}/>
                   <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                   <Route path="instansi" element={<Instansi/>}/>
                 </Route>
@@ -78,7 +80,7 @@ function App() {
                   <Route index element={<Navigate to="dashboard" />} />
                   <Route path="dashboard" element={<AdminInstansiDashboard/>}/>
                   <Route path="doctors" element={<InstansiDoctorList />} />
-                  <Route path="dataset" element={<Dataset/>}/>
+                  <Route path="dataset" element={<AdminInstansiDataset/>}/>
                   <Route path="dataset/citra/:datasetId" element={<Citra/>}/>
                 </Route>
 

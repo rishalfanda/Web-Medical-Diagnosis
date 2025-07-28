@@ -14,6 +14,7 @@ import Select from "../../components/ui/Select";
 
 function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
     const role = useAuthStore((state) => state.role)
+    const instance_id = useAuthStore((state) => state.instance_id)
     const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
     const {instansi, isGetInstansi} = useGetInstansi()
@@ -86,8 +87,9 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
                 })}
                 />
             </FormRow>
-
-            <FormRow label="Instansi"> 
+            
+            {role == "superadmin" ? (
+                <FormRow label="Instansi"> 
                 {isGetInstansi ? (
                     <p>Loading instansi...</p>
                 ) : (
@@ -105,7 +107,17 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
                     )}
                     />
                 )}
-            </FormRow>
+                </FormRow>
+            ) : (
+                <Controller
+                name="instance_id"
+                control={control}
+                defaultValue={instance_id}
+                render={({ field }) => (
+                    <input type="hidden" {...field} value={instance_id} />
+                )}
+                />
+            )}
 
             <FormRow>
                 {/* type is an HTML attribute! */}
