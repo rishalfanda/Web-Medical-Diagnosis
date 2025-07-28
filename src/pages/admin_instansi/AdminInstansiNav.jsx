@@ -51,20 +51,6 @@ function AdminInstansiNav() {
                 <span className="font-medium">Dataset</span>
             </NavLink>
 
-            <NavLink
-                to="/admin/instansi"
-                className={({ isActive }) =>
-                `flex items-center w-full p-3 rounded-xl transition-all duration-300 group ${
-                    isActive
-                    ? "bg-gradient-to-r from-violet-500 to-purple-600 text-white"
-                    : "text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-violet-500 hover:to-purple-600"
-                }`
-                }
-            >
-                <Map className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
-                <span className="font-medium">Instansi</span>
-            </NavLink>
-
             {/* <a
                 href="#"
                 className="flex items-center p-3 text-gray-600 hover:text-white hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 rounded-xl transition-all duration-300 group"

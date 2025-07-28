@@ -17,6 +17,21 @@ export async function getUsers(){
     return data;
 }
 
+export async function getUsersInstanceId(instance_id){
+    const {data, error} = await supabase
+    .from('users')
+    .select("*")
+    .eq("instance_id", instance_id)
+    .order('created_at', { ascending: true });
+
+    if(error){
+        console.log(error)
+        throw new Error("users could not be load")
+    }
+
+    return data;
+}
+
 export async function getUser(id) {
     const {data, error} = await supabase
     .from("users")
