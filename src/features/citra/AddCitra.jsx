@@ -6,11 +6,11 @@ import Modal from "../../components/ui/Modal";
 
 function AddCitra({ citra }) {
   const role = useAuthStore((state) => state.role)
-  const isAdminOrNull = role === "admin" || role === null;
+  const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
   return (
     <div>
       {
-        isAdminOrNull? (
+        isAdminOrSuperadmin? (
           <Modal>
             <Modal.Open opens="add-citra">
               <button className="cursor-pointer px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2">

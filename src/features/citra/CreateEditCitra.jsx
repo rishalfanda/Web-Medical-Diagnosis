@@ -13,7 +13,7 @@ import Input from "../../components/ui/Input";
 
 function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
     const role = useAuthStore((state) => state.role)
-    const isAdminOrNull = role === "admin" || role === null;
+    const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
     const {createCitra, isCreateCitra} = useCreateCitra()
     const {editCitra, isEditCitra} = useEditCitra()
@@ -38,7 +38,6 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
             ...data,
             image_citra: image
         }
-        console.log(editId)
         if(isEditSession){
             editCitra(
                 {newCitra: payload, id: editId},
@@ -64,7 +63,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
     return (
         <>
         {
-            isAdminOrNull ? (
+            isAdminOrSuperadmin ? (
             <Form
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}

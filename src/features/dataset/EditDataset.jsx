@@ -6,12 +6,12 @@ import useAuthStore from "../../store/authStore";
 
 function EditDataset({ dataset }) {
   const role = useAuthStore((state) => state.role)
-  const isAdminOrNull = role === "admin" || role === null;
+  const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
   return (
     <div>
       {
-        isAdminOrNull ? (
+        isAdminOrSuperadmin ? (
           <Modal>
             <Modal.Open opens="edit-dataset">
               <button className="text-green-400 hover:text-green-500 cursor-pointer">

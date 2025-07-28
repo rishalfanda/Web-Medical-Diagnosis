@@ -101,7 +101,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
 
       <FormRow label="Phone" error={errors?.phone?.message}>
         <Input
-          type="number"
+          type="text"
           id="phone"
           disabled={isWorking}
           {...register("phone", {

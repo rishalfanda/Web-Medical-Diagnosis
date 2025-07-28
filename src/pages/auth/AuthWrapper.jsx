@@ -8,8 +8,6 @@ const AuthWrapper = ({ children }) => {
   const loading = useAuthStore((state) => state.loading);
 
   const role = useAuthStore((state) => state.role)
-  console.log(role)
-  console.log(currentUser)
 
   useEffect(() => {
     if (!currentUser) {

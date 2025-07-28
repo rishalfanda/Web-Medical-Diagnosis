@@ -12,7 +12,7 @@ import Input from "../../components/ui/Input";
 
 function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
     const role = useAuthStore((state) => state.role)
-    const isAdminOrNull = role === "admin" || role === null;
+    const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
     const {createDataset, isCreateDataset} = useCreateDataset()
     const {editDataset, isEditDataset} = useEditDataset()
@@ -53,7 +53,7 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
     return (
         <> 
         {
-            isAdminOrNull ?(
+            isAdminOrSuperadmin ?(
             <Form
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}
