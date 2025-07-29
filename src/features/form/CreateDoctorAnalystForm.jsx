@@ -29,7 +29,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
 
     const navigate = useNavigate()
     
-    const gejalaOptions = ["Demam", "Batuk", "Keringat Malam"];
+    const gejalaOptions = ["Fever", "Cough", "Night Sweats"];
 
     const methods = useForm({
         defaultValues,
@@ -48,12 +48,12 @@ function CreateDoctorAnalystForm({ setNotification}) {
             if (length === 1) {
                 gejalaFormatted = data.gejala[0];
             } else if (length === 2) {
-                gejalaFormatted = `${data.gejala[0]} dan ${data.gejala[1]}`;
+                gejalaFormatted = `${data.gejala[0]} and ${data.gejala[1]}`;
             } else if (length > 2) {
-                gejalaFormatted = data.gejala.slice(0, -1).join(", ") + " dan " + data.gejala.slice(-1);
+                gejalaFormatted = data.gejala.slice(0, -1).join(", ") + " and " + data.gejala.slice(-1);
             }
         } else {
-            gejalaFormatted = "Tidak Ada Gejala";
+            gejalaFormatted = "No Symptoms";
         }
 
         // Post to API
@@ -63,17 +63,16 @@ function CreateDoctorAnalystForm({ setNotification}) {
 
         isPostData(formData, {
             onSuccess: (response) => {  
-                console.log("sukses post")
 
                 const {
                     areas_label,
                     file,
                     pred_result
                 } = response;
-                console.log("sukses destructure result")
+                
 
                 const percentage = pred_result[1].toFixed(2) * 100;
-                console.log("sukses convert percentage")
+
                 
                 const payload = {
                     ...data,
@@ -131,17 +130,17 @@ function CreateDoctorAnalystForm({ setNotification}) {
                     <div className="flex flex-col md:flex-row gap-5">
                         {/* Nama Pasien */}
                         <div className="flex-1">
-                            <label className="block text-sm text-gray-300">Nama</label>
+                            <label className="block text-sm text-gray-300">Name</label>
                             <input
                                 className="w-full px-4 py-2 mt-1 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 type="text"
                                 disabled={isWorking}
                                 id="fullName"
                                 {...register('fullName', {
-                                    required: 'Nama harus diisi',
+                                    required: 'Name must be filled in',
                                     min: {
                                         value: 1,
-                                        message: 'Nama harus diisi',
+                                        message: 'Name must be filled in',
                                     },
                                 })}
                             />
@@ -149,12 +148,12 @@ function CreateDoctorAnalystForm({ setNotification}) {
 
                         {/* Jenis Kelamin */}
                         <div className="flex-1">
-                            <label className="block text-sm text-gray-300">Jenis Kelamin</label>
+                            <label className="block text-sm text-gray-300">Gender</label>
                             <div className="relative mt-1">
                                 <Controller
                                     name="gender"
                                     control={control}
-                                    rules={{ required: 'Jenis kelamin harus dipilih' }}
+                                    rules={{ required: 'Gender must be selected' }}
                                     render={({ field }) => (
                                         <select
                                             id="gender"
@@ -163,9 +162,9 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                             onChange={field.onChange}
                                             className="w-full px-4 py-2 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
                                         >
-                                            <option value="">Pilih Jenis Kelamin</option>
-                                            <option value="Pria">Pria</option>
-                                            <option value="Wanita">Wanita</option>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
                                         </select>
                                     )}
                                 />
@@ -178,7 +177,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                     <div className="mt-3">
                         <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                             <Badge className="w-4 h-4 mr-1" />
-                            Tipe Gejala
+                            Symptom Type
                         </label>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-2 mt-2">
@@ -210,14 +209,14 @@ function CreateDoctorAnalystForm({ setNotification}) {
                         <div>
                             <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                 <Brain className="w-4 h-4 mr-1" />
-                                Tipe Model
+                                Model Type
                             </label>
 
                             <div className="relative">
                                 <Controller
                                     name="model_type"
                                     control={control}
-                                    rules={{ required: 'Tipe model harus dipilih' }}
+                                    rules={{ required: 'The model type must be selected' }}
                                     render={({ field }) => (
                                         <select
                                             id="model_type"
@@ -226,9 +225,9 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                             onChange={field.onChange}
                                             className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                         >
-                                            <option value="">Pilih Tipe Model</option>
-                                            <option value="Disabilitas">Disabilitas</option>
-                                            <option value="Non-Disabilitas">Non-Disabilitas</option>
+                                            <option value="">Select Model Type</option>
+                                            <option value="Disabilitas">Disability</option>
+                                            <option value="Non-Disability">Non-Disability</option>
                                         </select>
                                     )}
                                 />
@@ -249,14 +248,14 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                 <div>
                                     <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                         <Brain className="w-4 h-4 mr-1" />
-                                        Versi Model
+                                        Model Version
                                     </label>
 
                                     <div className="relative">
                                         <Controller
                                             name="model_id"
                                             control={control}
-                                            rules={{ required: 'Versi model harus dipilih' }}
+                                            rules={{ required: 'Version model must be selected' }}
                                             render={({ field }) => (
                                             <select
                                                 id="model_id"
@@ -265,8 +264,8 @@ function CreateDoctorAnalystForm({ setNotification}) {
                                                 disabled={isPost}
                                                 className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                             >
-                                                <option value="">Pilih Versi Model</option>
-                                                <option value="7">Model Versi 1</option>
+                                                <option value="">Select Model Version</option>
+                                                <option value="7">Model Version 1</option>
                                             </select>
                                             )}
                                         />
@@ -289,7 +288,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                     className="cursor-pointer mt-6 w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
                     whileTap={{ scale: 0.98 }}
                 >
-                    {isWorking ? "Memproses..." : "Analisis"}
+                    {isWorking ? "Processing..." : "Analyze"}
                 </motion.button>
             </form>
         </FormProvider>

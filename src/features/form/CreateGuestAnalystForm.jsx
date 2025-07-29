@@ -62,7 +62,7 @@ function CreateGuestAnalystForm({ setNotification}) {
                         <div>
                             <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                                 <Brain className="w-4 h-4 mr-1" />
-                                    Versi Model
+                                    Model Version
                             </label>
 
                             <div className="relative">
@@ -78,8 +78,8 @@ function CreateGuestAnalystForm({ setNotification}) {
                                         disabled={isPost}
                                         className="block w-full pl-3 pr-10 py-2 text-base border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
                                     >
-                                        <option value="">Pilih Versi Model</option>
-                                        <option value="7">Model Versi 1</option>
+                                        <option value="">Select Model Version</option>
+                                        <option value="7">Model Version 1</option>
                                     </select>
                                     )}
                                 />
@@ -102,7 +102,7 @@ function CreateGuestAnalystForm({ setNotification}) {
                     className="mt-6 w-full py-3 px-4 flex justify-center items-center rounded-md shadow-sm text-white font-medium bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
                     whileTap={{ scale: 0.98 }}
                 >
-                    {isPost ? "Memproses..." : "Analisis"}
+                    {isPost ? "Processing...." : "Analyze"}
                 </motion.button>
             </form>
         </FormProvider>

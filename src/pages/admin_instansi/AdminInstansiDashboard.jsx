@@ -42,7 +42,7 @@ function AdminInstansiDashboard() {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm font-medium text-gray-600">Instansi </p>
+                        <p className="text-sm font-medium text-gray-600">Instansi</p>
                         <p className="text-2xl font-bold text-gray-900">{instance_name}</p>
                     </div>
                     <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl">

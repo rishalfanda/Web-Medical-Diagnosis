@@ -1,9 +1,10 @@
-import { Activity, Users } from 'lucide-react';
+import { Activity, Map, Users } from 'lucide-react';
 import { useGetDiagnosisUserUuid } from '../../hooks/diagnosis/useGetDiagnosisUserUuid';
 import useAuthStore from '../../store/authStore';
 
 function UserDashboard() {
     const currentUser = useAuthStore((state) => state.currentUser);
+    const instance_name = useAuthStore((state) => state.instance_name)
     const { isGetting, diagnosisUserUuid, error } = useGetDiagnosisUserUuid(currentUser?.id);
     
 
@@ -42,11 +43,11 @@ function UserDashboard() {
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-400">Today's Cases</p>
-                <p className="text-2xl font-bold text-white">{Math.floor((diagnosisUserUuid?.length || 0) * 0.3)}</p>
+                <p className="text-sm font-medium text-gray-400">Health Department of</p>
+                <p className="text-2xl font-bold text-white">{instance_name}</p>
               </div>
               <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                <Activity className="h-6 w-6 text-white" />
+                <Map className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>

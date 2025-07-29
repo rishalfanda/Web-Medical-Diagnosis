@@ -41,7 +41,7 @@ function UploadImage({ disabled = false }) {
   return (
     <div className="space-y-2">
   <label className="block text-sm font-medium text-gray-300">
-    Upload Gambar X-Ray
+    Upload X-Ray Image
   </label>
 
   <Controller
@@ -74,7 +74,7 @@ function UploadImage({ disabled = false }) {
             <div className="flex flex-col items-center justify-center text-center px-4">
               <ImagePlus className="w-10 h-10 text-gray-400 mb-3" />
               <p className="mb-2 text-sm text-gray-400">
-                <span className="font-semibold">Klik untuk upload</span> atau drag and drop
+                <span className="font-semibold">Upload X-Ray Image</span> or drag and drop
               </p>
               <p className="text-xs text-gray-500">PNG, JPG, JPEG</p>
             </div>
@@ -97,7 +97,7 @@ function UploadImage({ disabled = false }) {
               className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-md text-sm text-white cursor-pointer"
             >
               <Upload className="w-4 h-4" />
-              Ganti Gambar
+              Change Image
               <input
                 id="image-upload"
                 type="file"

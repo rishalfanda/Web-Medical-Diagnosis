@@ -47,7 +47,7 @@ function Citra() {
           <div>
             {citra.length > 0 && (
               <h2 className={`${isAdminOrSuperadmin ? "text-xl font-bold text-gray-800" : "text-xl font-bold text-white"}`}>
-                Citra record at {citra[0].dataset?.nama_dataset}
+                Image record at {citra[0].dataset?.nama_dataset}
               </h2>
             )}
             <p className={`${isAdminOrSuperadmin ? "text-gray-600 text-sm mt-1" : "text-gray-400 text-sm mt-1"}`}>AI-powered medical citra results</p>
@@ -64,7 +64,7 @@ function Citra() {
           <thead className={`${isAdminOrSuperadmin ? "bg-gray-50/50" : "bg-gray-700/30"}`}>
             <tr>
               <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Image</th>
-              <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Kode Citra</th>
+              <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Image Code</th>
               <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Diagnosis</th>
               <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Upload Date</th>
               <th className={`${isAdminOrSuperadmin ? "text-gray-600" : "text-gray-300"} px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider`}>Actions</th>

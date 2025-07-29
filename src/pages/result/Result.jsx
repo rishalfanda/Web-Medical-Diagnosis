@@ -28,7 +28,7 @@ function DoctorResult() {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="mt-4 text-xl">Memuat hasil prediksi...</p>
+        <p className="mt-4 text-xl">Loading prediction results...</p>
       </div>
     );
   }
@@ -36,7 +36,7 @@ function DoctorResult() {
   if (error || !diagnosisId) {
     return (
       <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center p-4">
-        <p className="text-red-400">Terjadi kesalahan saat memuat data diagnosis.</p>
+        <p className="text-red-400">An error occurred while loading the diagnosis data..</p>
       </div>
     );
   }
@@ -75,32 +75,44 @@ function DoctorResult() {
     {
       title: "Infiltrat",
       score: Infiltrat.toFixed(4),
-      description: "Terdapat infiltrat difus di lobus atas",
+      description: Infiltrat > 0
+        ? "Diffuse infiltrates present in upper lobe"
+        : "No significant infiltrate",
     },
     {
-      title: "Konsolidasi",
+      title: "Consolidation",
       score: Konsolidasi.toFixed(4),
-      description: "Konsolidasi sedang di zona atas kanan",
+      description: Konsolidasi > 0
+        ? "Moderate consolidation in right upper zone"
+        : "No significant consolidation"
     },
     {
-      title: "Kavitas",
+      title: "Cavity",
       score: Kavitas.toFixed(4),
-      description: "Diduga terdapat kavitas kecil",
+      description: Kavitas > 0 
+      ? "Small cavitation suspected"
+      : "No significant cavitation"
     },
     {
       title: "Efusi",
       score: Efusi.toFixed(4),
-      description: "Tidak terdapat efusi pleura yang signifikan",
+      description: Efusi > 0 ?
+      "There is pleural effusion"
+      : "No significant pleural effusion"
     },
     {
-      title: "Fibrotik",
+      title: "Fibrotic",
       score: Fibrotik.toFixed(4),
-      description: "Perubahan fibrotik sedang teramati",
+      description: Fibrotik > 0 
+      ? "Moderate fibrotic changes observed"
+      : "No significant fibrotic"
     },
     {
-      title: "Kalsifikasi",
+      title: "Calcification",
       score: Kalsifikasi.toFixed(4),
-      description: "Terdapat kalsifikasi minimal",
+      description: Kalsifikasi > 0 
+      ? "There is minimal calcification"
+      : "No significant calcification"
     },
   ];
 
@@ -157,13 +169,13 @@ function DoctorResult() {
             onClick={handleSaveChanges}
             className="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
           >
-            <i className="fas fa-check mr-2"></i>Konfirmasi & Kembali ke Dashboard
+            <i className="fas fa-check mr-2"></i>Confirm & Return to Dashboard
           </button>
           <button
             onClick={handlePrint}
             className="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 flex items-center justify-center text-sm"
           >
-            <i className="fas fa-print mr-2"></i>Cetak Hasil
+            <i className="fas fa-print mr-2"></i>Print Result
           </button>
         </div>
       </div>

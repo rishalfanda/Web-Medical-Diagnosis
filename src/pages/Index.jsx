@@ -12,7 +12,7 @@ const Index = () => {
         <nav className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Stethoscope className="h-8 w-8 text-blue-400" />
-            <h1 className="text-2xl font-bold text-blue-400">TBC Screen With AI</h1>
+            <h1 className="text-2xl font-bold text-blue-400">Tuberculosis Screening with Artificial Intelligence</h1>
           </div>
         </nav>
       </header>
@@ -21,15 +21,14 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-blue-400 mb-6">
-            Sistem Analisis Rontgen Paru-Paru
+            Lung X-ray Analysis System
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Platform AI canggih untuk membantu dokter dalam mendeteksi dan menganalisis 
-            kondisi paru-paru melalui gambar rontgen dengan akurasi tinggi.
+            An advanced AI platform to assist doctors in detecting and analyzing lung conditions through X-ray images with high accuracy.
           </p>
           <Link to="/login">
             <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-4">
-              Mulai Analisis
+              Start Screening
             </Button>
           </Link>
         </div>
@@ -39,11 +38,11 @@ const Index = () => {
           <Card className="bg-gray-800 hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="text-center">
               <Brain className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <CardTitle className="text-blue-300">AI Canggih</CardTitle>
+              <CardTitle className="text-blue-300">Advanced AI</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center text-gray-300">
-                Teknologi machine learning terdepan untuk analisis gambar rontgen
+                Leading machine learning technology for X-ray image analysis
               </CardDescription>
             </CardContent>
           </Card>
@@ -51,11 +50,11 @@ const Index = () => {
           <Card className="bg-gray-800 hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="text-center">
               <Shield className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <CardTitle className="text-blue-300">Aman & Terpercaya</CardTitle>
+              <CardTitle className="text-blue-300">Safe & Trusted</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center text-gray-300">
-                Data pasien tersimpan dengan enkripsi tingkat medis
+                Patient data is stored with medical-grade encryption
               </CardDescription>
             </CardContent>
           </Card>
@@ -63,11 +62,11 @@ const Index = () => {
           <Card className="bg-gray-800 hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="text-center">
               <Stethoscope className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <CardTitle className="text-blue-300">Khusus Dokter</CardTitle>
+              <CardTitle className="text-blue-300">For Doctors Only</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center text-gray-300">
-                Platform dirancang khusus untuk tenaga medis profesional
+                The platform is specifically designed for medical professionals.
               </CardDescription>
             </CardContent>
           </Card>
@@ -75,11 +74,11 @@ const Index = () => {
           <Card className="bg-gray-800 hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="text-center">
               <Users className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <CardTitle className="text-blue-300">Manajemen Pasien</CardTitle>
+              <CardTitle className="text-blue-300">Patient Management</CardTitle>
             </CardHeader>
             <CardContent>
               <CardDescription className="text-center text-gray-300">
-                Kelola data dan riwayat prediksi pasien dengan mudah
+                Easily manage patient data and prediction history
               </CardDescription>
             </CardContent>
           </Card>
@@ -88,11 +87,10 @@ const Index = () => {
         {/* CTA Section */}
         <div className="text-center">
           <h3 className="text-3xl font-bold text-blue-400 mb-4">
-            Siap memulai diagnosis yang lebih akurat?
+            Ready to start a more accurate diagnosis?
           </h3>
           <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-            Bergabunglah dengan ribuan dokter yang telah mempercayai AI 
-            untuk membantu diagnosis mereka.
+            Join thousands of doctors who have trusted AI to assist with their diagnoses.
           </p>
         </div>
       </main>
@@ -100,7 +98,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 mt-2">
         <div className="text-center text-gray-500 text-sm">
-          <p>&copy; 2025 TBC Screen AI UGM. Platform analisis rontgen paru-paru berbasis AI.</p>
+          <p>&copy; 2025 TBC Screen AI UGM. AI-based lung X-ray analysis platform.</p>
         </div>
       </footer>
     </div>

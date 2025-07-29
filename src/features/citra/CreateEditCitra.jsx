@@ -68,7 +68,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}
             >
-            <FormRow label="Kode Citra" error={errors?.kode_citra?.message}>
+            <FormRow label="Image Code" error={errors?.kode_citra?.message}>
                 <Input
                 type="text"
                 id="kode_citra"
@@ -90,7 +90,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
                 />
             </FormRow>
 
-            <FormRow label="Image Citra">
+            <FormRow label="Image File">
                 <FileInput
                 id="image_citra"
                 accept="image/*"
@@ -120,7 +120,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
             onSubmit={handleSubmit(onSubmit)}
             type={onCloseModal ? "modal" : "regular"}
             >
-            <FormRowDataset label="Kode Citra" error={errors?.kode_citra?.message}>
+            <FormRowDataset label="Image Code" error={errors?.kode_citra?.message}>
                 <InputDataset
                 type="text"
                 id="kode_citra"
@@ -142,7 +142,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
                 />
             </FormRowDataset>
 
-            <FormRowDataset label="Image Citra">
+            <FormRowDataset label="Image File">
                 <FileInput
                 id="image_citra"
                 accept="image/*"
@@ -166,7 +166,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
                 <Button $variation="indigo" $size="medium" disabled={isWorking}>
                     {
                     isWorking ? "Memproses..." :
-                    isEditSession ? "Edit Citra" : "Create Citra"
+                    isEditSession ? "Edit Image" : "Upload"
                     }
                 </Button>
             </FormRowDataset>

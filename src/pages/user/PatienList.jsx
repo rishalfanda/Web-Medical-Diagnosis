@@ -32,8 +32,8 @@ function  PatienList() {
           <div className="p-6 border-b border-gray-700/50">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold text-white">Data Analisis Pasien</h2>
-                <p className="text-gray-400 text-sm mt-1">Hasil diagnosis medis berbasis AI</p>
+                <h2 className="text-xl font-bold text-white">Patient Analysis Data</h2>
+                <p className="text-gray-400 text-sm mt-1">AI-based medical diagnosis results</p>
               </div>
             
           <div className="flex items-center space-x-4">
@@ -43,7 +43,7 @@ function  PatienList() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Cari pasien..."
+                placeholder="Search patient..."
                 className="pl-10 pr-4 py-2 w-80 bg-gray-800/50 border border-gray-700/50 text-white rounded-xl focus:bg-gray-700/50 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 outline-none backdrop-blur-sm"
               />
             </div>
@@ -53,7 +53,7 @@ function  PatienList() {
             className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             <Plus className="h-4 w-4" />
-            <span className="font-medium">Analisis Gambar Baru</span>
+            <span className="font-medium">New Image Analysis</span>
           </button>
           </div>
           </div>
@@ -65,22 +65,22 @@ function  PatienList() {
               <thead className="bg-gray-700/30">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Gambar
+                    Images
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Pasien
+                    Patients
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Gejala
+                    Symptoms
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Jenis Model
+                    Model Type
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Diagnosis AI
+                    AI Diagnosis
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                    Tanggal Analisis
+                    Date of Analysis
                   </th>
                   <th className="px-6 py-4 text-center text-xs font-semibold text-gray-300 uppercase tracking-wider">
                     Actions

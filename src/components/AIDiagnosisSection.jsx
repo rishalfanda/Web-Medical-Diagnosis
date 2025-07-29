@@ -4,8 +4,8 @@ import { getScoreTextColor } from "../utils/helpers";
 export const AIDiagnosisSection = ({ diagnosis, confidence }) => {
   const confidenceScore = confidence ?? 0;
   const predictionStatusText = confidenceScore >= 50 
-    ? "Kelainan TBC signifikan terdeteksi." 
-    : "Tidak ditemukan kelainan TBC yang signifikan. Disarankan untuk tindak lanjut rutin.";
+    ? "A significant TB abnormality was detected." 
+    : "No significant tuberculosis abnormalities were found. Regular follow-up is recommended.";
 
   const getConfidenceColor = (score) => {
     if (score >= 70) return 'bg-red-500';
@@ -24,8 +24,8 @@ export const AIDiagnosisSection = ({ diagnosis, confidence }) => {
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-xl font-semibold text-white">Diagnosis AI</h2>
-        <span className="text-sm text-gray-400">Skor Keyakinan TBC</span>
+        <h2 className="text-xl font-semibold text-white">AI Diagnosis</h2>
+        <span className="text-sm text-gray-400">TB Confidence Score</span>
       </div>
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center">
@@ -42,7 +42,7 @@ export const AIDiagnosisSection = ({ diagnosis, confidence }) => {
       </div>
       <p className="text-sm text-gray-300 mb-3">{predictionStatusText}</p>
       <p className="text-xs text-gray-500 italic">
-        Catatan: Analisis AI ini digunakan sebagai alat skrining awal dan tidak menggantikan evaluasi medis profesional. Silakan konsultasikan dengan tenaga kesehatan untuk diagnosis pasti.
+       Note: This AI analysis is used as an initial screening tool and does not replace professional medical evaluation. Please consult a healthcare professional for a definitive diagnosis.
       </p>
     </div>
   );
