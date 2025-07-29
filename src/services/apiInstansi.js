@@ -16,6 +16,20 @@ export async function getInstansi(){
     return data
 }
 
+export async function getInstansiById(instance_id){
+  const {data, error} = await supabase
+  .from("instansi")
+  .select("id, created_at, name")
+  .eq("id", instance_id)
+
+  if(error){
+        console.log(error)
+        throw new Error("Medical instances could not be loaded")
+    }
+
+    return data
+}
+
 //create dataset
 export async function createEditinstansi(newInstansi, id) {
     let query = supabase.from("instansi")
