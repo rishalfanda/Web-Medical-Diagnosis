@@ -32,7 +32,7 @@ const useAuthStore = create((set) => ({
                 fetchedAvatar = avatar
                 fetchedRole = role
                 fetchedInstance_id = instance_id
-                fetchedInstance_name = instansi.name
+                fetchedInstance_name = instansi?.name
                 fetchedError = error
             } catch {
                 set({ role: "user", loading: false });
@@ -71,7 +71,7 @@ const useAuthStore = create((set) => ({
                 fetchedAvatar = avatar
                 fetchedRole = role
                 fetchedInstance_id = instance_id
-                fetchedInstance_name = instansi.nama
+                fetchedInstance_name = instansi?.nama
                 fetchedError = error
             } catch {
                 set({ role: "user", loading: false });
