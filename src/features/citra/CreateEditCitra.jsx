@@ -1,15 +1,17 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Button from "../../components/ui/ButtonStyledComponents";
 import FileInput from "../../components/ui/FileInput";
+import Form from "../../components/ui/Form";
 import FormDataset from "../../components/ui/FormDataset";
+import FormRow from "../../components/ui/FormRow";
 import FormRowDataset from "../../components/ui/FormRowDataset";
+import Input from "../../components/ui/Input";
 import InputDataset from "../../components/ui/InputDataset";
+import Select from "../../components/ui/Select";
 import { useCreateCitra } from "../../hooks/citra/useCreateCitra";
 import { useEditCitra } from "../../hooks/citra/useEditCitra";
 import useAuthStore from "../../store/authStore";
-import Form from "../../components/ui/Form";
-import FormRow from "../../components/ui/FormRow";
-import Input from "../../components/ui/Input";
+import SelectUser from "../../components/SelectUser";
 
 function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
     const role = useAuthStore((state) => state.role)
@@ -20,7 +22,7 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
 
     const {id: editId, ...editValues} = citraToEdit
     const isEditSession = Boolean(editId)
-    const { register, handleSubmit, reset, formState } = useForm({
+    const { register, handleSubmit, reset, formState, control } = useForm({
             defaultValues: isEditSession ? editValues : {},
         });
 
@@ -80,13 +82,22 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
             </FormRow>
 
             <FormRow label="Diagnosis" error={errors?.diagnosis?.message}>
-                <Input
-                type="text"
-                id="diagnosis"
-                disabled={isWorking}
-                {...register("diagnosis", {
-                    required: "this field is required",
-                })}
+                <Controller
+                    name="diagnosis"
+                    control={control}
+                    render={({ field }) => (
+                    <Select
+                        id="diagnosis"
+                        options={[
+                        {value: '', label: 'Select Diagnosis'},
+                        { value: 'TB', label: 'TB' },
+                        { value: 'Non-TB', label: 'Non-TB' },
+                        ]}
+                        disabled={isWorking}
+                        value={field.value}
+                        onChange={field.onChange}
+                    />
+                    )}
                 />
             </FormRow>
 
@@ -132,13 +143,22 @@ function CreateEditCitra({citraToEdit = {}, onCloseModal}) {
             </FormRowDataset>
 
             <FormRowDataset label="Diagnosis" error={errors?.diagnosis?.message}>
-                <InputDataset
-                type="text"
-                id="diagnosis"
-                disabled={isWorking}
-                {...register("diagnosis", {
-                    required: "this field is required",
-                })}
+                <Controller
+                    name="diagnosis"
+                    control={control}
+                    render={({ field }) => (
+                    <SelectUser
+                        id="diagnosis"
+                        options={[
+                        {value: '', label: 'Select Diagnosis'},
+                        { value: 'TB', label: 'TB' },
+                        { value: 'Non-TB', label: 'Non-TB' },
+                        ]}
+                        disabled={isWorking}
+                        value={field.value}
+                        onChange={field.onChange}
+                    />
+                    )}
                 />
             </FormRowDataset>
 
