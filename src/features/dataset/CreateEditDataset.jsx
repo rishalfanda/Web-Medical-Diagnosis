@@ -18,9 +18,14 @@ function CreateEditDataset({datasetToEdit = {}, onCloseModal}) {
     const isAdminOrSuperadmin = role === "admin" || role === "superadmin";
 
     const {instansi, isGetInstansi} = useGetInstansi()
-    const instansiOptions = Array.isArray(instansi)
+    const instansiOptions = [
+    { value: "", label: "Pilih Instansi" },
+    ...(
+        Array.isArray(instansi)
         ? instansi.map((item) => ({ value: item.id, label: item.name }))
-        : [];
+        : []
+    ),
+    ];
 
     const {createDataset, isCreateDataset} = useCreateDataset()
     const {editDataset, isEditDataset} = useEditDataset()
