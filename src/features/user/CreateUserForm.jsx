@@ -32,7 +32,7 @@ function CreateUserForm({ userToEdit = {}, onCloseModal }) {
   const role = useAuthStore((state) => state.role)
   const instance_id = useAuthStore((state) => state.instance_id)
 
-  const { id: editId, ...editValues } = userToEdit;
+  const { id: editId, instansi: editInstansi, ...editValues } = userToEdit; //instansi dari user isinya nama, hasil query dari table lain. ga kita include ke defaultvalue buat update table user
 
   const isEditSession = Boolean(editId);
   const { register, handleSubmit, reset, formState, control } = useForm({
