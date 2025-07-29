@@ -16,15 +16,15 @@ const useAuthStore = create((set) => ({
 
         const { data: { user }, error } = await supabase.auth.getUser();
         if(error || !user) {
-            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, instance_id: null, loading: false, error });
+            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, instance_id: null, instance_name: null, loading: false, error });
         } else {
             set({ currentUser: user, error: null });
 
-            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedInstance_id = null, fetchedError = null;
+            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedInstance_id = null, fetchedInstance_name = null, fetchedError = null;
             try { // kalau hasil query db empty bakal error tadi kucoba gitu
-                const { data: { id, name, avatar, role, instance_id }, error } = await supabase
+                const { data: { id, name, avatar, role, instance_id, instansi }, error } = await supabase
                 .from('users')
-                .select('id, name, avatar, role, instance_id') 
+                .select('id, name, avatar, role, instance_id, instansi(name)') 
                 .eq('auth_uuid', user.id)
                 .single()
                 fetchedId = id
@@ -32,6 +32,7 @@ const useAuthStore = create((set) => ({
                 fetchedAvatar = avatar
                 fetchedRole = role
                 fetchedInstance_id = instance_id
+                fetchedInstance_name = instansi.name
                 fetchedError = error
             } catch {
                 set({ role: "user", loading: false });
@@ -39,9 +40,9 @@ const useAuthStore = create((set) => ({
             }
 
             if(fetchedError || !fetchedRole) {
-                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", instance_id: fetchedInstance_id, loading: false, error: fetchedError });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", instance_id: fetchedInstance_id, instance_name: fetchedInstance_name, loading: false, error: fetchedError });
             } else {
-                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, instance_id: fetchedInstance_id, loading: false });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, instance_id: fetchedInstance_id, instance_name: fetchedInstance_name, loading: false });
             }
         }
     },
@@ -53,16 +54,16 @@ const useAuthStore = create((set) => ({
             password
         })
         if(error || !user) {
-            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, instance_id: null, loading: false, error });
+            set({ currentUser: null, id: 0, name: null, avatar: null, role: null, instance_id: null, instance_name: null, loading: false, error });
             return { user: null, role: null, error }
         } else {
             set({ currentUser: user, error: null });
 
-            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedInstance_id = null, fetchedError = null;
+            let fetchedId = 0, fetchedName = null, fetchedAvatar = null, fetchedRole = null, fetchedInstance_id = null, fetchedInstance_name = null, fetchedError = null;
             try { // kalau hasil query db empty bakal error tadi kucoba gitu
-                const { data: { id, name, avatar, role, instance_id }, error } = await supabase
+                const { data: { id, name, avatar, role, instance_id, instansi }, error } = await supabase
                 .from('users')
-                .select('id, name, avatar, role, instance_id') 
+                .select('id, name, avatar, role, instance_id, instansi(name)') 
                 .eq('auth_uuid', user.id)
                 .single()
                 fetchedId = id
@@ -70,6 +71,7 @@ const useAuthStore = create((set) => ({
                 fetchedAvatar = avatar
                 fetchedRole = role
                 fetchedInstance_id = instance_id
+                fetchedInstance_name = instansi.nama
                 fetchedError = error
             } catch {
                 set({ role: "user", loading: false });
@@ -77,10 +79,10 @@ const useAuthStore = create((set) => ({
             }
 
             if(fetchedError || !fetchedRole) {
-                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", instance_id: fetchedInstance_id, loading: false, error: fetchedError });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: "user", instance_id: fetchedInstance_id, instance_name: fetchedInstance_name, loading: false, error: fetchedError });
                 return { user, role: "user", error: fetchedError }
             } else {
-                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, instance_id: fetchedInstance_id, loading: false });
+                set({ id: fetchedId, name: fetchedName, avatar: fetchedAvatar, role: fetchedRole, instance_id: fetchedInstance_id, instance_name: fetchedInstance_name, loading: false });
                 return { user, role: fetchedRole, error }
             }
         }
