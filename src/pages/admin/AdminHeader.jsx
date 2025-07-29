@@ -8,7 +8,7 @@ function AdminHeader() {
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                         TB Screen AI
                     </h1>
-                    <p className="text-gray-600 mt-1">Manage doctors and medical staff</p>
+                    <p className="text-gray-600 mt-1">Kelola dokter dan tenaga medis</p>
                 </div>
 
                 <div className="flex items-center space-x-4">
@@ -19,7 +19,7 @@ function AdminHeader() {
 
                     <div className="w-px h-8 bg-gray-300"></div>
                         <div className="text-right">
-                            <p className="text-sm font-medium text-gray-800">Welcome back!</p>
+                            <p className="text-sm font-medium text-gray-800">Selamat datang kembali!</p>
                             <p className="text-xs text-gray-600">{new Date().toLocaleDateString()}</p>
                         </div>
                     </div>

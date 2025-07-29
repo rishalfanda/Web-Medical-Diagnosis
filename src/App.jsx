@@ -2,12 +2,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
-import User from "./pages/user/User";
 /* import "./index.css"; */
 import AdminAppLayout from "./pages/admin/AdminAppLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDataset from "./pages/admin/dataset/adminDataset";
 import DoctorList from "./pages/admin/DoctorList";
+import Instansi from "./pages/admin/instansi/Instansi";
+import AdminInstansiAppLayout from "./pages/admin_instansi/AdminInstansiAppLayout";
+import AdminInstansiDashboard from "./pages/admin_instansi/AdminInstansiDashboard";
+import AdminInstansiDataset from "./pages/admin_instansi/dataset/adminInstansiDataset";
 import InstansiDoctorList from "./pages/admin_instansi/InstansiDoctorList";
+import AuthWrapper from "./pages/auth/AuthWrapper";
+import RoleWrapper from "./pages/auth/RoleWrapper";
 import GuestForm from "./pages/guest/GuestForm";
 import Index from "./pages/Index";
 import PageNotFound from "./pages/PageNotFound";
@@ -15,18 +21,11 @@ import GuestResult from "./pages/result/GuestResult";
 import DoctorResult from "./pages/result/Result";
 import Citra from "./pages/user/citra/Citra";
 import Dataset from "./pages/user/dataset/Dataset";
-import AdminInstansiDataset from "./pages/admin_instansi/dataset/adminInstansiDataset";
-import AdminDataset from "./pages/admin/dataset/adminDataset";
 import DoctorForm from "./pages/user/DoctorForm";
 import PatienList from "./pages/user/PatienList";
 import UserAppLayout from "./pages/user/UserAppLayout";
 import UserDashboard from "./pages/user/UserDashboard";
 import GlobalStyles from "./styles/GlobalStyles";
-import AuthWrapper from "./pages/auth/AuthWrapper";
-import RoleWrapper from "./pages/auth/RoleWrapper";
-import Instansi from "./pages/admin/instansi/Instansi";
-import AdminInstansiDashboard from "./pages/admin_instansi/AdminInstansiDashboard";
-import AdminInstansiAppLayout from "./pages/admin_instansi/AdminInstansiAppLayout";
 
 
 const queryClient = new QueryClient({
@@ -48,7 +47,6 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/test" element={<User />} />
           <Route path="/guest" element={<GuestForm />} />
           <Route path="/guest-result" element={<GuestResult />} />
 
