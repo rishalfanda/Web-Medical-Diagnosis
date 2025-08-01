@@ -20,7 +20,6 @@ function DoctorForm() {
           <CreateDoctorAnalystForm setNotification={setNotification}/>
         </div>
 
-        {/* <UploadImage diagnosis={diagnosis}  /> */}
       </div>
     </DiagnosisRow>
   );

@@ -23,7 +23,7 @@ export async function getDiagnosisId(id) {
   const { data, error } = await supabase
     .from("diagnosis")
     .select(
-      "id, created_at, image, ai_diagnosis, gejala, model_type, model_id, user_id, Infiltrat, Konsolidasi, Kavitas, Efusi, Fibrotik, Kalsifikasi, users(name), patients(fullName, gender)"
+      "id, created_at, image, ai_diagnosis, gejala, model_type, model_id, user_id, Infiltrat, Konsolidasi, Kavitas, Efusi, Fibrotik, Kalsifikasi, examination, history_of_tb, tb_status,users(name), patients(fullName, gender)"
     )
     .eq("id", id)
     .maybeSingle();
@@ -68,7 +68,10 @@ export async function createDiagnosis(newDiagnosis) {
     Kavitas,      // luas yellow
     Efusi,        // luas brown
     Fibrotik,     // luas blue
-    Kalsifikasi   // luas darktail
+    Kalsifikasi,   // luas darktail
+    examination,
+    history_of_tb,
+    tb_status,
   } = newDiagnosis;
 
 
@@ -107,7 +110,10 @@ export async function createDiagnosis(newDiagnosis) {
     Kavitas,      // luas yellow
     Efusi,        // luas brown
     Fibrotik,     // luas blue
-    Kalsifikasi   // luas darktail
+    Kalsifikasi,  // luas darktail
+    examination,
+    history_of_tb,
+    tb_status,
   };
 
   const { data, error } = await supabase

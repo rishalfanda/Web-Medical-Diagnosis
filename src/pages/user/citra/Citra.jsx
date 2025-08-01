@@ -104,7 +104,7 @@ function Citra() {
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-2">
                     <EditCitra citra={record} />
-                    <DeleteCitra citra={record} />
+                    {/* <DeleteCitra citra={record} /> */}
                   </div>
                 </td>
               </tr>

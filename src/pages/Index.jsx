@@ -21,10 +21,10 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-blue-400 mb-6">
-            Lung X-ray Analysis System
+            Chest X-ray Analysis System
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            An advanced AI platform to assist doctors in detecting and analyzing lung conditions through X-ray images with high accuracy.
+            An advanced AI platform to assist doctors in detecting and analyzing chest conditions through X-ray images with high accuracy.
           </p>
           <Link to="/login">
             <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700 text-lg px-8 py-4">
@@ -98,7 +98,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="container mx-auto px-4 py-8 mt-2">
         <div className="text-center text-gray-500 text-sm">
-          <p>&copy; 2025 TBC Screen AI UGM. AI-based lung X-ray analysis platform.</p>
+          <p>&copy; 2025 TBC Screen AI UGM. AI-based Chest X-ray analysis platform.</p>
         </div>
       </footer>
     </div>

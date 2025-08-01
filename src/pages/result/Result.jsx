@@ -55,8 +55,12 @@ function DoctorResult() {
     Kavitas,
     Efusi,
     Fibrotik,
-    Kalsifikasi
+    Kalsifikasi,
+    examination,
+    history_of_tb,
+    tb_status
   } = diagnosisId;
+
 
   if (user_id != id) {
     return (
@@ -94,7 +98,7 @@ function DoctorResult() {
       : "No significant cavitation"
     },
     {
-      title: "Efusi",
+      title: "Effusion",
       score: Efusi.toFixed(4),
       description: Efusi > 0 ?
       "There is pleural effusion"
@@ -128,7 +132,7 @@ function DoctorResult() {
     <div className="bg-gray-900 text-gray-200 min-h-screen p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
         <div className="mb-4">
-          <Link to="/user" className="text-blue-500 hover:text-blue-400 text-sm">
+          <Link to="/user/patients" className="text-blue-500 hover:text-blue-400 text-sm">
             <i className="fas fa-arrow-left mr-2"></i>&larr; Kembali ke Dashboard
           </Link>
         </div>
@@ -159,6 +163,9 @@ function DoctorResult() {
               gejala={gejala}
               patientType={model_type}
               analysisTime={format(new Date(created_at), "dd MMM yyyy, HH:mm")}
+              examination={examination}
+              historyTB={history_of_tb}
+              tbStatus={tb_status}
             />
           </div>
         </div>
