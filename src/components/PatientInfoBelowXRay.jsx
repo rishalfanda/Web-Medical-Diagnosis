@@ -10,9 +10,9 @@ export const PatientInfoBelowXRay = ({
   tbStatus
 }) => {
   const labelMapping = {
-  "xpert_mtb_rif_atau_naat": "Xpert MTB/RIF Atau NAAT",
-  "apus_dahak": "Apus Dahak",
-  "kultur": "Kultur",
+  "xpert_mtb_rif_atau_naat": "Xpert MTB/RIF or NAAT",
+  "apus_dahak": "Expel Sputum",
+  "kultur": "Culture",
   "igra": "IGRA",
   // tambah label lain kalau butuh
 };

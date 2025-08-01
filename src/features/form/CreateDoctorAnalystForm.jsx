@@ -373,7 +373,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 </div>
 
                 {/* Kanan - Upload Image */}
-                <div>
+                <div className="space-y-6">
                     <UploadImage disabled={isWorking} />
                     {/* Model Type */}
                     <div>
@@ -395,7 +395,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                             className="w-full px-4 py-2 border border-gray-600 bg-gray-900 text-gray-100 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
                             >
                             <option value="">Select Model Type</option>
-                            <option value="Disabilitas">Disability</option>
+                            <option value="Disability">Disability</option>
                             <option value="Non-Disability">Non-Disability</option>
                             </select>
                         )}
