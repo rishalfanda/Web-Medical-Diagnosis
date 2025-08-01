@@ -20,6 +20,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
     const id = useAuthStore((state) => state.id);
     const {isPostData, isPost} = usePostDiagnosis()
     const {createDiagnosis, isCreating} = useCreateDiagnosis();
+    console.log("render")
 
 
     const defaultValues = {
@@ -149,7 +150,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 <div className="flex flex-col md:flex-row gap-5">
                     {/* Nama Pasien */}
                     <div className="flex-1">
-                    <label className="block text-sm text-gray-300">Name</label>
+                    <label className="block text-sm text-gray-300">Name/Initial/NickName</label>
                     <input
                         id="fullName"
                         type="text"
@@ -190,7 +191,7 @@ function CreateDoctorAnalystForm({ setNotification}) {
                 </div>
 
                 {/* Gejala */}
-                <div>
+                                <div>
                     <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
                         <Badge className="w-4 h-4 mr-1" />
                         Symptom Type
@@ -269,31 +270,54 @@ function CreateDoctorAnalystForm({ setNotification}) {
                     {/* A. Bakteriologi */}
                     <div>
                         <h3 className="text-white font-semibold flex items-center">
-                            A. Bakteriologi
+                            A. Bacteriology
                         </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-white mt-2">
-                            {/* Apus Dahak */}
-                            <RadioGroup disabled={isWorking} register={register} label="Apus Dahak" name="apusDahak" options={["BTA Positif", "BTA Negatif"]} />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white mt-2">
+                            <RadioGroup
+                                disabled={isWorking}
+                                register={register}
+                                label="Expel Sputum"
+                                name="apusDahak"
+                                options={["BTA Positive", "BTA Negative"]}
+                            />
 
-                            {/* Kultur */}
-                            <RadioGroup disabled={isWorking} register={register} label="Kultur" name="kultur" options={["Positif", "Negatif"]} />
+                            <RadioGroup
+                                disabled={isWorking}
+                                register={register}
+                                label="Culture"
+                                name="kultur"
+                                options={["Positive", "Negative"]}
+                            />
 
-                            {/* Xpert */}
-                            <RadioGroup disabled={isWorking} register={register} label="Xpert MTB/Rif atau NAAT" name="xpert" options={["Positif", "Negatif"]} />
+                            <RadioGroup
+                                disabled={isWorking}
+                                register={register}
+                                label="Xpert MTB/Rif or NAAT"
+                                name="xpert"
+                                options={["Positive", "Negative"]}
+                            />
                         </div>
+
                     </div>
 
                     {/* B. Others */}
                     <div>
-                    <h3 className="text-white font-semibold flex items-center">
-                        B. Others
-                    </h3>
-                    <div className="mt-2 text-white">
-                        <RadioGroup disabled={isWorking} register={register} label="IGRA" name="igra" options={["Positif", "Negatif", "Lainnya"]} />
+                        <h3 className="text-white font-semibold mb-2">B. Others</h3>
+
+                        <div className="text-white">
+                            <RadioGroup
+                            disabled={isWorking}
+                            register={register}
+                            label="IGRA"
+                            name="igra"
+                            options={["Postive", "Negative", "Other"]}
+                            horizontal={true} // aktifkan tampilan horizontal
+                            />
+                        </div>
                     </div>
-                    </div>
+
                     
-                    {/* TB Status */}
+                    {/* History of TB */}
                     <div className="flex-1">
                         <label className="block text-sm text-gray-300">History of TB</label>
                         <div className="relative mt-1">
@@ -346,7 +370,11 @@ function CreateDoctorAnalystForm({ setNotification}) {
                             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                         </div>
                     </div>
+                </div>
 
+                {/* Kanan - Upload Image */}
+                <div>
+                    <UploadImage disabled={isWorking} />
                     {/* Model Type */}
                     <div>
                     <label className="text-sm font-medium text-gray-300 mb-1 flex items-center">
@@ -414,11 +442,6 @@ function CreateDoctorAnalystForm({ setNotification}) {
                         </div>
                     )}
                     </motion.div>
-                </div>
-
-                {/* Kanan - Upload Image */}
-                <div>
-                    <UploadImage disabled={isWorking} />
                 </div>
                 </div>
 
